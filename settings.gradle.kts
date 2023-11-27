@@ -38,6 +38,7 @@ dependencyResolutionManagement {
             version("kotlin", "1.9.0")
             version("devtools-ksp", "1.9.10-1.0.13")
             version("kotlinx-serialization", "1.9.20")
+            version("library", "8.1.1")
 
             plugin(
                 "android-application",
@@ -48,6 +49,11 @@ dependencyResolutionManagement {
                 "android-kotlin",
                 "org.jetbrains.kotlin.android"
             ).versionRef("kotlin")
+
+            plugin(
+                "android-library",
+                "com.android.library"
+            ).versionRef("library")
 
             plugin(
                 "dagger-hilt",
@@ -234,3 +240,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Cash Advisor"
 include(":app")
+include(":ui-kit")
