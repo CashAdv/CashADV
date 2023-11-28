@@ -78,6 +78,7 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
+    implementation(project(mapOf("path" to ":ui-kit")))
     kapt(libs.hilt.android.compiler)
 
     // Coroutines
