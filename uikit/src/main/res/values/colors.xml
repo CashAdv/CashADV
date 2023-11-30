@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ic_launcher_background">#000000</color>
+
+    // White and Black
+    <color name="colour1">#FF000000</color>
+    <color name="bg1">#F9F9F9</color>
+    <color name="bg2">#EFEFEF</color>
+    <color name="subcolour1">#D9D9D9</color>
+    <color name="subcolour2">#999999</color>
+    <color name="colour2">#000000</color>
+
+
+    // Semantic
+    <color name="m1">#377E36</color>
+    <color name="m2">#CA3434</color>
+    <color name="m3">#2B369B</color>
+    <color name="m4">#F4B81E</color>
+    <color name="m5">#873188</color>
+    <color name="m6">#1BD42D</color>
+    <color name="m7">#EB5C1E</color>
+    <color name="m8">#115EF2</color>
+    <color name="m9">#FFBE17</color>
+
+
+    <color name="sm1">#E0F0E4</color>
+    <color name="sm2">#F0E0E0</color>
+    <color name="sm5">F9EEF9</color>
+</resources>

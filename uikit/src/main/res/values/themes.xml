@@ -1,0 +1,30 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.CashAdvisor" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.CashAdvisor" parent="Base.Theme.CashAdvisor" >
+        <item name="colour1">@color/colour1</item>
+        <item name="bg1">@color/bg1</item>
+        <item name="bg2">@color/bg2</item>
+        <item name="subcolour1">@color/subcolour1</item>
+        <item name="subcolour2">@color/subcolour2</item>
+        <item name="colour2">@color/colour2</item>
+
+        <item name="m1">@color/m1</item>
+        <item name="m2">@color/m2</item>
+        <item name="m3">@color/m3</item>
+        <item name="m4">@color/m4</item>
+        <item name="m5">@color/m5</item>
+        <item name="m6">@color/m6</item>
+        <item name="m7">@color/m7</item>
+        <item name="m8">@color/m8</item>
+        <item name="m9">@color/m9</item>
+
+        <item name="sm1">@color/sm1</item>
+        <item name="sm2">@color/sm2</item>
+        <item name="sm5">@color/sm5</item>
+    </style>
+</resources>

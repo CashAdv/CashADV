@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".analytics.presentation.ui.AnalyticsFragment">
+
+
+    <RadioGroup
+        android:id="@+id/title"
+        android:checkedButton="@id/rb_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
+
+        <RadioButton
+            android:id="@+id/rb_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="income" />
+
+        <RadioButton
+            android:id="@+id/rb_expense"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="expense" />
+
+        <RadioButton
+            android:id="@+id/rb_saving"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="saving" />
+
+    </RadioGroup>
+
+
+    <RadioGroup
+        android:checkedButton="@id/rb_fact"
+        android:id="@+id/fact_or_plan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toEndOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
+
+        <RadioButton
+            android:id="@+id/rb_fact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fact" />
+
+        <RadioButton
+            android:id="@+id/rb_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="plan" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tv_screen_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/bottom_navigation_height"
+        android:text="Экран Аналитика. Левый из главных экранов"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_bank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Добавить банк"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_add_manually"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_add_manually"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_add_manually"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Внести вручную"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_add_bank"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

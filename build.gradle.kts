@@ -14,4 +14,6 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
     alias(libs.plugins.firebase.crashlytics.gradle) apply false
     alias(libs.plugins.gms.googleServices) apply false
+    alias(libs.plugins.firebase.appdistribution) apply false
+    alias(libs.plugins.android.library) apply false
 }

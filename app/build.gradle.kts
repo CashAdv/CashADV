@@ -1,3 +1,5 @@
+import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.android.kotlin)
@@ -7,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.firebase.crashlytics.gradle)
     alias(libs.plugins.gms.googleServices)
+    alias(libs.plugins.firebase.appdistribution)
+
 }
 
 android {
@@ -33,6 +37,13 @@ android {
             isMinifyEnabled = false
             applicationIdSuffix = ".qa"
             signingConfig = signingConfigs.getByName("debug")
+
+        }
+
+        firebaseAppDistribution{
+            artifactType = "APK"
+            releaseNotesFile = "app/src/stage/qa/releaseNotes.txt"
+            testers = "QA"
         }
 
         getByName("release") {
@@ -41,6 +52,14 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+
+        }
+
+        firebaseAppDistribution{
+            artifactType = "APK"
+            releaseNotesFile = "app/src/stage/qa/releaseNotes.txt"
+            testers = "QA"
+
         }
     }
 
@@ -68,6 +87,15 @@ android {
     buildFeatures {
         viewBinding = true
     }
+}
+task("appDistirbutionToQaStageQa") {
+    dependsOn("assembleStageQa")
+    dependsOn("appDistributionUploadStageQa")
+}
+
+task("appDistirbutionToQaProdQa") {
+    dependsOn("assembleProdQa")
+    dependsOn("appDistributionUploadProdQa")
 }
 
 dependencies {
@@ -121,6 +149,9 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
+
+    // Ui Kit Library
+    implementation(project(":uikit"))
 }
 
 kapt {

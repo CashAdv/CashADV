@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/analyticsFragment"
+        android:icon="@drawable/ic_analytics"
+        android:title="@string/analytics" />
+
+    <item
+        android:id="@+id/trackerFragment"
+        android:icon="@drawable/ic_flash"
+        android:title="@string/tracker"
+        />
+
+    <item
+        android:id="@+id/featuresAndSettingsFragment"
+        android:icon="@drawable/ic_setting"
+        android:title="@string/settings" />
+
+</menu>

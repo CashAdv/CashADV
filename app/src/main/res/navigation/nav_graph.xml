@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/startFragment">
+
+    <fragment
+        android:id="@+id/analyticsFragment"
+        android:name="app.cashadvisor.analytics.presentation.ui.AnalyticsFragment"
+        android:label="fragment_analytics"
+        tools:layout="@layout/fragment_analytics" >
+        <action
+            android:id="@+id/action_analyticsFragment_to_addBankSelectionFragment"
+            app:destination="@id/addBankSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_planIncomeSelectionFragment"
+            app:destination="@id/planIncomeSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_planExpenseSelectionFragment"
+            app:destination="@id/planExpenseSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_planSavingSelectionFragment"
+            app:destination="@id/planSavingSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_addIncomeSelectionFragment"
+            app:destination="@id/addIncomeSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_addSavingSelectionFragment"
+            app:destination="@id/addSavingSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_addExpenseSelectionFragment"
+            app:destination="@id/addExpenseSelectionFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/featuresAndSettingsFragment"
+        android:name="app.cashadvisor.settings.presentation.ui.FeaturesAndSettingsFragment"
+        android:label="fragment_features_and_settings"
+        tools:layout="@layout/fragment_features_and_settings" >
+        <action
+            android:id="@+id/action_featuresAndSettingsFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+        <action
+            android:id="@+id/action_featuresAndSettingsFragment_to_operationsArchiveFragment"
+            app:destination="@id/operationsArchiveFragment" />
+        <action
+            android:id="@+id/action_featuresAndSettingsFragment_to_exportingReportsFragment"
+            app:destination="@id/exportingReportsFragment" />
+        <action
+            android:id="@+id/action_featuresAndSettingsFragment_to_bankAccountsFragment"
+            app:destination="@id/bankAccountsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/startFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_startFragment_to_entryFragment"
+            app:destination="@id/entryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.EntryFragment"
+        android:label="fragment_entry"
+        tools:layout="@layout/fragment_entry" >
+        <action
+            android:id="@+id/action_entryFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+        <action
+            android:id="@+id/action_entryFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackerFragment"
+        android:name="app.cashadvisor.tracker.presentation.ui.TrackerFragment"
+        android:label="fragment_tracker"
+        tools:layout="@layout/fragment_tracker" >
+        <action
+            android:id="@+id/action_trackerFragment_to_addTrackerExpenseFragment"
+            app:destination="@id/addTrackerExpenseFragment" />
+        <action
+            android:id="@+id/action_trackerFragment_to_addBankSelectionFragment"
+            app:destination="@id/addBankSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_passwordRecoveryFragment"
+            app:destination="@id/passwordRecoveryFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.SignupFragment"
+        android:label="fragment_signup"
+        tools:layout="@layout/fragment_signup" >
+        <action
+            android:id="@+id/action_signupFragment_to_entryVerificationFragment"
+            app:destination="@id/entryVerificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryVerificationFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.EntryVerificationFragment"
+        android:label="fragment_entry_verification"
+        tools:layout="@layout/fragment_entry_verification" >
+        <action
+            android:id="@+id/action_entryVerificationFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/passwordRecoveryFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.PasswordRecoveryFragment"
+        android:label="fragment_password_recovery"
+        tools:layout="@layout/fragment_password_recovery" >
+        <action
+            android:id="@+id/action_passwordRecoveryFragment_to_entryVerificationFragment"
+            app:destination="@id/entryVerificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBankDataInputFragment"
+        android:name="app.cashadvisor.banks.presentation.ui.AddBankDataInputFragment"
+        android:label="fragment_add_bank_data_input"
+        tools:layout="@layout/fragment_add_bank_data_input" >
+        <action
+            android:id="@+id/action_addBankDataInputFragment_to_addBankVerificationFragment"
+            app:destination="@id/addBankVerificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBankSelectionFragment"
+        android:name="app.cashadvisor.banks.presentation.ui.AddBankSelectionFragment"
+        android:label="fragment_add_bank_selection"
+        tools:layout="@layout/fragment_add_bank_selection" >
+        <action
+            android:id="@+id/action_addBankSelectionFragment_to_addBankDataInputFragment"
+            app:destination="@id/addBankDataInputFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addBankVerificationFragment"
+        android:name="app.cashadvisor.banks.presentation.ui.AddBankVerificationFragment"
+        android:label="fragment_add_bank_verification"
+        tools:layout="@layout/fragment_add_bank_verification" >
+        <action
+            android:id="@+id/action_addBankVerificationFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addBankVerificationFragment_to_trackerFragment"
+            app:destination="@id/trackerFragment"
+            app:popUpTo="@id/trackerFragment"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addBankVerificationFragment_to_bankAccountsFragment"
+            app:destination="@id/bankAccountsFragment"
+            app:popUpTo="@id/bankAccountsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/planIncomeSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanIncomeSelectionFragment"
+        android:label="fragment_plan_income_selection"
+        tools:layout="@layout/fragment_plan_income_selection" >
+        <action
+            android:id="@+id/action_planIncomeSelectionFragment_to_planIncomeFragment"
+            app:destination="@id/planIncomeFragment" />
+        <action
+            android:id="@+id/action_planIncomeSelectionFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planIncomeFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanIncomeFragment"
+        android:label="fragment_plan_income"
+        tools:layout="@layout/fragment_plan_income" >
+        <action
+            android:id="@+id/action_planIncomeFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addIncomeFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddIncomeFragment"
+        android:label="fragment_add_income"
+        tools:layout="@layout/fragment_add_income" >
+        <action
+            android:id="@+id/action_addIncomeFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addIncomeSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddIncomeSelectionFragment"
+        android:label="fragment_add_income_selection"
+        tools:layout="@layout/fragment_add_income_selection" >
+        <action
+            android:id="@+id/action_addIncomeSelectionFragment_to_addIncomeFragment"
+            app:destination="@id/addIncomeFragment" />
+        <action
+            android:id="@+id/action_addIncomeSelectionFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planExpenseSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanExpenseSelectionFragment"
+        android:label="fragment_plan_expense_selection"
+        tools:layout="@layout/fragment_plan_expense_selection" >
+        <action
+            android:id="@+id/action_planExpenseSelectionFragment_to_planExpenseFragment"
+            app:destination="@id/planExpenseFragment" />
+        <action
+            android:id="@+id/action_planExpenseSelectionFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planExpenseFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanExpenseFragment"
+        android:label="fragment_plan_expense"
+        tools:layout="@layout/fragment_plan_expense" >
+        <action
+            android:id="@+id/action_planExpenseFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addExpenseFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddExpenseFragment"
+        android:label="fragment_add_expense"
+        tools:layout="@layout/fragment_add_expense" >
+        <action
+            android:id="@+id/action_addExpenseFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/planSavingSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanSavingSelectionFragment"
+        android:label="fragment_plan_saving_selection"
+        tools:layout="@layout/fragment_plan_saving_selection" >
+        <action
+            android:id="@+id/action_planSavingSelectionFragment_to_planSavingFragment"
+            app:destination="@id/planSavingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/planSavingFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.PlanSavingFragment"
+        android:label="fragment_plan_saving"
+        tools:layout="@layout/fragment_plan_saving" >
+        <action
+            android:id="@+id/action_planSavingFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSavingSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddSavingSelectionFragment"
+        android:label="fragment_add_saving_selection"
+        tools:layout="@layout/fragment_add_saving_selection" >
+        <action
+            android:id="@+id/action_addSavingSelectionFragment_to_addSavingFragment"
+            app:destination="@id/addSavingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSavingFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddSavingFragment"
+        android:label="fragment_add_saving"
+        tools:layout="@layout/fragment_add_saving" >
+        <action
+            android:id="@+id/action_addSavingFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/analyticsFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/addExpenseSelectionFragment"
+        android:name="app.cashadvisor.operations.presentation.ui.AddExpenseSelectionFragment"
+        android:label="fragment_add_expense_selection"
+        tools:layout="@layout/fragment_add_expense_selection" >
+        <action
+            android:id="@+id/action_addExpenseSelectionFragment_to_addExpenseFragment"
+            app:destination="@id/addExpenseFragment" />
+        <action
+            android:id="@+id/action_addExpenseSelectionFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addTrackerExpenseFragment"
+        android:name="app.cashadvisor.tracker.presentation.ui.AddTrackerExpenseFragment"
+        android:label="fragment_add_tracker_expense"
+        tools:layout="@layout/fragment_add_tracker_expense" >
+        <action
+            android:id="@+id/action_addTrackerExpenseFragment_to_trackerFragment"
+            app:destination="@id/trackerFragment"
+            app:popUpTo="@id/trackerFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoriesFragment"
+        android:name="app.cashadvisor.categories.presentation.ui.CategoriesFragment"
+        android:label="fragment_categories"
+        tools:layout="@layout/fragment_categories" >
+        <action
+            android:id="@+id/action_categoriesFragment_to_categoryAddAndEditFragment"
+            app:destination="@id/categoryAddAndEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryAddAndEditFragment"
+        android:name="app.cashadvisor.categories.presentation.ui.CategoryAddAndEditFragment"
+        android:label="fragment_category_add_and_edit"
+        tools:layout="@layout/fragment_category_add_and_edit" >
+        <action
+            android:id="@+id/action_categoryAddAndEditFragment_to_categoriesFragment"
+            app:destination="@id/categoriesFragment"
+            app:popUpTo="@id/categoriesFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/operationsArchiveFragment"
+        android:name="app.cashadvisor.archive.presentation.ui.OperationsArchiveFragment"
+        android:label="fragment_operations_archive"
+        tools:layout="@layout/fragment_operations_archive" />
+    <fragment
+        android:id="@+id/exportingReportsFragment"
+        android:name="app.cashadvisor.reports.presentation.ui.ExportingReportsFragment"
+        android:label="fragment_exporting_reports"
+        tools:layout="@layout/fragment_exporting_reports" />
+    <fragment
+        android:id="@+id/bankAccountsFragment"
+        android:name="app.cashadvisor.banks.presentation.ui.BankAccountsFragment"
+        android:label="fragment_bank_accounts"
+        tools:layout="@layout/fragment_bank_accounts" >
+        <action
+            android:id="@+id/action_bankAccountsFragment_to_addBankSelectionFragment"
+            app:destination="@id/addBankSelectionFragment" />
+    </fragment>
+
+</navigation>
