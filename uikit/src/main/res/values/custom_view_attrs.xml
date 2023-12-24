@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <declare-styleable name="CustomViewDiagramFourth">
+        <attr name="colorProgress" format="color" />
+        <attr name="colorBackground" format="color" />
+        <attr name="radiusView" format="dimension" />
+        <attr name="textSizeProgress" format="dimension" />
+        <attr name="textColorProgress" format="color" />
+        <attr name="textFontProgress" format="reference" />
+    </declare-styleable>
+
+    <attr name="CustomViewDiagramFourthStyle" format="reference" />
+
     <declare-styleable name="CircularGraph">
 
         <attr name="cg_constSourceArcColor" format="color"/>
