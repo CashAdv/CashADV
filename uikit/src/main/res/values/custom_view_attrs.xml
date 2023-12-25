@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CircularGraph">
+    <declare-styleable name="CustomViewDiagramThird">
+        <attr name="colorProgress" format="color" />
+        <attr name="colorBackground" format="color" />
+        <attr name="radiusView" format="dimension" />
+        <attr name="textSizeProgress" format="dimension" />
+        <attr name="textColorProgress" format="color" />
+        <attr name="textFontProgress" format="reference" />
+    </declare-styleable>
 
+    <attr name="CustomViewDiagramThirdStyle" format="reference" />
+
+    <declare-styleable name="CircularGraph">
         <attr name="cg_constSourceArcColor" format="color"/>
         <attr name="cg_varSourceArcColor" format="color"/>
         <attr name="cg_circleThickness" format="dimension"/>
@@ -13,7 +23,6 @@
         <attr name="cg_headerTextColor" format="color"/>
         <attr name="cg_valueTextColor" format="color"/>
         <attr name="android:fontFamily"/>
-
     </declare-styleable>
 
 </resources>

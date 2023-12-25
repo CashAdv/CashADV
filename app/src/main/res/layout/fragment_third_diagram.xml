@@ -3,12 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".authorization.presentation.ui.diagrams.ThirdDiagramFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="3rd diagram" />
+    <app.cashadvisor.customView.CustomViewDiagramThird
+
+        android:id="@+id/diagram1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorProgress="@color/black"/>
+
+    <app.cashadvisor.customView.CustomViewDiagramThird
+        android:id="@+id/diagram2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:colorProgress="?attr/sm1"
+        app:layout_constraintBottom_toTopOf="@+id/diagram1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textColorProgress="@color/black"/>
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:max="100"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diagram1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

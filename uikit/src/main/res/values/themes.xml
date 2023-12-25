@@ -27,5 +27,15 @@
         <item name="sm1">@color/sm1</item>
         <item name="sm2">@color/sm2</item>
         <item name="sm5">@color/sm5</item>
+        <item name="sm4">@color/sm4</item>
+        <item name="CustomViewDiagramThirdStyle">@style/CustomViewDiagramThirdStyle</item>
+    </style>
+    <style name="CustomViewDiagramThirdStyle">
+        <item name="colorProgress">?attr/sm4</item>
+        <item name="colorBackground">?attr/colour1</item>
+        <item name="radiusView">10dp</item>
+        <item name="textSizeProgress">11sp</item>
+        <item name="textColorProgress">?attr/whitecolour</item>
+        <item name="textFontProgress">@font/intersemibold</item>
     </style>
 </resources>
