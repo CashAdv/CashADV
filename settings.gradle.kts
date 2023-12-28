@@ -47,6 +47,8 @@ dependencyResolutionManagement {
             version("firebase.appdistribution", "4.0.1")
             version("android-library", "8.1.1")
             version("gms-play-services-auth", "20.7.0")
+            version("vkid", "4.1.0")
+
 
             plugin(
                 "android-application",
@@ -297,6 +299,16 @@ dependencyResolutionManagement {
                 "com.google.android.gms",
                 "play-services-auth"
             ).versionRef("gms-play-services-auth")
+
+            // Auth vk
+            library("vkid",
+                "com.vk",
+                "android-sdk-core"
+            ).versionRef("vkid")
+            library("vkid",
+                "com.vk",
+                "android-sdk-api"
+            ).versionRef("vkid")
         }
     }
 }
