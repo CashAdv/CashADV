@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".authorization.presentation.ui.diagrams.UikitSampleFragment">
+
+    <Button
+        android:id="@+id/first_diagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="1st Diagram"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/second_diagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="2nd Diagram"
+        app:layout_constraintEnd_toEndOf="@+id/first_diagram_button"
+        app:layout_constraintStart_toStartOf="@+id/first_diagram_button"
+        app:layout_constraintTop_toBottomOf="@+id/first_diagram_button" />
+
+    <Button
+        android:id="@+id/third_diagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="3rd Diagram"
+        app:layout_constraintEnd_toEndOf="@+id/second_diagram_button"
+        app:layout_constraintStart_toStartOf="@+id/second_diagram_button"
+        app:layout_constraintTop_toBottomOf="@+id/second_diagram_button" />
+
+    <Button
+        android:id="@+id/fourth_diagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="4th Diagram"
+        app:layout_constraintEnd_toEndOf="@+id/third_diagram_button"
+        app:layout_constraintStart_toStartOf="@+id/third_diagram_button"
+        app:layout_constraintTop_toBottomOf="@+id/third_diagram_button" />
+
+    <Button
+        android:id="@+id/fifth_diagram_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="5th Diagram"
+        app:layout_constraintEnd_toEndOf="@+id/fourth_diagram_button"
+        app:layout_constraintStart_toStartOf="@+id/fourth_diagram_button"
+        app:layout_constraintTop_toBottomOf="@+id/fourth_diagram_button" />
+
+    <Button
+        android:id="@+id/test_fragment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Test fragment"
+        app:layout_constraintEnd_toEndOf="@+id/fifth_diagram_button"
+        app:layout_constraintStart_toStartOf="@+id/fifth_diagram_button"
+        app:layout_constraintTop_toBottomOf="@+id/fifth_diagram_button" />
+</androidx.constraintlayout.widget.ConstraintLayout>

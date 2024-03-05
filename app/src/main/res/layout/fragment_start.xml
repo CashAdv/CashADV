@@ -6,23 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".authorization.presentation.ui.StartFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
-        android:text="Стартовый экран (самый первый)"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_continue"
+        <TextView
+            android:id="@+id/appNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_name_top_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.HeaderStart"
+            app:layout_constraintBottom_toTopOf="@+id/descriptionTextView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_name_description_between_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/manage_your_personal_finances_effectively"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.SubtextStart1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appNameTextView" />
+
+        <TextView
+            android:id="@+id/tapToContinueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/tap_to_continue_bottom_margin"
+            android:gravity="center_horizontal"
+            android:text="@string/tap_to_continue"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.SubtextStart2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tapToUiKitSampleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Нажмите чтобы продолжить"
+        android:layout_marginBottom="@dimen/tap_to_ui_kit_bottom_margin"
+        android:text="@string/tap_to_uikit_sample"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.SubtextStart2"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

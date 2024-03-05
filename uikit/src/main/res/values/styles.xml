@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Widget.CashAdvisor.Text" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
+    <!-- Basic Text styles -->
+    <style name="Widget.CashAdvisor.Text.Header1">
+        <item name="fontFamily">@font/gilroybold</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Header2">
+        <item name="fontFamily">@font/gilroybold</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Header3">
+        <item name="fontFamily">@font/gilroybold</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Main_Text">
+        <item name="fontFamily">@font/gilroysemibold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Text_info">
+        <item name="fontFamily">@font/gilroysemibold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.num_big">
+        <item name="fontFamily">@font/interbold</item>
+        <item name="android:textSize">45sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.num_reg">
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Text_cont">
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Subtext">
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.num_sub">
+        <item name="fontFamily">@font/interbold</item>
+        <item name="android:textSize">8sp</item>
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
+    <!-- Start Screen Text Styles -->
+    <style name="Widget.CashAdvisor.Text.HeaderStart">
+        <item name="fontFamily">@font/montserratbold</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.HeaderStart.Gray">
+        <item name="android:textColor">?attr/bg2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.SubtextStart1">
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.SubtextStart2">
+        <item name="fontFamily">@font/gilroysemibold</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
+
+    <!-- Register Disclaimer Text Styles -->
+    <style name="Widget.CashAdvisor.Text.DisclaimerText" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textAlignment">2</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
+
+    <!-- Register Title Text Styles -->
+    <style name="Widget.CashAdvisor.Text.RegisterHeader" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textAlignment">4</item>
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
+    <!-- Register Step Description Styles -->
+    <style name="Widget.CashAdvisor.Text.RegisterSteps" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textAlignment">4</item>
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
+    <!-- Register Steps -->
+    <style name="Widget.CashAdvisor.Text.RegisterStepActive" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">35dp</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:background">@drawable/textview_border_active</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.RegisterStepInactive" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">35dp</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+        <item name="android:background">@drawable/textview_border_inactive</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.ForgetPassword" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColor">?attr/m3</item>
+    </style>
+
+    <!-- Text Field Headers -->
+    <style name="Widget.CashAdvisor.Text.TextFieldHeader" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textAlignment">2</item>
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.ResetPasswordDisclaimer" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textAlignment">4</item>
+    </style>
+
+    <!-- Total Listing Text Styles -->
+    <style name="Widget.CashAdvisor.Text.TotalListingSectionHeaderBlack" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.TotalListingSectionHeaderRed" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textAlignment">3</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.TotalListingSectionElementName" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColor">?attr/subcolour2</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.TotalListingSectionElementNum" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColor">?attr/subcolour2</item>
+        <item name="android:textAlignment">3</item>
+    </style>
+
+    <!-- Profile Text Styles -->
+    <style name="Widget.CashAdvisor.Text.ProfileName" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <!-- Profile Tags Styles -->
+    <style name="Widget.CashAdvisor.Text.TagsActive" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">35dp</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:textColor">?attr/whitecolour</item>
+        <item name="android:background">@drawable/black_button_background</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.TagsInactive" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">35dp</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingTop">9dp</item>
+        <item name="android:paddingBottom">7dp</item>
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+
+    <!-- Calendar Styles -->
+    <style name="CurrentMonth" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColor">?attr/subcolour2</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">5dp</item>
+        <item name="android:paddingEnd">5dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">30dp</item>
+        <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+
+</resources>

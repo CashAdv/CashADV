@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    tools:context=".authorization.presentation.ui.diagrams.FirstDiagramFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <app.cashadvisor.uikit.customview.CircularGraph
+        android:id="@+id/circularGraph"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginStart="4dp"
+        android:fontFamily="@font/intersemibold"
+        app:cg_circleThickness="12dp"
+        app:cg_constSourceArcColor="?attr/m6"
+        app:cg_varSourceArcColor="?attr/subcolour1"
+        app:cg_headerTextColor="?attr/subcolour2"
+        app:cg_valueTextColor="?attr/colour1"
+        app:cg_headerText="@string/circular_graph_header_total"
+        app:cg_captionTextSize="16sp"
+        app:cg_arcSpacing="7.0"
+        app:cg_currencySymbol="@string/circular_graph_currency_symbol_ruble"
+        app:layout_constraintBottom_toTopOf="@+id/calculateButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/permanentSourceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Постоянные источники, руб."
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/circularGraph"
+        app:layout_constraintTop_toTopOf="@+id/circularGraph" />
+
+    <EditText
+        android:id="@+id/permanentSourceEnterField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/circularGraph"
+        app:layout_constraintTop_toBottomOf="@+id/permanentSourceTitle" />
+
+    <TextView
+        android:id="@+id/variableSourceTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Переменные источники, руб."
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@id/circularGraph"
+        app:layout_constraintTop_toBottomOf="@+id/permanentSourceEnterField" />
+
+    <EditText
+        android:id="@+id/variableSourceEnterField"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/circularGraph"
+        app:layout_constraintTop_toBottomOf="@+id/variableSourceTitle" />
+
+    <Button
+        android:id="@+id/calculateButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Рассчитать"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

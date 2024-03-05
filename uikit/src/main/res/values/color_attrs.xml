@@ -8,6 +8,7 @@
     <attr name="subcolour1" format="color" />
     <attr name="subcolour2" format="color" />
     <attr name="colour2" format="color" />
+    <attr name="whitecolour" format="color"/>
 
     // Semantic
     <attr name="m1" format="color" />
@@ -23,5 +24,6 @@
     <attr name="sm1" format="color" />
     <attr name="sm2" format="color" />
     <attr name="sm5" format="color" />
+    <attr name="sm4" format="color" />
 
 </resources>

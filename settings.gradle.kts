@@ -10,6 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven {
+            url =
+                java.net.URI("https://artifactory-external.vkpartner.ru/artifactory/vkid-sdk-andorid/")
+        }
     }
 
     versionCatalogs {
@@ -23,7 +27,7 @@ dependencyResolutionManagement {
             version("espresso-core", "3.5.1")
             version("fragment-ktx", "1.6.2")
             version("glide", "4.15.1")
-            version("hilt-android", "2.44")
+            version("hilt-android", "2.50")
             version("junit", "4.13.2")
             version("kotlinx-coroutines-android", "1.7.1")
             version("kotlinx-serialization-json", "1.6.1")
@@ -38,13 +42,18 @@ dependencyResolutionManagement {
             version("kotlin", "1.9.0")
             version("devtools-ksp", "1.9.10-1.0.13")
             version("kotlinx-serialization", "1.9.20")
+            version("kotlinx-serialization-converter", "1.0.0")
             version("firebase-analytics-ktx", "")
             version("firebase-crashlytics-ktx", "")
             version("firebase-crashlytics-gradle", "2.9.9")
+            version("firebase-messaging", "23.3.1")
             version("firebase-bom", "32.6.0")
             version("gms-googleServices", "4.4.0")
             version("firebase.appdistribution", "4.0.1")
             version("android-library", "8.1.1")
+            version("gms-play-services-auth", "20.7.0")
+            version("crypto", "1.0.0-alpha02")
+            version("vkid", "1.0.0")
 
 
             plugin(
@@ -96,6 +105,11 @@ dependencyResolutionManagement {
                 "android-library",
                 "com.android.library"
             ).versionRef("android-library")
+
+            plugin(
+                "kotlin-parcelize",
+                "org.jetbrains.kotlin.plugin.parcelize"
+            ).versionRef("kotlin")
 
             // Core
             library(
@@ -238,6 +252,12 @@ dependencyResolutionManagement {
                 "logging-interceptor"
             ).versionRef("okhttp")
 
+            library(
+                "retrofit2-kotlinx-serialization-converter",
+                "com.jakewharton.retrofit",
+                "retrofit2-kotlinx-serialization-converter"
+            ).versionRef("kotlinx-serialization-converter")
+
             // Test
             library(
                 "junit",
@@ -270,7 +290,8 @@ dependencyResolutionManagement {
                 "firebase-crashlytics-ktx"
             ).withoutVersion()
 
-            library("firebase-bom",
+            library(
+                "firebase-bom",
                 "com.google.firebase",
                 "firebase-bom"
             ).versionRef("firebase-bom")
@@ -290,6 +311,24 @@ dependencyResolutionManagement {
                 "com.google.firebase",
                 "firebase-crashlytics-gradle"
             ).versionRef("firebase-crashlytics-gradle")
+
+            library(
+                "play-services-auth",
+                "com.google.android.gms",
+                "play-services-auth"
+            ).versionRef("gms-play-services-auth")
+
+            library(
+                "crypto",
+                "androidx.security",
+                "security-crypto"
+            ).versionRef("crypto")
+
+            // Auth vk
+            library("vk-auth",
+                "com.vk.id",
+                "vkid"
+            ).versionRef("vkid")
         }
     }
 }

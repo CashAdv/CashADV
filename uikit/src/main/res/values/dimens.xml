@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<!--    start screen-->
+    <dimen name="app_name_description_between_margin">0dp</dimen>
+    <dimen name="tap_to_continue_bottom_margin">12dp</dimen>
+    <dimen name="tap_to_ui_kit_bottom_margin">96dp</dimen>
+    <dimen name="app_name_top_margin">304dp</dimen>
+    <dimen name="grid_text_start_margin">16dp</dimen>
+    <dimen name="grid_text_end_margin_hack">-500dp</dimen>
+    <dimen name="start_screen_cardview_minheight">104dp</dimen>
+    <dimen name="start_screen_cardview_maxwidth">104dp</dimen>
+    <dimen name="start_screen_cardview_radius">16dp</dimen>
+    <dimen name="start_screen_cardview_horizontal_padding">36dp</dimen>
+    <dimen name="start_screen_cardview_margin_bottom">66dp</dimen>
+    <dimen name="start_screen_cardview_elevation">8dp</dimen>
+    <dimen name="start_screen_cardview_buttons_padding">16dp</dimen>
+    <dimen name="start_screen_cardview_llbuttons_minheight">56dp</dimen>
+    <dimen name="start_screen_cardview_buttons_minheight">40dp</dimen>
+    <dimen name="button_radius_10">10dp</dimen>
+    <dimen name="margin_top_entry_text_notes">8dp</dimen>
+    <dimen name="margin_bottom_entry_text_notes">8dp</dimen>
+
+
+
+
+
+
+
+</resources>

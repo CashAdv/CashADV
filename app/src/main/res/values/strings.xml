@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">Cash Advisor</string>
+    <string name="grid_app_name">#Cash Advisor</string>
+    <string name="upper_grids_text">#финздоровье\n#акции\n#дивиденды\n#финграм\n#благосостояние\n#обязательства</string>
+    <string name="lower_grids_text">#активы\n#инвестиции\n#налоги\n#банки\n#сбережения\n#планирование\n#бюджет\n#доходы</string>
+    <string name="register_text">Регистрация</string>
+    <string name="login_text">Вход</string>
+    <string name="entry_text">Зарегистрируйтесь, если у&#160;Вас нет аккаунта, или&#160;войдите, если аккаунт уже&#160;создан.</string>
 
-    <string name="analytics"> Аналитика</string>
-    <string name="tracker"> Трекер</string>
-    <string name="settings"> Настройки</string>
+
+    <!-- Google authentication-->
+    <string name="client_id">409936335875-b2f0q0k1rt55vqb3oc751c7121dmd49q.apps.googleusercontent.com</string>
+    <string name="login_via_vk">Войти через vk</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
 </resources>

@@ -1,4 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
+import com.android.build.api.dsl.ApplicationDefaultConfig
 
 plugins {
     alias(libs.plugins.android.application)
@@ -10,7 +12,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics.gradle)
     alias(libs.plugins.gms.googleServices)
     alias(libs.plugins.firebase.appdistribution)
-
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -24,42 +26,63 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        initVKID()
     }
+
+    signingConfigs {
+        create("release") {
+
+            val localProperties = gradleLocalProperties(rootDir)
+
+            val storePasswordLocal: String =
+                System.getenv("STORE_PASSWORD") ?: localProperties.getProperty("storePassword")
+                ?: "storePasswordEmpty"
+            val keyAliasLocal: String =
+                System.getenv("KEY_ALIAS") ?: localProperties.getProperty("keyAlias")
+                ?: "keyAliasEmpty"
+            val keyPasswordLocal: String =
+                System.getenv("KEY_PASSWORD") ?: localProperties.getProperty("keyPassword")
+                ?: "keyPasswordEmpty"
+
+            storeFile = file("keyStore/cashadvisor.jks")
+            storePassword = storePasswordLocal
+            keyAlias = keyAliasLocal
+            keyPassword = keyPasswordLocal
+        }
+
+        getByName("debug") {
+            storeFile = file("keyStore/debug.keystore")
+            storePassword = "android"
+            keyAlias ="androiddebugkey"
+            keyPassword = "android"
+        }
+    }
+
 
     buildTypes {
         getByName("debug") {
             isDebuggable = true
             applicationIdSuffix = ".debug"
+            matchingFallbacks += listOf("release")
+            buildConfigField("String", "LOGGING_LEVEL", "\"DEBUG\"")
         }
 
         create("qa") {
             initWith(getByName("release"))
-            isMinifyEnabled = false
             applicationIdSuffix = ".qa"
-            signingConfig = signingConfigs.getByName("debug")
-
-        }
-
-        firebaseAppDistribution{
-            artifactType = "APK"
-            releaseNotesFile = "app/src/stage/qa/releaseNotes.txt"
-            testers = "QA"
+            signingConfig = signingConfigs.getByName("release")
+            matchingFallbacks += listOf("release")
+            buildConfigField("String", "LOGGING_LEVEL", "\"QA\"")
         }
 
         getByName("release") {
             isMinifyEnabled = false
             proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             )
-
-        }
-
-        firebaseAppDistribution{
-            artifactType = "APK"
-            releaseNotesFile = "app/src/stage/qa/releaseNotes.txt"
-            testers = "QA"
-
+            signingConfig = signingConfigs.getByName("release")
+            buildConfigField("String", "LOGGING_LEVEL", "\"RELEASE\"")
         }
     }
 
@@ -86,14 +109,23 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
-task("appDistirbutionToQaStageQa") {
+
+firebaseAppDistribution {
+    artifactType = "APK"
+    releaseNotesFile = "app/src/releaseNotes.txt"
+    testers = "QA"
+    serviceCredentialsFile = "app/serviceCredentialsFile.json"
+}
+
+task("appDistributionToQaStageQa") {
     dependsOn("assembleStageQa")
     dependsOn("appDistributionUploadStageQa")
 }
 
-task("appDistirbutionToQaProdQa") {
+task("appDistributionToQaProdQa") {
     dependsOn("assembleProdQa")
     dependsOn("appDistributionUploadProdQa")
 }
@@ -139,6 +171,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // Test
     testImplementation(libs.junit)
@@ -150,10 +183,38 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
 
+    // Auth vk
+    implementation(libs.vk.auth)
+
     // Ui Kit Library
     implementation(project(":uikit"))
+
+    //Sign-In
+    implementation(libs.play.services.auth)
+
+    //Crypto
+    implementation(libs.crypto)
+
 }
 
 kapt {
     correctErrorTypes = true
+}
+
+fun ApplicationDefaultConfig.initVKID() {
+    val localProperties = gradleLocalProperties(rootDir)
+
+    val clientId = System.getenv("VKIDCLIENTID") ?: localProperties.getProperty("VKIDCLIENTID")
+        ?: throw GradleException("There is no VKIDClientID. Please specify it by ENV.VKIDCLIENTID or VKIDCLIENTID=xxx in local.properties")
+    val clientSecret =
+        System.getenv("VKIDCLIENTSECRET") ?: localProperties.getProperty("VKIDCLIENTSECRET")
+        ?: throw GradleException("There is no VKIDClientSecret. Please specify it by ENV.VKIDCLIENTSECRET or VKIDCLIENTSECRET=xxx in local.properties")
+    addManifestPlaceholders(
+        mapOf(
+            "VKIDRedirectHost" to "vk.com",
+            "VKIDRedirectScheme" to "vk$clientId",
+            "VKIDClientID" to clientId,
+            "VKIDClientSecret" to clientSecret
+        )
+    )
 }

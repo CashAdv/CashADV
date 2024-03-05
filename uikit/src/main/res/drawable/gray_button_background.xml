@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/bg1"/> <!-- Здесь вы можете указать свой цвет заливки -->
+    <corners android:radius="100dp"/> <!-- Закругление углов -->
+    <stroke android:width="2dp" android:color="#00000000"/>  <!-- Цвет обводки (прозрачный) -->
+</shape>

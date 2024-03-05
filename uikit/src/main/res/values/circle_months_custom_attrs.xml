@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircularDiagramFive">
+
+        <attr name="cdf_firstCircleColor" format="color"/>
+        <attr name="cdf_secondCircleColor" format="color"/>
+        <attr name="cdf_firstTextColor" format="color"/>
+        <attr name="cdf_secondTextColor" format="color"/>
+        <attr name="cdf_firstTextSize" format="dimension"/>
+        <attr name="cdf_secondTextSize" format="dimension"/>
+        <attr name="cdf_strokeWidthFirst" format="dimension"/>
+        <attr name="cdf_strokeWidthSecond" format="dimension"/>
+        <attr name="cdf_measure" format="string"/>
+        <attr name="cdf_fontFamilyFirst" format="reference"/>
+        <attr name="cdf_fontFamilySecond" format="reference"/>
+        <attr name="cdf_textSpacing" format="dimension"/>
+
+    </declare-styleable>
+</resources>

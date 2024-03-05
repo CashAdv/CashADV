@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".authorization.presentation.ui.diagrams.FifthDiagramFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="5th diagram"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+    <customcircle.CircularDiagramFive
+        android:id="@+id/circleDiagramFive"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        app:cdf_firstCircleColor="?attr/subcolour1"
+        app:cdf_secondCircleColor="?attr/m5"
+        app:cdf_firstTextColor="?attr/colour2"
+        app:cdf_secondTextColor="?attr/subcolour2"
+        app:cdf_firstTextSize="36sp"
+        app:cdf_secondTextSize="12sp"
+        app:cdf_strokeWidthFirst="4dp"
+        app:cdf_strokeWidthSecond="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Прощло месяцев"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/circleDiagramFive"
+        app:layout_constraintStart_toStartOf="@+id/circleDiagramFive"
+        app:layout_constraintTop_toBottomOf="@+id/circleDiagramFive" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="Всего месяцев"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="@+id/editTextText"
+        app:layout_constraintStart_toStartOf="@+id/editTextText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="CHECK"
+        app:layout_constraintEnd_toEndOf="@+id/editTextText2"
+        app:layout_constraintStart_toStartOf="@+id/editTextText2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

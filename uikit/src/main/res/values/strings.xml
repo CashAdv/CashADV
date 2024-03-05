@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Circular graph strings -->
+    <string name="circular_graph_header_total">Всего!</string>
+    <string name="circular_graph_currency_symbol_ruble">₽</string>
+    <string name="circular_graph_unknown_text">n/a</string>
+    <string name="months">месяцы</string>
+
+    <!-- Start screen strings -->
+    <string name="manage_your_personal_finances_effectively">Управляйте личными финансами эффективно</string>
+    <string name="tap_to_continue">Нажмите, чтобы продолжить</string>
+    <string name="tap_to_uikit_sample">Нажмите, чтобы перейти в UI KIT Sample</string>
+    <string name="something_went_wrong">Что-то пошло не так</string>
+
+    <!-- Bottom navigation menu strings -->
+    <string name="analytics"> Аналитика</string>
+    <string name="tracker"> Трекер</string>
+    <string name="settings"> Настройки</string>
+
+    <!-- PinCode screen strings -->
+    <string name="pin_code_screen">Экран ввода пинкода</string>
+    <string name="enter">Войти</string>
+    <string name="back">Назад</string>
+
+</resources>
