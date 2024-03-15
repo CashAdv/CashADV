@@ -79,8 +79,8 @@ class NetworkToLoginExceptionMapper @Inject constructor(
     private fun handleCommonException(exception: NetworkException): LoginException {
         return when (exception) {
             is NetworkException.NoInternetConnection -> {
-                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                LoginException.NoConnection(errorResponse.message)
+                //val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
+                LoginException.NoConnection(message = exception.errorBody)
             }
 
             is NetworkException.Undefined -> {

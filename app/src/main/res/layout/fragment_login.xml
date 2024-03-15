@@ -1,41 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/whitecolour"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
     tools:context=".authorization.presentation.ui.LoginFragment">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
-        android:text="Экран авторизации"
+        android:layout_marginTop="@dimen/login_screen_title_top_margin"
+        android:text="@string/authorization"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Main_Text" />
+
+    <app.cashadvisor.customView.authorization.CustomViewSteps
+        android:id="@+id/custom_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_screen_step_top_margin"
+        android:gravity="center_horizontal"
+        app:currentStep="1"
+        app:maxSteps="2" />
+
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/login_screen_step_top_margin"
+        android:text="@string/enter_account_data"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Subtext"
+        android:textColor="@color/colour1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/custom_steps" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_login_forms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/login_screen_basic_horizontal_margin"
+        android:layout_marginTop="@dimen/login_screen_forms_top_margin"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_enter_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"
+            android:text="@string/enter_email"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="@color/colour1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_email_input"
+            style="@style/TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_enter_email">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_email_input"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_example" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_enter_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_double_top_margin"
+            android:text="@string/enter_password"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="@color/colour1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ti_email_input" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_password_input"
+            style="@style/TextInputLayout.PasswordField"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"
+            app:helperTextTextColor="@color/subcolor_2"
+            app:helperTextTextAppearance="@style/Widget.CashAdvisor.Text.Subtext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_enter_password">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_password_input"
+                style="@style/EditText.PasswordField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_login"
+            style="@style/Widget.CashAdvisor.Button.SigninButton"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/login_screen_btn_height"
+            android:layout_marginTop="@dimen/login_screen_login_btn_top_margin"
+            android:layout_marginEnd="@dimen/login_screen_buttons_inside_margin"
+            android:text="@string/enter"
+            app:layout_constraintEnd_toStartOf="@+id/tv_forget_password"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ti_password_input" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="@dimen/login_screen_progress_bar_size"
+            android:layout_height="@dimen/login_screen_progress_bar_size"
+            android:indeterminateTint="@color/black"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/btn_login"
+            app:layout_constraintEnd_toEndOf="@id/btn_login"
+            app:layout_constraintTop_toTopOf="@id/btn_login"
+            app:layout_constraintBottom_toBottomOf="@id/btn_login"/>
+
+        <TextView
+            android:id="@+id/tv_forget_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"
+            android:text="@string/forget_password"
+            android:textAlignment="center"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="?attr/m3"
+            app:layout_constraintBottom_toBottomOf="@id/btn_login"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/btn_login"
+            app:layout_constraintTop_toTopOf="@+id/btn_login" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_confirmation_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/login_screen_basic_horizontal_margin"
+        android:layout_marginTop="@dimen/login_screen_forms_top_margin"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_enter_confirmation_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter_confirmation_code"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="@color/colour1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ti_confirmation_code"
+            style="@style/TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_enter_confirmation_code">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_confirmation_code"
+                style="@style/EditText"
+                android:inputType="number"
+                android:maxLength="4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_send_again"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/login_screen_btn_send_again_top_margin"
+            android:paddingVertical="@dimen/login_screen_text_input_vertical_padding"
+            android:text="@string/send_confirmation_code_again"
+            android:textAlignment="center"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="?attr/colour2"
+            app:layout_constraintEnd_toStartOf="@+id/tv_cant_get_code"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ti_confirmation_code" />
+
+        <TextView
+            android:id="@+id/tv_cant_get_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/login_screen_text_input_vertical_padding"
+            android:text="@string/code_does_not_come"
+            android:textAlignment="center"
+            android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
+            android:textColor="?attr/m3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/tv_send_again"
+            app:layout_constraintTop_toTopOf="@id/tv_send_again" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_back"
+        style="@style/Widget.CashAdvisor.Button.SigninButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Войти"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btn_forget_password"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="@dimen/login_screen_btn_height"
+        android:layout_marginTop="@dimen/login_screen_back_btn_top_margin"
+        android:paddingHorizontal="@dimen/login_screen_back_btn_horizontal_padding"
+        android:text="@string/back" />
+</androidx.appcompat.widget.LinearLayoutCompat>
 
-    <Button
-        android:id="@+id/btn_forget_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Забыли пароль"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_login"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>

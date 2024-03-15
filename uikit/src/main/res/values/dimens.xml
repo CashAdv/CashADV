@@ -20,6 +20,26 @@
     <dimen name="button_radius_10">10dp</dimen>
     <dimen name="margin_top_entry_text_notes">8dp</dimen>
     <dimen name="margin_bottom_entry_text_notes">8dp</dimen>
+    
+    <!--Login screen-->
+    <dimen name="login_screen_title_top_margin">11dp</dimen>
+    <dimen name="login_screen_step_horizontal_padding">15dp</dimen>
+    <dimen name="login_screen_step_vertical_padding">3dp</dimen>
+    <dimen name="login_screen_step_inside_margin">10dp</dimen>
+    <dimen name="login_screen_step_top_margin">5dp</dimen>
+    <dimen name="login_screen_basic_horizontal_margin">38dp</dimen>
+    <dimen name="login_screen_forms_top_margin">30dp</dimen>
+    <dimen name="login_screen_text_input_vertical_padding">14dp</dimen>
+    <dimen name="login_screen_edit_text_top_margin">5dp</dimen>
+    <dimen name="login_screen_edit_text_double_top_margin">10dp</dimen>
+    <dimen name="login_screen_btn_height">40dp</dimen>
+    <dimen name="login_screen_buttons_inside_margin">20dp</dimen>
+    <dimen name="login_screen_back_btn_top_margin">40dp</dimen>
+    <dimen name="login_screen_back_btn_horizontal_padding">46dp</dimen>
+    <dimen name="login_screen_btn_send_again_top_margin">52dp</dimen>
+    <dimen name="login_screen_edit_text_stroke_width">1dp</dimen>
+    <dimen name="login_screen_login_btn_top_margin">80dp</dimen>
+    <dimen name="login_screen_progress_bar_size">24dp</dimen>
 
 
 

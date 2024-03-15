@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Widget.CashAdvisor.Text" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/colour1</item>
@@ -119,6 +119,16 @@
         <item name="android:background">@drawable/textview_border_inactive</item>
     </style>
 
+    <style name="Widget.CashAdvisor.Text.RegisterStepCompleted" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:minHeight">20dp</item>
+        <item name="android:minWidth">35dp</item>
+        <item name="android:textAlignment">4</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textColor">?attr/m1</item>
+        <item name="android:background">@drawable/textview_border_completed</item>
+    </style>
+
     <style name="Widget.CashAdvisor.Text.ForgetPassword" parent="Widget.CashAdvisor.Text.Text_cont">
         <item name="android:textColor">?attr/m3</item>
     </style>
@@ -197,4 +207,39 @@
         <item name="android:background">@drawable/gray_button_background</item>
     </style>
 
+    <!--Login screen textInput styles-->
+    <style name="EditText">
+        <item name="android:background">@drawable/text_input_background_neutral</item>
+        <item name="android:textAppearance">@style/Widget.CashAdvisor.Text.Text_cont</item>
+        <item name="colorControlActivated">@color/black</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">text</item>
+        <item name="android:paddingTop">@dimen/login_screen_text_input_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/login_screen_text_input_vertical_padding</item>
+        <item name="android:lines">1</item>
+        <item name="singleLine">true</item>
+    </style>
+
+    <style name="TextInputLayout">
+        <item name="android:textColorHint">?attr/colour2</item>
+        <item name="endIconCheckable">true</item>
+        <item name="endIconDrawable">@drawable/ic_close</item>
+        <item name="endIconMode">clear_text</item>
+        <item name="expandedHintEnabled">true</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintTextColor">?attr/colour2</item>
+    </style>
+
+    <style name="TextInputLayout.PasswordField">
+        <item name="endIconCheckable">true</item>
+        <item name="endIconDrawable">@drawable/password_toggle_drawable</item>
+        <item name="endIconMode">password_toggle</item>
+        <item name="passwordToggleEnabled">true</item>
+    </style>
+
+    <style name="EditText.PasswordField">
+        <item name="android:hint">@string/enter_password_hint</item>
+        <item name="android:inputType">textPassword</item>
+    </style>
 </resources>

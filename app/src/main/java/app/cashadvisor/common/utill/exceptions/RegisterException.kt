@@ -40,7 +40,7 @@ sealed class RegisterException(
         class UnauthorizedWrongConfirmationCode(
             override val message: String,
             val remainingAttempts: Int,
-            val lockDuration: Int,
+            val lockDuration: Long,
             val statusCode: Int
         ) : EmailCodeConfirmation(message)
 

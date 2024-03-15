@@ -21,5 +21,50 @@
     <string name="pin_code_screen">Экран ввода пинкода</string>
     <string name="enter">Войти</string>
     <string name="back">Назад</string>
+    
+    <!--Login screen-->
+    <string name="authorization">Авторизация</string>
+    <string name="enter_account_data">Ввод данных аккаунта</string>
+    <string name="confirmation">Подтверждение</string>
+    <string name="enter_email">Введите email</string>
+    <string name="email_example">example@gmail.com</string>
+    <string name="enter_password">Введите пароль</string>
+    <string name="enter_password_hint">нажмите, чтобы ввести пароль</string>
+    <string name="forget_password">Забыли пароль?</string>
+    <string name="enter_confirmation_code">Введите код из письма</string>
+    <string name="send_confirmation_code_again">Выслать еще раз</string>
+    <string name="send_confirmation_code_again_seconds">Выслать еще раз \n(через %1$s сек)</string>
+    <string name="code_does_not_come">Не приходит код</string>
+    <string name="step_1">1</string>
+    <string name="password_text_input_helper_text">Используйте цифры, буквы A-z и знак «_»</string>
+    <string name="wrong_email_format">Неверный формат email, повторите попытку</string>
+    <string name="wrong_password_count">Пароль должен содержать не менее 8 знаков</string>
+    <string name="wrong_password_format">Пароль содержит недопустимые символы</string>
+    <string name="wrong_email_or_password">Неверный email или пароль</string>
+    <string name="wrong_password_format_and_email_format">Пароль содержит недопустимые символы и формат email выбран неверно</string>
+    <string name="wrong_password_count_and_email_format">Пароль содержит менее 8 знаков и формат email выбран неверно</string>
+    <string name="edit">Изменить</string>
+    <string name="ok">OK</string>
+    <string name="wrong_code_number_attempts">У Вас осталось %1$s</string>
+    <string name="wrong_code_number_lock_duration">Попытки входа закончилсь, попробуйте через %1$s</string>
+    <string name="invalid_token">Срок действия кода истек, повторите попытку</string>
+    <string name="debug_message_something_went_wrong">Something went wrong %1$s</string>
+    <string name="debug_message_no_internet">No Internet %1$s</string>
+    <string name="debug_message_invalid_input">InvalidInput %1$s</string>
+    <string name="debug_message_invalid_email_or_password">Invalid email or password %1$s</string>
+    <string name="debug_message_failed_to_generate_token_or_send_email">Failed to generate token or send email %1$s</string>
+    <string name="debug_message_wrong_code_lock_duration">Wrong confirmation code lock duration %1$d minutes</string>
+    <string name="debug_message_wrong_code_remaining_attempts">Wrong confirmation code remaining attempts %1$d</string>
+    <string name="debug_message_wrong_code">Wrong confirmation code %1$s</string>
+    <string name="debug_message_invalid_request_payload">Invalid request payload %1$s</string>
+    <string name="debug_message_success_login">Success login %1$s</string>
+    <string name="debug_message_message_login">Message login %1$s</string>
+    <string name="no_internet_connection_login">Отсутствует интернет-соединение</string>
+    <string name="no_internet_connection_login_message">Вы не сможете войти в приложение, пока не возобновится соединение</string>
+    <string name="close">Закрыть</string>
+    <string name="description_sleep_image">Это изображение спящего смайлика</string>
+
+
+
 
 </resources>
