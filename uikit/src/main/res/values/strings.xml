@@ -22,4 +22,11 @@
     <string name="enter">Войти</string>
     <string name="back">Назад</string>
 
+    <!--  Settings screen string  -->
+    <string name="change_profile_pic">Сменить изображение</string>
+    <string name="profile_settings_title">Настройка профиля</string>
+    <string name="save">Сохранить</string>
+    <string name="hint_name">Имя</string>
+    <string name="hint_surname">Фамилия</string>
+
 </resources>

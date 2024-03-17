@@ -58,6 +58,11 @@
         <item name="android:textColor">?attr/colour1</item>
     </style>
 
+    <!-- Screen Title Text Style -->
+    <style name="Widget.CashAdvisor.Text.ScreenTitle" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
     <!-- Start Screen Text Styles -->
     <style name="Widget.CashAdvisor.Text.HeaderStart">
         <item name="fontFamily">@font/montserratbold</item>
@@ -195,6 +200,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">30dp</item>
         <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+
+    <!--  EditText  -->
+    <style name="Widget.CashAdvisor.TextInputEditText" parent="ThemeOverlay.Material3.TextInputEditText.FilledBox">
+        <item name="android:background">@drawable/light_gray_text_mask</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/Widget.CashAdvisor.Text.Text_cont</item>
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textColorHint">?attr/subcolour2</item>
+    </style>
+
+    <!--  Profile settings  -->
+    <style name="Widget.CashAdvisor.TextInputEditText.EditTextProfileSettings" parent="Widget.CashAdvisor.TextInputEditText">
+        <item name="android:inputType">text</item>
     </style>
 
 </resources>
