@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    start screen-->
+    <!--    start screen-->
     <dimen name="app_name_description_between_margin">0dp</dimen>
     <dimen name="tap_to_continue_bottom_margin">12dp</dimen>
     <dimen name="tap_to_ui_kit_bottom_margin">96dp</dimen>
@@ -22,9 +22,9 @@
     <dimen name="margin_bottom_entry_text_notes">8dp</dimen>
 
 
-
-
-
-
+    <!--  Profile settings  -->
+    <dimen name="root_layout_horizontal_padding">36dp</dimen>
+    <dimen name="views_margin">20dp</dimen>
+    <dimen name="profile_pic_size">45dp</dimen>
 
 </resources>

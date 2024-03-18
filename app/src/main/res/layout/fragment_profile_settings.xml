@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingHorizontal="36dp"
+    android:paddingHorizontal="@dimen/root_layout_horizontal_padding"
     tools:context="app.cashadvisor.settings.presentation.ui.ProfileSettingsFragment">
 
     <TextView
@@ -22,7 +22,7 @@
         android:id="@+id/ll_change_profile_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/views_margin"
         android:background="@drawable/light_gray_text_mask"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -33,8 +33,8 @@
         app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="@dimen/profile_pic_size"
+            android:layout_height="@dimen/profile_pic_size"
             android:src="@drawable/placeholder_profile_picture" />
 
         <TextView
@@ -50,7 +50,7 @@
         android:id="@+id/til_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/views_margin"
         app:hintEnabled="false"
         app:layout_constraintEnd_toStartOf="@id/til_surname"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,8 +69,8 @@
         android:id="@+id/til_surname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/views_margin"
+        android:layout_marginTop="@dimen/views_margin"
         app:hintEnabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/til_name"
@@ -91,7 +91,7 @@
         style="@style/Widget.CashAdvisor.Button.SigninButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/views_margin"
         android:text="@string/back"
         app:layout_constraintEnd_toStartOf="@id/btn_save"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +102,8 @@
         style="@style/Widget.CashAdvisor.Button.SignupButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="@dimen/views_margin"
+        android:layout_marginTop="@dimen/views_margin"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_back"
