@@ -33,6 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
 
         <ImageView
+            android:id="@+id/iv_profile_pic"
             android:layout_width="@dimen/profile_pic_size"
             android:layout_height="@dimen/profile_pic_size"
             android:src="@drawable/placeholder_profile_picture" />
