@@ -3,7 +3,6 @@ package app.cashadvisor.authorization.presentation.viewmodel
 import android.content.Context
 import android.text.Editable
 import androidx.lifecycle.viewModelScope
-import app.cashadvisor.uikit.R
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.LoginInteractor
 import app.cashadvisor.authorization.domain.models.ConfirmCode
@@ -12,13 +11,14 @@ import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.PasswordValidationError
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-import app.cashadvisor.authorization.presentation.ui.models.LoginScreenSideEffects
 import app.cashadvisor.authorization.presentation.ui.models.LoginScreenMessageContent
+import app.cashadvisor.authorization.presentation.ui.models.LoginScreenSideEffects
 import app.cashadvisor.authorization.presentation.viewmodel.models.LoginScreenState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.common.utill.extensions.logDebugMessage
+import app.cashadvisor.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -104,6 +104,8 @@ class LoginViewModel @Inject constructor(
 
             when (result) {
                 is Resource.Error -> {
+                    emailState = EmailValidationState.Default
+                    passwordState = PasswordValidationState.Default
                     _loginScreenState.value = LoginScreenState.CredentialsInput(
                         isLoginSuccessful = false,
                         isBtnLoginEnabled = true
@@ -127,6 +129,7 @@ class LoginViewModel @Inject constructor(
                                     result.error.message
                                 )
                             )
+
                             _messageEvent.emit(LoginScreenMessageContent.LoginError(message = result.error.message))
                         }
 

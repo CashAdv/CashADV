@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -102,7 +103,9 @@ class LoginFragment :
     }
 
     private fun updateUi(state: LoginScreenState) {
+        navigateBack(state)
         with(binding) {
+
             when (state) {
                 is LoginScreenState.CredentialsInput -> {
                     customSteps.changeSteps(2, 1)
@@ -114,10 +117,6 @@ class LoginFragment :
                     btnLogin.isEnabled = state.isBtnLoginEnabled
                     manageEmailValidation(state.emailState)
                     managePasswordValidation(state.passwordState)
-
-                    binding.btnBack.setOnClickListener {
-                        findNavController().navigateUp()
-                    }
 
                     state.isLoginSuccessful?.let { isLoginSuccessful ->
                         if (isLoginSuccessful) {
@@ -168,10 +167,6 @@ class LoginFragment :
                             setTextColor(resources.getColor(R.color.subcolour2, null))
                             setOnClickListener(null)
                         }
-                    }
-
-                    btnBack.setOnClickListener {
-                        viewModel.navigateBackToCredentialsState()
                     }
                 }
             }
@@ -388,6 +383,32 @@ class LoginFragment :
             is LoginScreenSideEffects.FailedToConfirmLogin -> {
                 hideKeyboard()
                 showFailedToConfirmLoginDialog(sideEffect.lockDuration)
+            }
+        }
+    }
+
+    private fun navigateBack(state: LoginScreenState){
+        with(binding){
+            when(state){
+                is LoginScreenState.ConfirmationCode -> {
+                    btnBack.setOnClickListener {
+                        viewModel.navigateBackToCredentialsState()
+                    }
+
+                    requireActivity().onBackPressedDispatcher.addCallback{
+                        viewModel.navigateBackToCredentialsState()
+                    }
+
+                }
+                is LoginScreenState.CredentialsInput -> {
+                    binding.btnBack.setOnClickListener {
+                        findNavController().navigateUp()
+                    }
+
+                    requireActivity().onBackPressedDispatcher.addCallback{
+                        findNavController().navigateUp()
+                    }
+                }
             }
         }
     }
