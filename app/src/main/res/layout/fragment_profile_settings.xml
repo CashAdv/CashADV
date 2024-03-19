@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/root_layout_horizontal_padding"
-    tools:context="app.cashadvisor.settings.presentation.ui.ProfileSettingsFragment">
+    tools:context="app.cashadvisor.profile.presentation.ProfileSettingsFragment">
 
     <TextView
         android:id="@+id/tv_screen_title"
