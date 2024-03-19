@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.presentation
+package app.cashadvisor.profile.presentation.ui
 
 import android.net.Uri
 import androidx.activity.result.PickVisualMediaRequest
@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentProfileSettingsBinding
+import app.cashadvisor.profile.presentation.ProfileSettingsViewModel
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -24,6 +25,7 @@ class ProfileSettingsFragment :
 
     override fun onConfigureViews() {
         setChangePictureViewClickListener()
+        setBtnSaveClickListener()
     }
 
     override fun onSubscribe() {
@@ -56,5 +58,9 @@ class ProfileSettingsFragment :
             )
             .apply(RequestOptions.circleCropTransform())
             .into(binding.ivProfilePic)
+    }
+
+    private fun setBtnSaveClickListener() {
+        viewModel.saveChanges()
     }
 }
