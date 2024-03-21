@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.presentation
+package app.cashadvisor.profile.presentation.model
 
 import app.cashadvisor.profile.domain.model.UserProfileInfo
 

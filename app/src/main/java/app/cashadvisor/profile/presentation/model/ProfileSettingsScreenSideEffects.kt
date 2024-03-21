@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.presentation
+package app.cashadvisor.profile.presentation.model
 
 sealed interface ProfileSettingsScreenSideEffects {
     data object IncorrectName: ProfileSettingsScreenSideEffects

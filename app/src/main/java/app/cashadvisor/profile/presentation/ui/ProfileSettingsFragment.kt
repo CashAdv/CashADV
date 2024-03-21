@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentProfileSettingsBinding
-import app.cashadvisor.profile.presentation.ProfileSettingsViewModel
+import app.cashadvisor.profile.presentation.viewmodel.ProfileSettingsViewModel
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions

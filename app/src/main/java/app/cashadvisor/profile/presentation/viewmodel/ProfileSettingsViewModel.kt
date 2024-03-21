@@ -1,7 +1,9 @@
-package app.cashadvisor.profile.presentation
+package app.cashadvisor.profile.presentation.viewmodel
 
 import android.net.Uri
 import app.cashadvisor.common.ui.BaseViewModel
+import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
+import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
