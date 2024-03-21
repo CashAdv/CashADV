@@ -197,4 +197,28 @@
         <item name="android:background">@drawable/gray_button_background</item>
     </style>
 
+    <!-- Edit Text Email and Password-->
+    <style name="Widget.CashAdvisor.TextInputEditText" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColorHint">?attr/subcolour2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/corner_rectangle_bottomsheet</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="passwordToggleContentDescription">description</item>
+        <item name="passwordToggleEnabled">true</item>
+        <item name="passwordToggleDrawable">@drawable/ic_switch_visible_password</item>
+        <item name="passwordToggleTint">@color/colour1</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="expandedHintEnabled">true</item>
+    </style>
+
+
 </resources>

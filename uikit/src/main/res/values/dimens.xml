@@ -21,9 +21,16 @@
     <dimen name="margin_top_entry_text_notes">8dp</dimen>
     <dimen name="margin_bottom_entry_text_notes">8dp</dimen>
 
-
-
-
+    <!-- Signup screen-->
+    <dimen name="signup_screen_title_top_margin">50dp</dimen>
+    <dimen name="title_text_enter_account_data_between_margin">0dp</dimen>
+    <dimen name="enter_account_data_enter_email_between_margin">30dp</dimen>
+    <dimen name="text_field_input_field_between_margin">0dp</dimen>
+    <dimen name="height_edittext">40dp</dimen>
+    <dimen name="input_field_text_field_between_margin">5dp</dimen>
+    <dimen name="height_btn_back">40dp</dimen>
+    <dimen name="width_btn_back">140dp</dimen>
+    <dimen name="btn_back_top_margin">40dp</dimen>
 
 
 

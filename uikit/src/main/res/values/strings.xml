@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Common strings -->
+    <string name="back">Назад</string>
+
     <!-- Circular graph strings -->
     <string name="circular_graph_header_total">Всего!</string>
     <string name="circular_graph_currency_symbol_ruble">₽</string>
@@ -20,6 +23,15 @@
     <!-- PinCode screen strings -->
     <string name="pin_code_screen">Экран ввода пинкода</string>
     <string name="enter">Войти</string>
-    <string name="back">Назад</string>
 
+    <!-- Signup screen string-->
+    <string name="registration">Регистрация</string>
+    <string name="entering_account_data">Ввод данных аккаунта</string>
+    <string name="enter_your_email">Введите свой email</string>
+    <string name="example_email">example@gmail.com</string>
+    <string name="come_up_with_a_password">Придумайте пароль</string>
+    <string name="example_password">********</string>
+    <string name="confirm_the_password">Подтвердите пароль</string>
+    <string name="allowed_characters_for_the_password">Используйте цифры, буквы A-z и знак «_»</string>
+    <string name="create_account">Создать аккаунт</string>
 </resources>

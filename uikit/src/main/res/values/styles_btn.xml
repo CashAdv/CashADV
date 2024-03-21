@@ -77,5 +77,9 @@
         <item name="android:background">@drawable/button_r10_black_stroke</item>
         <item name="cornerRadius">@dimen/button_radius_10</item>
     </style>
-
+    
+    <style name="Widget.CashAdvisor.Button.CreateAccountInactive" parent="Widget.CashAdvisor.Button.SigninButton">
+        <item name="android:textColor">?attr/bg1</item>
+        <item name="android:background">@drawable/button_r10_gray_stroke</item>
+    </style>
 </resources>

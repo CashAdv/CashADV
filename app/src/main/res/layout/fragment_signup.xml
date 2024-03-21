@@ -1,29 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authorization.presentation.ui.SignupFragment">
+    android:paddingHorizontal="40dp"
+    tools:context=".signup.presentation.ui.SignupFragment">
 
     <TextView
+        android:id="@+id/textview_title_text_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
-        android:text="Экран регистрации"
+        android:layout_marginTop="@dimen/signup_screen_title_top_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/registration"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Main_Text"/>
+
+    <TextView
+        android:id="@+id/textview_enter_account_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textview_title_text_signup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/title_text_enter_account_data_between_margin"
+        android:text="@string/entering_account_data"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.RegisterSteps"/>
+
+    <TextView
+        android:id="@+id/textview_enter_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textview_enter_account_data"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/enter_account_data_enter_email_between_margin"
+        android:text="@string/enter_your_email"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/edittext_enter_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edittext"
+        app:layout_constraintTop_toBottomOf="@id/textview_enter_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/example_email"
+        android:inputType="textEmailAddress"
+        style="@style/Widget.CashAdvisor.TextInputEditText"/>
+
+    <TextView
+        android:id="@+id/textview_come_up_with_a_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/edittext_enter_email"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/input_field_text_field_between_margin"
+        android:text="@string/come_up_with_a_password"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinputlayout_come_up_with_a_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textview_come_up_with_a_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+       style="@style/Widget.CashAdvisor.TextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittext_come_up_with_a_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/example_password"
+            android:textColorHint="@color/subcolor_2"
+            style="@style/Widget.CashAdvisor.TextInputEditText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textview_confirm_the_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textinputlayout_come_up_with_a_password"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/input_field_text_field_between_margin"
+        android:text="@string/confirm_the_password"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textinputlayout_confirm_the_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textview_confirm_the_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/Widget.CashAdvisor.TextInputLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edittext_confirm_the_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:hint="@string/example_password"
+            android:textColorHint="@color/subcolor_2"
+            style="@style/Widget.CashAdvisor.TextInputEditText"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textview_allowed_characters_for_the_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textinputlayout_confirm_the_password"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="0dp"
+        android:text="@string/allowed_characters_for_the_password"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Subtext"/>
 
     <Button
         android:id="@+id/btn_create_account"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Создать аккаунт"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/create_account"
+        app:layout_constraintTop_toBottomOf="@id/textview_allowed_characters_for_the_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="10dp"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Main_Text"
+        style="@style/Widget.CashAdvisor.Button.CreateAccountInactive"/>
 
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="@dimen/width_btn_back"
+        android:layout_height="@dimen/height_btn_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_create_account"
+        android:layout_marginTop="@dimen/btn_back_top_margin"
+        android:text="@string/back"
+        style="@style/Widget.CashAdvisor.Button.SigninButton"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
