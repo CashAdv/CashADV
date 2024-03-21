@@ -5,6 +5,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentProfileSettingsBinding
 import app.cashadvisor.profile.presentation.viewmodel.ProfileSettingsViewModel
@@ -26,6 +27,7 @@ class ProfileSettingsFragment :
     override fun onConfigureViews() {
         setChangePictureViewClickListener()
         setBtnSaveClickListener()
+        setBtnBackClickListener()
     }
 
     override fun onSubscribe() {
@@ -66,5 +68,9 @@ class ProfileSettingsFragment :
             surname = binding.etSurname.toString(),
             profilePicUri = profilePicUri
         )
+    }
+
+    private fun setBtnBackClickListener() {
+        findNavController().navigateUp()
     }
 }
