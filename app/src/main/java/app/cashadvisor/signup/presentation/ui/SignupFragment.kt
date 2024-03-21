@@ -44,6 +44,6 @@ class SignupFragment:
     }
 
     override fun onSubscribe() {
-        TODO("Not yet implemented")
+
     }
 }
