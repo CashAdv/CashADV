@@ -23,8 +23,8 @@ class ProfileSettingsViewModel : BaseViewModel() {
     val sideEffects: SharedFlow<ProfileSettingsScreenSideEffects> = _sideEffects.asSharedFlow()
 
     fun saveChanges(
-        name: String?,
-        surname: String?,
+        name: String,
+        surname: String,
         profilePicUri: Uri?
     ) {
 

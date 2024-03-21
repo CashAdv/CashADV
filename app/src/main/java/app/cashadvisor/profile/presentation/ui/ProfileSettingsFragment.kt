@@ -64,8 +64,8 @@ class ProfileSettingsFragment :
 
     private fun setBtnSaveClickListener() {
         viewModel.saveChanges(
-            name = binding.etName.toString(),
-            surname = binding.etSurname.toString(),
+            name = binding.etName.text.toString(),
+            surname = binding.etSurname.text.toString(),
             profilePicUri = profilePicUri
         )
     }
