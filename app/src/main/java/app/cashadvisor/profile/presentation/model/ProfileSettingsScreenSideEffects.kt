@@ -1,7 +1,7 @@
 package app.cashadvisor.profile.presentation.model
 
 sealed interface ProfileSettingsScreenSideEffects {
-    data object Incorrect: ProfileSettingsScreenSideEffects
+    data object IncorrectName: ProfileSettingsScreenSideEffects
 
     data object EmptyName: ProfileSettingsScreenSideEffects
 
@@ -9,7 +9,9 @@ sealed interface ProfileSettingsScreenSideEffects {
 
     data object IncorrectNameAndSurname: ProfileSettingsScreenSideEffects
 
-    data object NoInternetConnection: ProfileSettingsScreenState
+    data object NoInternetConnection: ProfileSettingsScreenSideEffects
 
-    data object FailedToSaveData: ProfileSettingsScreenState
+    data object FailedToSaveData: ProfileSettingsScreenSideEffects
+
+    data object DataSaved: ProfileSettingsScreenSideEffects
 }

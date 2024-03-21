@@ -5,14 +5,20 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentProfileSettingsBinding
+import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
 import app.cashadvisor.profile.presentation.viewmodel.ProfileSettingsViewModel
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileSettingsFragment :
@@ -31,7 +37,36 @@ class ProfileSettingsFragment :
     }
 
     override fun onSubscribe() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.sideEffects.collect { sideEffect ->
+                    handleSideEffects(sideEffect)
+                }
+            }
+        }
+    }
 
+    private fun handleSideEffects(sideEffect: ProfileSettingsScreenSideEffects) {
+        val message = when (sideEffect) {
+            ProfileSettingsScreenSideEffects.EmptyName -> "Поле \"Имя\" обязательно для заполнения"
+            ProfileSettingsScreenSideEffects.IncorrectSurname -> "Фамилия может содержать от 1 до 50 латинского или русского алфавита"
+            ProfileSettingsScreenSideEffects.DataSaved -> "Данные успешно обновлены"
+            ProfileSettingsScreenSideEffects.FailedToSaveData -> ""
+            ProfileSettingsScreenSideEffects.IncorrectName -> "Имя может содержать от 1 до 50 латинского или русского алфавита"
+            ProfileSettingsScreenSideEffects.IncorrectNameAndSurname -> "Фамилия и имя могут содержать от 1 до 50 латинского или русского алфавита"
+            ProfileSettingsScreenSideEffects.NoInternetConnection -> ""
+        }
+        showSnackbar(message)
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setBackgroundTint(resources.getColor(R.color.black, null))
+            .setTextColor(resources.getColor(R.color.white, null))
+            .setActionTextColor(resources.getColor(R.color.white, null))
+            .setAction("OK") {//dismiss
+            }
+            .show()
     }
 
     private fun setChangePictureViewClickListener() {
@@ -63,11 +98,13 @@ class ProfileSettingsFragment :
     }
 
     private fun setBtnSaveClickListener() {
-        viewModel.saveChanges(
-            name = binding.etName.text.toString(),
-            surname = binding.etSurname.text.toString(),
-            profilePicUri = profilePicUri
-        )
+        binding.btnSave.setOnClickListener {
+            viewModel.saveChanges(
+                name = binding.etName.text.toString(),
+                surname = binding.etSurname.text.toString(),
+                profilePicUri = profilePicUri
+            )
+        }
     }
 
     private fun setBtnBackClickListener() {
