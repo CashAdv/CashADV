@@ -22,9 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProfileSettingsViewModel @Inject constructor(
-  //  private val inputValidationInteractor: InputValidationInteractor,
+    private val inputValidationInteractor: InputValidationInteractor,
 ) : BaseViewModel() {
-    val inputValidationInteractor = InputValidationInteractorImpl()
 
     private val _uiState: MutableStateFlow<ProfileSettingsScreenState> =
         MutableStateFlow(ProfileSettingsScreenState.Default)
