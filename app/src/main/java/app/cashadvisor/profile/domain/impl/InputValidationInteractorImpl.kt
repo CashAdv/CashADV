@@ -3,8 +3,9 @@ package app.cashadvisor.profile.domain.impl
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
+import javax.inject.Inject
 
-class InputValidationInteractorImpl : InputValidationInteractor {
+class InputValidationInteractorImpl @Inject constructor() : InputValidationInteractor {
 
     override suspend fun validateName(name: String): InputValidationState {
         return when {
