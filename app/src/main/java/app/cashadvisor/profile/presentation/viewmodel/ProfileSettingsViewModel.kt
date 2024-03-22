@@ -6,7 +6,6 @@ import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
-import app.cashadvisor.profile.domain.impl.InputValidationInteractorImpl
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
