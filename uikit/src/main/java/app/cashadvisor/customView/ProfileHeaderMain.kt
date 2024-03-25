@@ -15,7 +15,7 @@ import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
-class ProfileHeader @JvmOverloads constructor(
+class ProfileHeaderMain @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     @AttrRes defStyleAttr: Int = 0,
@@ -61,7 +61,7 @@ class ProfileHeader @JvmOverloads constructor(
         }
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_profile_header, this, true)
+        LayoutInflater.from(context).inflate(R.layout.layout_profile_header_main, this, true)
 
         tvUserName = findViewById(R.id.tv_name)
         tvAccountBalance = findViewById(R.id.tv_account_balance)
@@ -70,16 +70,16 @@ class ProfileHeader @JvmOverloads constructor(
 
         context.theme.obtainStyledAttributes(
             attrs,
-            R.styleable.ProfileHeader,
+            R.styleable.ProfileHeaderMain,
             defStyleAttr,
             defStyleRes
         ).apply {
             try {
 
-                val userName = getString(R.styleable.ProfileHeader_userNameText)
-                val balance = getString(R.styleable.ProfileHeader_balanceAccountText)
-                val profilePic = getDrawable(R.styleable.ProfileHeader_profilePicResId)
-                val btnPeriodText = getString(R.styleable.ProfileHeader_btnPeriodText) ?: ""
+                val userName = getString(R.styleable.ProfileHeaderMain_userNameText)
+                val balance = getString(R.styleable.ProfileHeaderMain_balanceAccountText)
+                val profilePic = getDrawable(R.styleable.ProfileHeaderMain_profilePicResId)
+                val btnPeriodText = getString(R.styleable.ProfileHeaderMain_btnPeriodText) ?: ""
 
                 tvUserName.text = userName
                 tvAccountBalance.text = balance

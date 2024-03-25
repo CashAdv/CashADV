@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".analytics.presentation.ui.AnalyticsFragment">
 
-    <app.cashadvisor.customView.ProfileHeader
+    <app.cashadvisor.customView.ProfileHeaderMain
         android:id="@+id/profile_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
