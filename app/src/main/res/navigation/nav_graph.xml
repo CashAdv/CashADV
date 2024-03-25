@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_analyticsFragment_to_addExpenseSelectionFragment"
             app:destination="@id/addExpenseSelectionFragment" />
+        <action
+            android:id="@+id/action_analyticsFragment_to_profileSettingsFragment2"
+            app:destination="@id/profileSettingsFragment" />
 
     </fragment>
     <fragment
@@ -50,6 +53,9 @@
         <action
             android:id="@+id/action_featuresAndSettingsFragment_to_bankAccountsFragment"
             app:destination="@id/bankAccountsFragment" />
+        <action
+            android:id="@+id/action_featuresAndSettingsFragment_to_profileSettingsFragment2"
+            app:destination="@id/profileSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/startFragment"
@@ -93,6 +99,9 @@
         <action
             android:id="@+id/action_trackerFragment_to_addBankSelectionFragment"
             app:destination="@id/addBankSelectionFragment" />
+        <action
+            android:id="@+id/action_trackerFragment_to_profileSettingsFragment"
+            app:destination="@id/profileSettingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -419,4 +428,9 @@
         android:name="app.cashadvisor.authorization.presentation.ui.test.TestFragment"
         android:label="fragment_test"
         tools:layout="@layout/fragment_test" />
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="app.cashadvisor.profile.presentation.ui.ProfileSettingsFragment"
+        android:label="fragment_profile_settings"
+        tools:layout="@layout/fragment_profile_settings" />
 </navigation>
