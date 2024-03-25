@@ -28,5 +28,7 @@
     <string name="save">Сохранить</string>
     <string name="hint_name">Имя</string>
     <string name="hint_surname">Фамилия</string>
+    <string name="setup_profile">Настроить профиль</string>
+    <string name="empty_balance">₽ 0,00</string>
 
 </resources>

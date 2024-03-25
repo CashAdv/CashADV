@@ -161,7 +161,12 @@
 
     <!-- Profile Text Styles -->
     <style name="Widget.CashAdvisor.Text.ProfileName" parent="Widget.CashAdvisor.Text.Text_info">
-        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textColor">@color/colour1</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AccountBalance" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:textColor">@color/subcolour2</item>
         <item name="android:textAlignment">2</item>
     </style>
 
