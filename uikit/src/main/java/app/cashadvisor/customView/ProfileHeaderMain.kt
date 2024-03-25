@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
@@ -25,7 +24,6 @@ class ProfileHeaderMain @JvmOverloads constructor(
     private var tvUserName: TextView
     private var tvAccountBalance: TextView
     private var ivProfilePic: ImageView
-    private var btnPeriod: Button
 
     var userName: String = ""
         set(value) {
@@ -54,11 +52,6 @@ class ProfileHeaderMain @JvmOverloads constructor(
                 .into(ivProfilePic)
         }
 
-    var period: String = ""
-        set(value) {
-            field = value
-            btnPeriod.text = value
-        }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.layout_profile_header_main, this, true)
@@ -66,7 +59,6 @@ class ProfileHeaderMain @JvmOverloads constructor(
         tvUserName = findViewById(R.id.tv_name)
         tvAccountBalance = findViewById(R.id.tv_account_balance)
         ivProfilePic = findViewById(R.id.iv_profile_pic)
-        btnPeriod = findViewById(R.id.btn_period)
 
         context.theme.obtainStyledAttributes(
             attrs,
@@ -79,22 +71,15 @@ class ProfileHeaderMain @JvmOverloads constructor(
                 val userName = getString(R.styleable.ProfileHeaderMain_userNameText)
                 val balance = getString(R.styleable.ProfileHeaderMain_balanceAccountText)
                 val profilePic = getDrawable(R.styleable.ProfileHeaderMain_profilePicResId)
-                val btnPeriodText = getString(R.styleable.ProfileHeaderMain_btnPeriodText) ?: ""
 
                 tvUserName.text = userName
                 tvAccountBalance.text = balance
                 ivProfilePic.setImageDrawable(profilePic)
-                btnPeriod.text = btnPeriodText
+
 
             } finally {
                 recycle()
             }
-        }
-    }
-
-    fun setBtnPeriodOnClickListener(clickListener: () -> Unit) {
-        btnPeriod.setOnClickListener {
-            clickListener.invoke()
         }
     }
 }
