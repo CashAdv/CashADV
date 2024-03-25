@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProfileHeader">
+        <attr name="userNameText"
+            format="string" />
+        <attr name="balanceAccountText"
+            format="string" />
+        <attr name="profilePicResId"
+            format="reference" />
+        <attr name="btnPeriodText"
+            format="string" />
+    </declare-styleable>
+
+    <attr name="profileHeaderStyle"
+        format="reference" />
+
+    <style name="DefaultProfileHeaderStyle">
+        <item name="userNameText">@string/setup_profile</item>
+        <item name="balanceAccountText">@string/empty_balance</item>
+        <item name="profilePicResId">@drawable/placeholder_profile_picture</item>
+    </style>
+</resources>
