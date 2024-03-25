@@ -31,5 +31,6 @@
     <dimen name="header_margin_horizontal">36dp</dimen>
     <dimen name="header_margin_top">12dp</dimen>
     <dimen name="header_margin_bottom">20dp</dimen>
+    <dimen name="header_padding">16dp</dimen>
 
 </resources>

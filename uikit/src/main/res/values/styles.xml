@@ -165,7 +165,16 @@
         <item name="android:textAlignment">2</item>
     </style>
 
+    <style name="Widget.CashAdvisor.Text.ProfileName.Settings" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">@color/colour1</item>
+    </style>
+
     <style name="Widget.CashAdvisor.Text.AccountBalance" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:textColor">@color/subcolour2</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Subscription" parent="Widget.CashAdvisor.Text.Subtext">
         <item name="android:textColor">@color/subcolour2</item>
         <item name="android:textAlignment">2</item>
     </style>
