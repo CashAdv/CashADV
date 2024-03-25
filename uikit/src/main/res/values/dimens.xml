@@ -27,4 +27,9 @@
     <dimen name="views_margin">20dp</dimen>
     <dimen name="profile_pic_size">45dp</dimen>
 
+    <!--  Profile header dimens  -->
+    <dimen name="header_margin_horizontal">36dp</dimen>
+    <dimen name="header_margin_top">12dp</dimen>
+    <dimen name="header_margin_bottom">20dp</dimen>
+
 </resources>
