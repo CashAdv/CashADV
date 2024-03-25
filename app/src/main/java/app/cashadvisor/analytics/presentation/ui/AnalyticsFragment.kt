@@ -33,6 +33,11 @@ class AnalyticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.profileHeader.setOnClickListener {
+            //TODO: разобраться, почему не открывается экран
+            findNavController().navigate(R.id.action_analyticsFragment_to_profileSettingsFragment)
+        }
+
         binding.btnAddBank.setOnClickListener {
             findNavController().navigate(R.id.action_analyticsFragment_to_addBankSelectionFragment)
         }

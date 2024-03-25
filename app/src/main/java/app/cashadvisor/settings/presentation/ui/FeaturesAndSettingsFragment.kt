@@ -1,6 +1,7 @@
 package app.cashadvisor.settings.presentation.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,10 @@ class FeaturesAndSettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.profileHeader.setOnClickListener {
+            findNavController().navigate(R.id.action_featuresAndSettingsFragment_to_profileSettingsFragment)
+        }
 
         binding.btnAccounts.setOnClickListener {
             findNavController().navigate(R.id.action_featuresAndSettingsFragment_to_bankAccountsFragment)
