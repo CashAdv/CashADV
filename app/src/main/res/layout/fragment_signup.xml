@@ -125,6 +125,7 @@
         android:id="@+id/btn_create_account"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/create_account"
         app:layout_constraintTop_toBottomOf="@id/textview_allowed_characters_for_the_password"
         app:layout_constraintEnd_toEndOf="parent"

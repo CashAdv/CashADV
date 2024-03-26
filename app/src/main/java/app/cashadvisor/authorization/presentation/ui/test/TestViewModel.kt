@@ -75,6 +75,7 @@ class TestViewModel @Inject constructor(
     private fun setEmail(email: String) {
         viewModelScope.launch {
             val result = inputValidationInteractor.validateEmail(email)
+
             when (result) {
                 is EmailValidationState.Success -> {
                     _state.update {

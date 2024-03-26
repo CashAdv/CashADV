@@ -32,9 +32,15 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
 
     override suspend fun validatePassword(password: String): PasswordValidationState {
         val isPasswordValid = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_PASSWORD)
+        val isPasswordLengthValid: Boolean = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_LENGTH_PASSWORD)
         return if (isPasswordValid) {
             PasswordValidationState.Success(Password(value = password))
-        } else PasswordValidationState.Error(
+        } else if (!isPasswordLengthValid){
+            PasswordValidationState.Error(
+                password = Password(EMPTY_VALUE),
+                passwordValidationError = PasswordValidationError.PASSWORD_IS_SHORT)
+        }
+           else PasswordValidationState.Error(
             password = Password(EMPTY_VALUE),
             passwordValidationError = PasswordValidationError.PASSWORD_NOT_VALID
         )
@@ -58,6 +64,7 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
         const val REGEX_PATTERN_EMAIL =
             """^(?=(?:(?!.*[_.-]{2,})(?!.*[_.-]$)(?!^[-_.])[a-zA-Z0-9._-]{1,49}[a-zA-Z0-9]@(?!-)[a-zA-Z0-9-]{1,63}(\.[a-zA-Z]{2,})+)$)(?=(?:.{7,114})$).*"""
         const val REGEX_PATTERN_PASSWORD = """^[a-zA-Z0-9_]{8,30}$"""
+        const val REGEX_PATTERN_LENGTH_PASSWORD = """^{8,30}$"""
         const val REGEX_PATTERN_CODE = """^[0-9]{4}$"""
         const val EMPTY_VALUE = ""
     }

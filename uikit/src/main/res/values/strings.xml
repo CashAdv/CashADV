@@ -2,6 +2,7 @@
 <resources>
     <!--Common strings -->
     <string name="back">Назад</string>
+    <string name="ok">OK</string>
 
     <!-- Circular graph strings -->
     <string name="circular_graph_header_total">Всего!</string>
@@ -34,4 +35,8 @@
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="allowed_characters_for_the_password">Используйте цифры, буквы A-z и знак «_»</string>
     <string name="create_account">Создать аккаунт</string>
+    <string name="invalid_email_format">Неверный формат email, повторите попытку</string>
+    <string name="invalid_password_format">Пароль содержит недопустимые символы</string>
+    <string name="invalid_password_length">Пароль должен содержать не менее 8 знаков</string>
+    <string name="invalid_confirm_password">Введенные пароли не совпадают</string>
 </resources>
