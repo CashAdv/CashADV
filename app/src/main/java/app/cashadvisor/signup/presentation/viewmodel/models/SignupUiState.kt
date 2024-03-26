@@ -1,7 +1,5 @@
 package app.cashadvisor.signup.presentation.viewmodel.models
 
-import java.util.Objects
-
 sealed interface SignupUiState{
     data object EmailNotValid: SignupUiState
     data object EmailValid: SignupUiState

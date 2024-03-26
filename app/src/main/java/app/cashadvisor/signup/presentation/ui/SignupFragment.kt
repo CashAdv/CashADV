@@ -13,11 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.R
-import app.cashadvisor.authorization.presentation.ui.test.TestSideEffect
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentSignupBinding
 import app.cashadvisor.signup.presentation.viewmodel.SignupViewModel
-import app.cashadvisor.signup.presentation.viewmodel.models.SignupDataState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import com.google.android.material.snackbar.Snackbar

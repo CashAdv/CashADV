@@ -4,14 +4,10 @@ import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.LoginInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
-import app.cashadvisor.authorization.domain.models.Email
 import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.PasswordValidationError
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-import app.cashadvisor.authorization.presentation.ui.test.TestSideEffect
-import app.cashadvisor.authorization.presentation.ui.test.TestStartState
-import app.cashadvisor.authorization.presentation.ui.test.TestStartUiState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
@@ -28,7 +24,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -167,24 +162,24 @@ class SignupViewModel @Inject constructor(
     fun register (){
         if (!clickDebounce()) return
 
-//        viewModelScope.launch {
-//            loginInteractor.isLoginInProgress().collect { isInProgress ->
+//       viewModelScope.launch {
+//            registerInteractor.isRegisterInProgress().collect { isInProgress ->
 //                _state.update {
 //                    it.copy(
-//                        isLoginInProgress = isInProgress
+//                        isRegisterInProgress = isInProgress
 //                    )
 //                }
 //            }
 //        }
-
         viewModelScope.launch {
-            val result = loginInteractor.loginByEmail(
+            val result = registerInteractor.registerByEmail(
                 currentState.email,
                 currentState.password
             )
+
             when (result) {
                 is Resource.Success -> {
-                    logDebugMessage("Message login ${result.data.message}")
+                    logDebugMessage("Message register ${result.data.message}")
                     viewModelScope.launch {
                         _sideEffects.emit(SignupSideEffect.ShowMessage(message = result.data.message))
                     }
@@ -196,21 +191,22 @@ class SignupViewModel @Inject constructor(
                     }
 
                     when (result.error) {
-                        is ErrorEntity.Login.FailedToGenerateTokenOrSendEmail -> {
-                            logDebugMessage("FailedToGenerateTokenOrSendEmail ${result.error.message}")
-                        }
-
-                        is ErrorEntity.Login.InvalidEmailOrPassword -> {
-                            logDebugMessage("InvalidEmailOrPassword ${result.error.message}")
-                        }
-
-                        is ErrorEntity.Login.InvalidInput -> {
-                            logDebugMessage("InvalidInput ${result.error.message}")
-                        }
-
 
                         is ErrorEntity.NetworksError.NoInternet -> {
                             logDebugMessage("NoInternet ${result.error.message}")
+                        }
+
+                        is ErrorEntity.Register -> {
+                            when (result.error) {
+                                is ErrorEntity.Register.FailedToGenerateTokenOrSendEmail -> {
+                                    logDebugMessage("FailedToGenerateTokenOrSendEmail ${result.error.message}")
+                                }
+
+                                is ErrorEntity.Register.InvalidEmail -> {
+                                    logDebugMessage("InvalidEmail ${result.error.message}")
+
+                                }
+                            }
                         }
 
                         else -> {
@@ -218,6 +214,7 @@ class SignupViewModel @Inject constructor(
                         }
                     }
                 }
+
             }
         }
     }
