@@ -2,7 +2,6 @@ package app.cashadvisor.signup.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
-import app.cashadvisor.authorization.domain.api.LoginInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
 import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.PasswordValidationError
@@ -31,7 +30,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SignupViewModel @Inject constructor(
     private val registerInteractor: RegisterInteractor,
-    private val loginInteractor: LoginInteractor,
     private val inputValidationInteractor: InputValidationInteractor,
 ): BaseViewModel() {
 
@@ -52,7 +50,7 @@ class SignupViewModel @Inject constructor(
 
     fun init(){
         viewModelScope.launch {
-            signupDataState.collect(){
+            signupDataState.collect{
                 if (currentState.isEmailValid and currentState.isPasswordValid and currentState.isConfirmPasswordValid)
                     _signupUiState.emit(SignupUiState.SignupDataIsValid)
             }
@@ -73,7 +71,7 @@ class SignupViewModel @Inject constructor(
             when (resultValidationEmail){
                 is EmailValidationState.Error -> {
                     delay(VALIDATE_DATA_DELAY_MILLIS)
-                    _signupDataState.update {it.copy(isEmailValid = false,)}
+                    _signupDataState.update {it.copy(isEmailValid = false)}
 
                     _signupUiState.emit(SignupUiState.EmailNotValid)
                 }
