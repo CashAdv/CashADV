@@ -3,8 +3,6 @@ package app.cashadvisor.profile.di
 import app.cashadvisor.profile.data.api.ProfileInfoApiService
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.impl.ProfileInfoRemoteDataSourceImpl
-import app.cashadvisor.profile.data.impl.ProfileInfoRepositoryImpl
-import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -15,11 +13,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface ProfileDataModule {
-
-    @Binds
+class ProfileNetworkModule {
+    @Provides
     @Singleton
-    fun bindProfileInfoRepository(
-        impl: ProfileInfoRepositoryImpl
-    ): ProfileInfoRepository
+    fun provideProfileInfoApiService(retrofit: Retrofit): ProfileInfoApiService {
+        return retrofit.create(ProfileInfoApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProfileInfoRemoteDataSource(
+        profileInfoApiService: ProfileInfoApiService
+    ): ProfileInfoRemoteDataSource = ProfileInfoRemoteDataSourceImpl(profileInfoApiService)
 }
