@@ -4,7 +4,6 @@ import android.net.Uri
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
-import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.profile.data.ProfileInfoMapper
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
@@ -41,7 +40,7 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         surname: String
     ): Resource<Unit> {
         return try {
-            val response = remoteDataSource.updateUserName(
+            remoteDataSource.updateUserName(
                 accessToken = getAccessToken(),
                 dto = UpdateUserNameRequest(name, surname)
             )
