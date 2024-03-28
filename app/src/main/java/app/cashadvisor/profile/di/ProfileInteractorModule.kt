@@ -1,7 +1,9 @@
 package app.cashadvisor.profile.di
 
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
+import app.cashadvisor.profile.domain.api.ProfileInfoInteractor
 import app.cashadvisor.profile.domain.impl.InputValidationInteractorImpl
+import app.cashadvisor.profile.domain.impl.ProfileInfoInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -15,6 +17,11 @@ interface ProfileInteractorModule {
     fun bindInputValidationInteractor(
         impl: InputValidationInteractorImpl
     ): InputValidationInteractor
+
+    @Binds
+    fun bindProfileInfoInteractor(
+        impl: ProfileInfoInteractorImpl
+    ): ProfileInfoInteractor
 
 }
 

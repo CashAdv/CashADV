@@ -1,10 +1,16 @@
 package app.cashadvisor.profile.presentation.viewmodel
 
+import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
+import app.cashadvisor.authorization.domain.api.CredentialsRepository
+import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
+import app.cashadvisor.profile.domain.api.ProfileInfoInteractor
+import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileSettingsViewModel @Inject constructor(
     private val inputValidationInteractor: InputValidationInteractor,
+    private val profileInfoInteractor: ProfileInfoInteractor
 ) : BaseViewModel() {
 
     private val _uiState: MutableStateFlow<ProfileSettingsScreenState> =
@@ -40,12 +47,11 @@ class ProfileSettingsViewModel @Inject constructor(
     init {
         // будем загружать данные пользователя при создании вью модели, пока пустой
         viewModelScope.launch {
-            _uiState.emit(
-                ProfileSettingsScreenState.UserData(
-                    name = "",
-                    surname = "",
-                    profilePicUrl = null
-                )
+            val data = profileInfoInteractor.getUserInfo() as Resource.Success
+            _uiState.value = ProfileSettingsScreenState.UserData(
+                name = data.data.name,
+                surname = data.data.surname,
+                profilePicUrl = data.data.profilePicUrl
             )
         }
     }
@@ -61,15 +67,16 @@ class ProfileSettingsViewModel @Inject constructor(
             picUrl = profilePicUrl
 
             if (isInputValid()) {
-                // Сохранить
-                delay(1000)
-                _uiState.value = ProfileSettingsScreenState.UserData(
-                    name = name,
-                    surname = surname,
-                    profilePicUrl = profilePicUrl
-                )
+                if (profilePicUrl != picUrl) {
+                    profilePicUrl?.let { profileInfoInteractor.updateProfilePic(it.toUri()) }
+                }
+                profileInfoInteractor.updateUserName(name, surname)
+
                 nameValidationState = InputValidationState.Default
                 surnameValidationState = InputValidationState.Default
+
+                // Проверяем, что данные успешно обновлены и эмитим, что всё ок
+
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
             } else {
                 _uiState.value = ProfileSettingsScreenState.InputValidation(

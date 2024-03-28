@@ -20,7 +20,8 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
 ) : ProfileInfoRemoteDataSource {
     override suspend fun getUserInfo(accessToken: String): ProfileInfoResponse {
         return try {
-            profileInfoApiService.getUserInfo(accessToken = "Bearer $accessToken")
+            val response = profileInfoApiService.getUserInfo(accessToken = accessToken)
+            response
         } catch (exception: NetworkException) {
             // TODO: обработать исключение
             throw exception
@@ -34,7 +35,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
         return try {
             profileInfoApiService.updateUserName(
                 updateUserNameRequest = dto,
-                accessToken = "Bearer $accessToken"
+                accessToken = accessToken
             )
         } catch (exception: NetworkException) {
             // TODO: обработать исключение
@@ -52,7 +53,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
             val body = MultipartBody.Part.createFormData("profile_picture", file.name, requestFile)
             profileInfoApiService.updateProfilePic(
                 updateProfilePicRequest = body,
-                accessToken = "Bearer $accessToken"
+                accessToken = accessToken
             )
         } catch (exception: NetworkException) {
             // TODO: обработать исключение
