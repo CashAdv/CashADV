@@ -1,6 +1,5 @@
 package app.cashadvisor.profile.presentation.viewmodel
 
-import android.net.Uri
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.profile.domain.api.InputValidationError
@@ -16,7 +15,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

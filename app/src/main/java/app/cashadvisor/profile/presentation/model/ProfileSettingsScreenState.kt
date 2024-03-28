@@ -1,8 +1,6 @@
 package app.cashadvisor.profile.presentation.model
 
-import android.net.Uri
 import app.cashadvisor.profile.domain.api.InputValidationState
-import app.cashadvisor.profile.domain.model.UserProfileInfo
 
 sealed interface ProfileSettingsScreenState {
 
@@ -12,12 +10,12 @@ sealed interface ProfileSettingsScreenState {
         val name: String,
         val surname: String,
         val profilePicUrl: String?,
-    ): ProfileSettingsScreenState
+    ) : ProfileSettingsScreenState
 
     data class InputValidation(
         val profilePicUrl: String?,
         val nameInputValidationState: InputValidationState,
         val surnameInputValidationState: InputValidationState
-    ): ProfileSettingsScreenState
+    ) : ProfileSettingsScreenState
 
 }
