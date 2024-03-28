@@ -39,4 +39,10 @@
     <string name="invalid_password_format">Пароль содержит недопустимые символы</string>
     <string name="invalid_password_length">Пароль должен содержать не менее 8 знаков</string>
     <string name="invalid_confirm_password">Введенные пароли не совпадают</string>
+
+    <!-- ConfirmCode for signup screen string-->
+    <string name="enter_confirmation_code">Введите код из письма</string>
+    <string name="code_does_not_come">Не приходит код</string>
+    <string name="send_confirmation_code_again">Выслать еще раз</string>
+    <string name="send_confirmation_code_again_seconds">Выслать еще раз \n(через %1$s сек)</string>
 </resources>

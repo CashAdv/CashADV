@@ -32,6 +32,11 @@
     <dimen name="width_btn_back">140dp</dimen>
     <dimen name="btn_back_top_margin">40dp</dimen>
 
+    <!-- ConfirmCode for signup screen string-->
+    <dimen name="login_screen_edit_text_top_margin">5dp</dimen>
+    <dimen name="login_screen_btn_send_again_top_margin">52dp</dimen>
+    <dimen name="login_screen_text_input_vertical_padding">14dp</dimen>
+
 
 
 </resources>
