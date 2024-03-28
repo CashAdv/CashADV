@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ConfirmUpdateNameResponse(
-    val error: String,
+    val message: String,
     @SerialName("status_code") val statusCode: Int
 )
