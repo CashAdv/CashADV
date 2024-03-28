@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,47 +27,70 @@ class ProfileSettingsViewModel @Inject constructor(
 
     private val _uiState: MutableStateFlow<ProfileSettingsScreenState> =
         MutableStateFlow(ProfileSettingsScreenState.Default)
-
     val uiState: StateFlow<ProfileSettingsScreenState> = _uiState.asStateFlow()
 
     private val _sideEffects: MutableSharedFlow<ProfileSettingsScreenSideEffects> =
         MutableSharedFlow()
-
     val sideEffects: SharedFlow<ProfileSettingsScreenSideEffects> = _sideEffects.asSharedFlow()
+
+    private var nameValidationState: InputValidationState = InputValidationState.Default
+    private var surnameValidationState: InputValidationState = InputValidationState.Default
+    private var picUrl: String? = null
+    private var nameInput = ""
+    private var surnameInput = ""
+
+    init {
+        // будем загружать данные пользователя при создании вью модели, пока пустой
+        viewModelScope.launch {
+            _uiState.emit(
+                ProfileSettingsScreenState.UserData(
+                    name = "",
+                    surname = "",
+                    profilePicUrl = null
+                )
+            )
+        }
+    }
 
     fun saveChanges(
         name: String,
         surname: String,
-        profilePicUri: Uri?
+        profilePicUrl: String?
     ) {
         viewModelScope.launch {
+            nameValidationState = inputValidationInteractor.validateName(name)
+            surnameValidationState = inputValidationInteractor.validateSurname(surname)
+            picUrl = profilePicUrl
 
-            val nameValidationState = inputValidationInteractor.validateName(name)
-            val surnameValidationState = inputValidationInteractor.validateSurname(surname)
-
-            if (isInputValid(nameValidationState, surnameValidationState)) {
+            if (isInputValid()) {
                 // Сохранить
                 delay(1000)
+                _uiState.value = ProfileSettingsScreenState.UserData(
+                    name = name,
+                    surname = surname,
+                    profilePicUrl = profilePicUrl
+                )
+                nameValidationState = InputValidationState.Default
+                surnameValidationState = InputValidationState.Default
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
             } else {
-                emitErrorMessage(nameValidationState, surnameValidationState)
+                _uiState.value = ProfileSettingsScreenState.InputValidation(
+                    profilePicUrl = profilePicUrl,
+                    nameInputValidationState = nameValidationState,
+                    surnameInputValidationState = surnameValidationState,
+                )
+                emitErrorMessage()
             }
         }
 
     }
 
-    private fun isInputValid(
-        nameValidationState: InputValidationState,
-        surnameValidationState: InputValidationState
-    ): Boolean {
+    private fun isInputValid(): Boolean {
         return (nameValidationState is InputValidationState.Success &&
                 surnameValidationState !is InputValidationState.Error)
     }
 
-    private suspend fun emitErrorMessage(
-        nameValidationState: InputValidationState,
-        surnameValidationState: InputValidationState
-    ) {
+    private suspend fun emitErrorMessage() {
         val isInvalidName = nameValidationState is InputValidationState.Error
         val isInvalidSurname = surnameValidationState is InputValidationState.Error
         when {
@@ -88,5 +112,24 @@ class ProfileSettingsViewModel @Inject constructor(
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.IncorrectSurname)
             }
         }
+    }
+
+    fun updateInput(name: String? = null, surname: String? = null) {
+        if (name == nameInput || surname == surnameInput) return
+
+        name?.let {
+            nameValidationState = InputValidationState.Default
+            nameInput = it
+        }
+        surname?.let {
+            surnameValidationState = InputValidationState.Default
+            surnameInput = it
+        }
+
+        _uiState.value = ProfileSettingsScreenState.InputValidation(
+            profilePicUrl = picUrl,
+            nameInputValidationState = nameValidationState,
+            surnameInputValidationState = surnameValidationState
+        )
     }
 }

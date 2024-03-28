@@ -1,9 +1,10 @@
 package app.cashadvisor.profile.presentation.ui
 
-import android.net.Uri
+import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,7 +12,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentProfileSettingsBinding
+import app.cashadvisor.profile.domain.api.InputValidationState
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
+import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import app.cashadvisor.profile.presentation.viewmodel.ProfileSettingsViewModel
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
@@ -28,12 +31,13 @@ class ProfileSettingsFragment :
 
     override val viewModel: ProfileSettingsViewModel by viewModels()
 
-    private var profilePicUri: Uri? = null
+    private var profilePicUrl: String? = null
 
     override fun onConfigureViews() {
         setChangePictureViewClickListener()
         setBtnSaveClickListener()
         setBtnBackClickListener()
+        setTextWatchers()
     }
 
     override fun onSubscribe() {
@@ -44,7 +48,62 @@ class ProfileSettingsFragment :
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
+                    updateUi(uiState)
+                }
+            }
+        }
     }
+
+    private fun updateUi(uiState: ProfileSettingsScreenState) {
+        when (uiState) {
+            is ProfileSettingsScreenState.UserData -> {
+                updateUserInfo(uiState)
+            }
+            is ProfileSettingsScreenState.InputValidation -> {
+                updateValidationState(uiState)
+            }
+
+            else -> {}
+        }
+    }
+
+    private fun updateUserInfo(uiState: ProfileSettingsScreenState.UserData) {
+        setDefaultEditTexts()
+        binding.etName.setText(uiState.name)
+        binding.etSurname.setText(uiState.surname)
+        uiState.profilePicUrl?.let {
+            setImageToIV(it)
+            profilePicUrl = it
+        }
+    }
+
+    private fun updateValidationState(uiState: ProfileSettingsScreenState.InputValidation) {
+        uiState.profilePicUrl?.let {
+            if (it != profilePicUrl) {
+                setImageToIV(it)
+            }
+        }
+        binding.etName.updateState(uiState.nameInputValidationState)
+        binding.etSurname.updateState(uiState.surnameInputValidationState)
+    }
+
+    private fun EditText.updateState(state: InputValidationState) {
+        val backgroundResId = when (state) {
+            InputValidationState.Default -> R.drawable.light_gray_text_mask
+            is InputValidationState.Error -> R.drawable.text_input_background_error
+            InputValidationState.Success -> R.drawable.text_input_background_success
+        }
+        background = ContextCompat.getDrawable(requireContext(), backgroundResId)
+    }
+
+    private fun setDefaultEditTexts() {
+        binding.etName.updateState(InputValidationState.Default)
+        binding.etSurname.updateState(InputValidationState.Default)
+    }
+
 
     private fun handleSideEffects(sideEffect: ProfileSettingsScreenSideEffects) {
         val message = when (sideEffect) {
@@ -79,12 +138,12 @@ class ProfileSettingsFragment :
     private fun registerPickMediaRequest() =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                profilePicUri = uri
-                setImageToIV(uri)
+                profilePicUrl = uri.toString()
+                setImageToIV(uri.toString())
             }
         }
 
-    private fun setImageToIV(uri: Uri) {
+    private fun setImageToIV(uri: String) {
         Glide.with(this)
             .load(uri)
             .placeholder(
@@ -102,12 +161,21 @@ class ProfileSettingsFragment :
             viewModel.saveChanges(
                 name = binding.etName.text.toString(),
                 surname = binding.etSurname.text.toString(),
-                profilePicUri = profilePicUri
+                profilePicUrl = profilePicUrl
             )
         }
     }
 
     private fun setBtnBackClickListener() {
         findNavController().navigateUp()
+    }
+
+    private fun setTextWatchers() {
+        binding.etName.doAfterTextChanged {
+            viewModel.updateInput(name = it?.toString())
+        }
+        binding.etSurname.doAfterTextChanged {
+            viewModel.updateInput(surname = it?.toString())
+        }
     }
 }
