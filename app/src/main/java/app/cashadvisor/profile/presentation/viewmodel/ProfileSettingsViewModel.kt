@@ -69,7 +69,6 @@ class ProfileSettingsViewModel @Inject constructor(
         viewModelScope.launch {
             nameValidationState = inputValidationInteractor.validateName(name)
             surnameValidationState = inputValidationInteractor.validateSurname(surname)
-            picUrl = profilePicUrl
 
             if (isInputValid()) {
                 nameValidationState = InputValidationState.Default
@@ -85,6 +84,8 @@ class ProfileSettingsViewModel @Inject constructor(
 
                 processSaveResult(savePicResult, saveNameResult)
             } else {
+                picUrl = profilePicUrl
+
                 _uiState.value = ProfileSettingsScreenState.InputValidation(
                     profilePicUrl = profilePicUrl,
                     nameInputValidationState = nameValidationState,
@@ -103,10 +104,12 @@ class ProfileSettingsViewModel @Inject constructor(
         when {
             savePicResult is Resource.Success && saveNameResult is Resource.Success -> {
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
+                getProfileInfo()
             }
 
             savePicResult == null && saveNameResult is Resource.Success -> {
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
+                getProfileInfo()
             }
 
             savePicResult == null && saveNameResult is Resource.Error -> {
