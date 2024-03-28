@@ -5,7 +5,6 @@ import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdateNameResponse
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdatePicResponse
 import app.cashadvisor.profile.data.dto.response.ProfileInfoResponse
-import com.vk.id.AccessToken
 
 interface ProfileInfoRemoteDataSource {
 
