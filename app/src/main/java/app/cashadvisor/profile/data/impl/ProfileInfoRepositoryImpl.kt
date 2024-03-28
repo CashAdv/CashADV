@@ -2,8 +2,10 @@ package app.cashadvisor.profile.data.impl
 
 import android.net.Uri
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
+import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
+import app.cashadvisor.profile.data.ProfileInfoMapper
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
@@ -14,19 +16,23 @@ import javax.inject.Inject
 
 class ProfileInfoRepositoryImpl @Inject constructor(
     private val remoteDataSource: ProfileInfoRemoteDataSource,
-    private val credentialsRepository: CredentialsRepository
+    private val credentialsRepository: CredentialsRepository,
+    private val mapper: ProfileInfoMapper,
+    private val profileExceptionToErrorMapper: BaseExceptionToErrorMapper
 ) : ProfileInfoRepository {
 
     private suspend fun getAccessToken(): String {
         return credentialsRepository.getCredentials()?.accessToken ?: ""
     }
+
     override suspend fun getUserInfo(): Resource<UserProfileInfo> {
         return try {
             val response = remoteDataSource.getUserInfo(getAccessToken())
-            Resource.Success(UserProfileInfo(response.userInfo!!.name, response.userInfo.surname, response.userInfo.profilePicUrl))
+            Resource.Success(mapper.mapToDomain(response.userInfo!!))
         } catch (exception: Exception) {
-            // TODO: создать маппер
-            Resource.Error(ErrorEntity.UnknownError(exception.message.toString()))
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
         }
     }
 
@@ -41,8 +47,9 @@ class ProfileInfoRepositoryImpl @Inject constructor(
             )
             Resource.Success(Unit)
         } catch (exception: Exception) {
-            // TODO: создать маппер
-            Resource.Error(ErrorEntity.UnknownError(exception.message.toString()))
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
         }
     }
 
@@ -51,12 +58,13 @@ class ProfileInfoRepositoryImpl @Inject constructor(
             val picFile = profilePic.path?.let { File(it) }
             val response = remoteDataSource.updateProfilePic(
                 accessToken = getAccessToken(),
-                dto = UpdateProfilePicRequest(profilePic = picFile!!) // TODO: временно, добавить обработку ошибки
+                dto = UpdateProfilePicRequest(profilePic = picFile!!)
             )
             Resource.Success(Unit)
         } catch (exception: Exception) {
-            // TODO: создать маппер
-            Resource.Error(ErrorEntity.UnknownError(exception.message.toString()))
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
         }
     }
 }

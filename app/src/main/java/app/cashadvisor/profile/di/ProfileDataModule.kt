@@ -1,16 +1,13 @@
 package app.cashadvisor.profile.di
 
-import app.cashadvisor.profile.data.api.ProfileInfoApiService
-import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
-import app.cashadvisor.profile.data.impl.ProfileInfoRemoteDataSourceImpl
+import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
+import app.cashadvisor.profile.data.ProfileExceptionToErrorMapper
 import app.cashadvisor.profile.data.impl.ProfileInfoRepositoryImpl
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
@@ -22,4 +19,9 @@ interface ProfileDataModule {
     fun bindProfileInfoRepository(
         impl: ProfileInfoRepositoryImpl
     ): ProfileInfoRepository
+
+    @Binds
+    fun bindProfileExceptionToErrorMapper(
+        impl: ProfileExceptionToErrorMapper
+    ): BaseExceptionToErrorMapper
 }

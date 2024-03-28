@@ -1,6 +1,7 @@
 package app.cashadvisor.profile.data.impl
 
 import app.cashadvisor.common.utill.exceptions.NetworkException
+import app.cashadvisor.profile.data.NetworkToProfileExceptionMapper
 import app.cashadvisor.profile.data.api.ProfileInfoApiService
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
@@ -16,15 +17,15 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
 
 class ProfileInfoRemoteDataSourceImpl @Inject constructor(
-    private val profileInfoApiService: ProfileInfoApiService
+    private val profileInfoApiService: ProfileInfoApiService,
+    private val networkToProfileExceptionMapper: NetworkToProfileExceptionMapper
 ) : ProfileInfoRemoteDataSource {
     override suspend fun getUserInfo(accessToken: String): ProfileInfoResponse {
         return try {
             val response = profileInfoApiService.getUserInfo(accessToken = accessToken)
             response
         } catch (exception: NetworkException) {
-            // TODO: обработать исключение
-            throw exception
+            throw networkToProfileExceptionMapper.handleExceptionGettingProfile(exception)
         }
     }
 
@@ -38,8 +39,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
                 accessToken = accessToken
             )
         } catch (exception: NetworkException) {
-            // TODO: обработать исключение
-            throw exception
+            throw networkToProfileExceptionMapper.handleExceptionUpdatingProfile(exception)
         }
     }
 
@@ -56,8 +56,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
                 accessToken = accessToken
             )
         } catch (exception: NetworkException) {
-            // TODO: обработать исключение
-            throw exception
+            throw networkToProfileExceptionMapper.handleExceptionUpdatingProfile(exception)
         }
     }
 }

@@ -1,5 +1,6 @@
 package app.cashadvisor.profile.di
 
+import app.cashadvisor.profile.data.NetworkToProfileExceptionMapper
 import app.cashadvisor.profile.data.api.ProfileInfoApiService
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.impl.ProfileInfoRemoteDataSourceImpl
@@ -23,6 +24,10 @@ class ProfileNetworkModule {
     @Provides
     @Singleton
     fun provideProfileInfoRemoteDataSource(
-        profileInfoApiService: ProfileInfoApiService
-    ): ProfileInfoRemoteDataSource = ProfileInfoRemoteDataSourceImpl(profileInfoApiService)
+        profileInfoApiService: ProfileInfoApiService,
+        networkToProfileExceptionMapper: NetworkToProfileExceptionMapper
+    ): ProfileInfoRemoteDataSource = ProfileInfoRemoteDataSourceImpl(
+        profileInfoApiService,
+        networkToProfileExceptionMapper
+    )
 }

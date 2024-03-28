@@ -1,20 +1,17 @@
 package app.cashadvisor.profile.presentation.viewmodel
 
-import android.util.Log
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
-import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.ui.BaseViewModel
+import app.cashadvisor.common.utill.extensions.logDebugError
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
 import app.cashadvisor.profile.domain.api.ProfileInfoInteractor
-import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -45,14 +42,22 @@ class ProfileSettingsViewModel @Inject constructor(
     private var surnameInput = ""
 
     init {
-        // будем загружать данные пользователя при создании вью модели, пока пустой
+        getProfileInfo()
+    }
+
+    private fun getProfileInfo() {
         viewModelScope.launch {
-            val data = profileInfoInteractor.getUserInfo() as Resource.Success
-            _uiState.value = ProfileSettingsScreenState.UserData(
-                name = data.data.name,
-                surname = data.data.surname,
-                profilePicUrl = data.data.profilePicUrl
-            )
+            when (val result = profileInfoInteractor.getUserInfo()) {
+                is Resource.Error -> {} // обрабатываем ошибку
+                is Resource.Success -> {
+                    _uiState.value = ProfileSettingsScreenState.UserData(
+                        name = result.data.name,
+                        surname = result.data.surname,
+                        profilePicUrl = result.data.profilePicUrl
+                    )
+                }
+            }
+
         }
     }
 
@@ -67,17 +72,18 @@ class ProfileSettingsViewModel @Inject constructor(
             picUrl = profilePicUrl
 
             if (isInputValid()) {
-                if (profilePicUrl != picUrl) {
-                    profilePicUrl?.let { profileInfoInteractor.updateProfilePic(it.toUri()) }
-                }
-                profileInfoInteractor.updateUserName(name, surname)
-
                 nameValidationState = InputValidationState.Default
                 surnameValidationState = InputValidationState.Default
 
-                // Проверяем, что данные успешно обновлены и эмитим, что всё ок
+                var savePicResult: Resource<Unit>? = null
+                if (profilePicUrl != picUrl) {
+                    profilePicUrl?.let {
+                        savePicResult = profileInfoInteractor.updateProfilePic(it.toUri())
+                    }
+                }
+                val saveNameResult = profileInfoInteractor.updateUserName(name, surname)
 
-                _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
+                processSaveResult(savePicResult, saveNameResult)
             } else {
                 _uiState.value = ProfileSettingsScreenState.InputValidation(
                     profilePicUrl = profilePicUrl,
@@ -88,6 +94,33 @@ class ProfileSettingsViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private suspend fun processSaveResult(
+        savePicResult: Resource<Unit>?,
+        saveNameResult: Resource<Unit>
+    ) {
+        when {
+            savePicResult is Resource.Success && saveNameResult is Resource.Success -> {
+                _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
+            }
+
+            savePicResult == null && saveNameResult is Resource.Success -> {
+                _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
+            }
+
+            savePicResult == null && saveNameResult is Resource.Error -> {
+                logDebugError(saveNameResult.error.message)
+            }
+
+            savePicResult is Resource.Error -> {
+                logDebugError(savePicResult.error.message)
+            }
+
+            saveNameResult is Resource.Error -> {
+                logDebugError(saveNameResult.error.message)
+            }
+        }
     }
 
     private fun isInputValid(): Boolean {
