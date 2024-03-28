@@ -32,7 +32,7 @@
             android:id="@+id/action_analyticsFragment_to_addExpenseSelectionFragment"
             app:destination="@id/addExpenseSelectionFragment" />
         <action
-            android:id="@+id/action_analyticsFragment_to_profileSettingsFragment2"
+            android:id="@+id/action_analyticsFragment_to_profileSettingsFragment"
             app:destination="@id/profileSettingsFragment" />
 
     </fragment>
@@ -54,7 +54,7 @@
             android:id="@+id/action_featuresAndSettingsFragment_to_bankAccountsFragment"
             app:destination="@id/bankAccountsFragment" />
         <action
-            android:id="@+id/action_featuresAndSettingsFragment_to_profileSettingsFragment2"
+            android:id="@+id/action_featuresAndSettingsFragment_to_profileSettingsFragment"
             app:destination="@id/profileSettingsFragment" />
     </fragment>
     <fragment
