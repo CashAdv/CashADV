@@ -288,13 +288,13 @@ class LoginFragment :
 
     private fun hideKeyboard() {
         val inputMethodManager =
-            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
 
     private fun showKeyboard(view: View) {
         val inputMethodManager =
-            activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(view, 0)
     }
 
