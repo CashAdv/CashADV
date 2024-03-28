@@ -3,6 +3,9 @@
     <style name="Base.Theme.CashAdvisor" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="CustomStepActive">@style/Widget.CashAdvisor.Text.RegisterStepActive</item>
+        <item name="CustomStepInactive">@style/Widget.CashAdvisor.Text.RegisterStepInactive</item>
+        <item name="CustomStepCompleted">@style/Widget.CashAdvisor.Text.RegisterStepCompleted</item>
     </style>
 
     <style name="Theme.CashAdvisor" parent="Base.Theme.CashAdvisor">
