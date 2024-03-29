@@ -1,8 +1,6 @@
 package app.cashadvisor.profile.data.impl
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.core.net.toFile
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
@@ -15,8 +13,6 @@ import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.domain.model.UserProfileInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
-import java.io.FileOutputStream
 import javax.inject.Inject
 
 class ProfileInfoRepositoryImpl @Inject constructor(
