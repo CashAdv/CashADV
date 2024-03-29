@@ -30,10 +30,9 @@ interface ProfileInfoApiService {
     ): ConfirmUpdateNameResponse
 
     @Headers("Content-Type: application/json")
-    @Multipart
     @PUT("profile/image/put")
     suspend fun updateProfilePic(
         @Header("Authorization") accessToken: String,
-        @Part updateProfilePicRequest: MultipartBody.Part
+        @Body updateProfilePicRequest: UpdateProfilePicRequest
     ): ConfirmUpdatePicResponse
 }

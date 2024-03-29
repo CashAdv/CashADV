@@ -9,10 +9,8 @@ import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdateNameResponse
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdatePicResponse
 import app.cashadvisor.profile.data.dto.response.ProfileInfoResponse
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
+
 
 class ProfileInfoRemoteDataSourceImpl @Inject constructor(
     private val profileInfoApiService: ProfileInfoApiService,
@@ -46,13 +44,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
         accessToken: String
     ): ConfirmUpdatePicResponse {
         return try {
-            val file = dto.profilePic
-            val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
-            val body = MultipartBody.Part.createFormData("profile_picture", file.name, requestFile)
-            profileInfoApiService.updateProfilePic(
-                updateProfilePicRequest = body,
-                accessToken = accessToken
-            )
+            profileInfoApiService.updateProfilePic(accessToken, dto)
         } catch (exception: NetworkException) {
             throw networkToProfileExceptionMapper.handleExceptionUpdatingProfile(exception)
         }
