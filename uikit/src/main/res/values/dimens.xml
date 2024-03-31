@@ -21,7 +21,7 @@
     <dimen name="margin_top_entry_text_notes">8dp</dimen>
     <dimen name="margin_bottom_entry_text_notes">8dp</dimen>
 
-
+    <dimen name="symbol_view_text_size">16sp</dimen>
 
 
 
