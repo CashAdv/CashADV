@@ -3,18 +3,23 @@ package app.cashadvisor.signup.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
+import app.cashadvisor.authorization.domain.models.ConfirmCode
+import app.cashadvisor.authorization.domain.models.Email
 import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.PasswordValidationError
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
+import app.cashadvisor.authorization.presentation.ui.test.TestSideEffect
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.common.utill.extensions.logDebugMessage
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupDataState
+import app.cashadvisor.signup.presentation.viewmodel.models.SignupScreenState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,6 +40,7 @@ class SignupViewModel @Inject constructor(
 
     private var validateEmailJob: Job? = null
     private var validatePasswordJob: Job? = null
+    private var resendCountDownJob: Job? = null
     private var isClickAllowed = true
 
     private val _signupDataState: MutableStateFlow<SignupDataState> = MutableStateFlow(SignupDataState())
@@ -45,6 +51,9 @@ class SignupViewModel @Inject constructor(
 
     private val _signupUiState: MutableSharedFlow<SignupUiState> = MutableSharedFlow()
     val signupUiState: SharedFlow<SignupUiState> = _signupUiState.asSharedFlow()
+
+    private val _signupScreenState: MutableStateFlow<SignupScreenState> = MutableStateFlow(SignupScreenState.SignupScreen)
+    val signupScreenState: StateFlow<SignupScreenState> = _signupScreenState.asStateFlow()
 
     private val currentState get() = signupDataState.replayCache.firstOrNull() ?: SignupDataState()
 
@@ -77,7 +86,9 @@ class SignupViewModel @Inject constructor(
                 }
 
                 is EmailValidationState.Success -> {
-                    _signupDataState.update {it.copy(isEmailValid = true)}
+                    _signupDataState.update {it.copy(
+                        email = Email(email),
+                        isEmailValid = true)}
 
                     _signupUiState.emit(SignupUiState.EmailValid)
                 }
@@ -178,15 +189,17 @@ class SignupViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     logDebugMessage("Message register ${result.data.message}")
-                    viewModelScope.launch {
-                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = result.data.message))
-                    }
+                    sendConfirmationCodeByEmail()
+//                    viewModelScope.launch {
+//                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = result.data.message))
+//                    }
+                    _signupScreenState.emit(SignupScreenState.ConfirmationCodeScreen())
                 }
 
                 is Resource.Error -> {
-                    viewModelScope.launch {
-                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = "Error: ${result.error.message}"))
-                    }
+//                    viewModelScope.launch {
+//                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = "Error: ${result.error.message}"))
+//                    }
 
                     when (result.error) {
 
@@ -217,6 +230,68 @@ class SignupViewModel @Inject constructor(
         }
     }
 
+    fun sendRegisterConfirmCode(code: String) {
+        viewModelScope.launch {
+            logDebugMessage("email: ${currentState.email.value}, code: ${code}")
+
+            val result = registerInteractor.confirmEmailAndRegistrationWithCode(
+                currentState.email, ConfirmCode(code)
+            )
+            when (result) {
+                is Resource.Success -> {
+                    logDebugMessage("Success register: ${result.data}")
+//                    viewModelScope.launch {
+//                        _sideEffects.emit(TestSideEffect.ShowMessage(message = result.data))
+//                    }
+
+                    viewModelScope.launch {
+                        _signupScreenState.emit(SignupScreenState.SignupEmailSuccessfullyConfirmed)
+                    }
+                }
+
+                is Resource.Error -> {
+                    viewModelScope.launch {
+                        //_sideEffects.emit(TestSideEffect.ShowMessage(message = result.error.message))
+                    }
+
+                    when (result.error) {
+                        is ErrorEntity.RegisterConfirmationWithCode.FailedToConfirmEmailOrRegisterUser -> {
+                            logDebugMessage("FailedToConfirmEmailOrRegisterUser ${result.error.message}")
+                        }
+
+                        is ErrorEntity.RegisterConfirmationWithCode.InvalidToken -> {
+                            logDebugMessage("InvalidToken ${result.error.message}")
+                        }
+
+                        is ErrorEntity.RegisterConfirmationWithCode.WrongConfirmationCode -> {
+                            logDebugMessage("WrongConfirmationCode ${result.error.message}")
+                            viewModelScope.launch {
+//                                _sideEffects.emit(
+//                                    TestSideEffect.ShowMessage(
+//                                        "You left only ${result.error.remainingAttempts} attempts \n " +
+//                                                "Your lock duration for ${result.error.lockDuration / 1000000000} seconds"
+//                                    )
+//                                )
+                            }
+                        }
+
+                        is ErrorEntity.NetworksError.NoInternet -> {
+                            logDebugMessage("NoInternet ${result.error.message}")
+                        }
+
+                        else -> logDebugMessage("Something went wrong ${result.error.message}")
+                    }
+
+                }
+            }
+        }
+    }
+
+    fun sendConfirmationCodeByEmail() {
+        //add some method in future to send code to email
+        startCountDownToResendCode()
+    }
+
     private fun clickDebounce(): Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
@@ -230,7 +305,25 @@ class SignupViewModel @Inject constructor(
         return current
     }
 
+    private fun startCountDownToResendCode() {
+        resendCountDownJob = viewModelScope.launch(Dispatchers.IO) {
+            var allTime = RESENDING_COOL_DOWN
+            val interval = COUNT_DOWN_INTERVAL
+
+            while (allTime > 0) {
+                _signupScreenState.value = SignupScreenState.ConfirmationCodeScreen(
+                    resendingCoolDownSec = (allTime / 1000).toString()
+                )
+                allTime -= interval
+                delay(interval)
+            }
+            _signupScreenState.value = SignupScreenState.ConfirmationCodeScreen()
+        }
+    }
+
     companion object{
         private const val VALIDATE_DATA_DELAY_MILLIS = 2000L
+        private const val RESENDING_COOL_DOWN = 30000L
+        private const val COUNT_DOWN_INTERVAL = 1000L
     }
 }

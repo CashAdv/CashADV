@@ -31,10 +31,13 @@
         app:maxSteps="2"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_signup_input_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="40dp"
-        android:visibility="gone">
+        android:layout_marginTop="10dp"
+        android:visibility="visible"
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/textview_enter_account_data"
@@ -43,6 +46,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textview_enter_email"
             android:layout_marginTop="@dimen/title_text_enter_account_data_between_margin"
             android:text="@string/entering_account_data"
             android:textAppearance="@style/Widget.CashAdvisor.Text.RegisterSteps"/>
@@ -53,6 +57,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/textview_enter_email"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/edittext_enter_email"
             android:layout_marginTop="@dimen/enter_account_data_enter_email_between_margin"
             android:text="@string/enter_your_email"
             android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"/>
@@ -64,6 +69,7 @@
             app:layout_constraintTop_toBottomOf="@id/textview_enter_email"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="0dp"
             android:hint="@string/example_email"
             android:inputType="textEmailAddress"
             style="@style/Widget.CashAdvisor.TextInputEditText"/>
@@ -147,18 +153,20 @@
             app:layout_constraintTop_toBottomOf="@id/textview_allowed_characters_for_the_password"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="10dp"
             android:textAppearance="@style/Widget.CashAdvisor.Text.Main_Text"
             style="@style/Widget.CashAdvisor.Button.CreateAccountInactive"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_confirmation_code"
+        android:id="@+id/cl_signup_confirmation_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="40dp"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility="gone">
 
         <TextView
             android:id="@+id/confirm_code"
@@ -235,9 +243,6 @@
         android:id="@+id/btn_back"
         android:layout_width="@dimen/width_btn_back"
         android:layout_height="@dimen/height_btn_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_create_account"
         android:layout_marginTop="@dimen/btn_back_top_margin"
         android:text="@string/back"
         style="@style/Widget.CashAdvisor.Button.SigninButton"/>

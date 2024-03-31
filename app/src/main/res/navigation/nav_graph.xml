@@ -114,8 +114,10 @@
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" >
         <action
-            android:id="@+id/action_signupFragment_to_entryVerificationFragment"
-            app:destination="@id/entryVerificationFragment" />
+            android:id="@+id/action_signupFragment_to_analyticsFragment"
+            app:destination="@id/analyticsFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/entryVerificationFragment"

@@ -16,6 +16,7 @@ import app.cashadvisor.R
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentSignupBinding
 import app.cashadvisor.signup.presentation.viewmodel.SignupViewModel
+import app.cashadvisor.signup.presentation.viewmodel.models.SignupScreenState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import com.google.android.material.snackbar.Snackbar
@@ -34,7 +35,7 @@ class SignupFragment:
         }
 
         binding.btnCreateAccount.setOnClickListener(){
-            findNavController().navigate(R.id.action_signupFragment_to_entryVerificationFragment)
+            viewModel.register()
         }
 
         binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
@@ -51,6 +52,12 @@ class SignupFragment:
                 checkEmptyInput(text, binding.edittextConfirmThePassword)
                 viewModel.validateConfirmPassword(text.toString())
         }
+
+        binding.etConfirmationCode.doOnTextChanged { text, start, before, count ->
+            if (text?.length == 4) {
+                viewModel.sendRegisterConfirmCode(text.toString())
+            }
+        }
     }
 
     override fun onSubscribe() {
@@ -66,6 +73,14 @@ class SignupFragment:
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.sideEffect.collect {
                     handleSideEffects(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.signupScreenState.collect{ signupScreenState ->
+                    updateScreenState(signupScreenState)
                 }
             }
         }
@@ -188,6 +203,51 @@ class SignupFragment:
         when (sideEffect) {
             is SignupSideEffect.ShowMessage ->
                 Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun updateScreenState(signupScreenstate: SignupScreenState){
+        when (signupScreenstate){
+            is SignupScreenState.SignupScreen -> {
+                with(binding){
+                    customSteps.changeSteps(2, 1)
+                    clSignupInputDate.visibility = View.VISIBLE
+                    clSignupConfirmationCode.visibility = View.GONE
+                    etConfirmationCode.text?.clear()
+
+                    //btnLogin.isEnabled = state.isBtnLoginEnabled
+                }
+            }
+
+            is SignupScreenState.ConfirmationCodeScreen -> {
+                with(binding) {
+                    customSteps.changeSteps(2, 2)
+                    clSignupInputDate.visibility = View.GONE
+                    clSignupConfirmationCode.visibility = View.VISIBLE
+                    etConfirmationCode.text?.clear()
+
+                    if (signupScreenstate.resendingCoolDownSec.isNullOrBlank()) {
+                        tvSendAgain.apply {
+                            text = getString(app.cashadvisor.uikit.R.string.send_confirmation_code_again)
+                            setTextColor(resources.getColor(R.color.black, null))
+                            setOnClickListener { viewModel.sendConfirmationCodeByEmail() }
+                        }
+                    } else {
+                        tvSendAgain.apply {
+                            text = getString(
+                                app.cashadvisor.uikit.R.string.send_confirmation_code_again_seconds,
+                                signupScreenstate.resendingCoolDownSec
+                            )
+                            setTextColor(resources.getColor(R.color.subcolor_2, null))
+                            setOnClickListener(null)
+                        }
+                    }
+                }
+            }
+
+            SignupScreenState.SignupEmailSuccessfullyConfirmed -> {
+                findNavController().navigate(R.id.action_signupFragment_to_analyticsFragment)
+            }
         }
     }
 

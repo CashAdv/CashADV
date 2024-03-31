@@ -45,4 +45,5 @@
     <string name="code_does_not_come">Не приходит код</string>
     <string name="send_confirmation_code_again">Выслать еще раз</string>
     <string name="send_confirmation_code_again_seconds">Выслать еще раз \n(через %1$s сек)</string>
+    <string name="step_1">1</string>
 </resources>
