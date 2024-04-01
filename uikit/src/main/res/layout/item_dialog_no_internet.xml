@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="15dp"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:contentDescription="@string/description_sleep_image"
+        android:id="@+id/iv_sleep"
+        android:src="@drawable/ic_sleep"
+        android:adjustViewBounds="true"
+        android:layout_width="120dp"
+        android:layout_height="120dp"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_internet_connection_login"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Header3"
+        android:textColor="@color/colour1"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/no_internet_connection_login_message"
+        android:textAppearance="@style/Widget.CashAdvisor.Text.Text_info"
+        android:textColor="@color/subcolour2"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_close"
+        style="@style/Widget.CashAdvisor.Button.SigninButton"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/login_screen_btn_height"
+        android:layout_marginTop="15dp"
+        android:paddingHorizontal="@dimen/login_screen_back_btn_horizontal_padding"
+        android:text="@string/close" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
