@@ -1,6 +1,7 @@
 package app.cashadvisor.signup.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import app.cashadvisor.R
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
 import app.cashadvisor.authorization.domain.models.ConfirmCode
@@ -9,7 +10,6 @@ import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.PasswordValidationError
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-import app.cashadvisor.authorization.presentation.ui.test.TestSideEffect
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,6 +43,7 @@ class SignupViewModel @Inject constructor(
     private var validatePasswordJob: Job? = null
     private var resendCountDownJob: Job? = null
     private var isClickAllowed = true
+    private var attemptsToSendConfirmationCode = 3
 
     private val _signupDataState: MutableStateFlow<SignupDataState> = MutableStateFlow(SignupDataState())
     private val signupDataState: StateFlow<SignupDataState> =_signupDataState.asStateFlow()
@@ -171,15 +173,6 @@ class SignupViewModel @Inject constructor(
     fun register (){
         if (!clickDebounce()) return
 
-//       viewModelScope.launch {
-//            registerInteractor.isRegisterInProgress().collect { isInProgress ->
-//                _state.update {
-//                    it.copy(
-//                        isRegisterInProgress = isInProgress
-//                    )
-//                }
-//            }
-//        }
         viewModelScope.launch {
             val result = registerInteractor.registerByEmail(
                 currentState.email,
@@ -190,21 +183,18 @@ class SignupViewModel @Inject constructor(
                 is Resource.Success -> {
                     logDebugMessage("Message register ${result.data.message}")
                     sendConfirmationCodeByEmail()
-//                    viewModelScope.launch {
-//                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = result.data.message))
-//                    }
+
                     _signupScreenState.emit(SignupScreenState.ConfirmationCodeScreen())
                 }
 
                 is Resource.Error -> {
-//                    viewModelScope.launch {
-//                        _sideEffects.emit(SignupSideEffect.ShowMessage(message = "Error: ${result.error.message}"))
-//                    }
 
                     when (result.error) {
 
                         is ErrorEntity.NetworksError.NoInternet -> {
                             logDebugMessage("NoInternet ${result.error.message}")
+                            _sideEffects.emit(SignupSideEffect
+                                .ShowMessage(app.cashadvisor.uikit.R.string.no_internet))
                         }
 
                         is ErrorEntity.Register -> {
@@ -212,10 +202,10 @@ class SignupViewModel @Inject constructor(
                                 is ErrorEntity.Register.FailedToGenerateTokenOrSendEmail -> {
                                     logDebugMessage("FailedToGenerateTokenOrSendEmail ${result.error.message}")
                                 }
-
                                 is ErrorEntity.Register.InvalidEmail -> {
                                     logDebugMessage("InvalidEmail ${result.error.message}")
-
+                                    _sideEffects.emit(SignupSideEffect
+                                        .ShowMessage(app.cashadvisor.uikit.R.string.email_already_exist))
                                 }
                             }
                         }
@@ -240,9 +230,7 @@ class SignupViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     logDebugMessage("Success register: ${result.data}")
-//                    viewModelScope.launch {
-//                        _sideEffects.emit(TestSideEffect.ShowMessage(message = result.data))
-//                    }
+
 
                     viewModelScope.launch {
                         _signupScreenState.emit(SignupScreenState.SignupEmailSuccessfullyConfirmed)
@@ -250,10 +238,6 @@ class SignupViewModel @Inject constructor(
                 }
 
                 is Resource.Error -> {
-                    viewModelScope.launch {
-                        //_sideEffects.emit(TestSideEffect.ShowMessage(message = result.error.message))
-                    }
-
                     when (result.error) {
                         is ErrorEntity.RegisterConfirmationWithCode.FailedToConfirmEmailOrRegisterUser -> {
                             logDebugMessage("FailedToConfirmEmailOrRegisterUser ${result.error.message}")
@@ -261,22 +245,57 @@ class SignupViewModel @Inject constructor(
 
                         is ErrorEntity.RegisterConfirmationWithCode.InvalidToken -> {
                             logDebugMessage("InvalidToken ${result.error.message}")
+                            _sideEffects.emit(SignupSideEffect
+                                .ShowMessage(app.cashadvisor.uikit.R.string.invalid_token))
                         }
 
                         is ErrorEntity.RegisterConfirmationWithCode.WrongConfirmationCode -> {
                             logDebugMessage("WrongConfirmationCode ${result.error.message}")
-                            viewModelScope.launch {
+//                            viewModelScope.launch {
 //                                _sideEffects.emit(
 //                                    TestSideEffect.ShowMessage(
 //                                        "You left only ${result.error.remainingAttempts} attempts \n " +
 //                                                "Your lock duration for ${result.error.lockDuration / 1000000000} seconds"
 //                                    )
 //                                )
+//                                _sideEffects.emit(SignupSideEffect
+//                                    .ShowMessage(
+//                                        app.cashadvisor.uikit.R.string
+//                                            .debug_message_wrong_code_remaining_attempts.toString()
+//                                    )
+//                                )
+//                            }
+
+                            viewModelScope.launch {
+                                attemptsToSendConfirmationCode = result.error.remainingAttempts
+                                val minutesLeft =
+                                    result.error.lockDuration / DURATION_CONVERTING_CONST
+
+                                if (result.error.lockDuration > 0) {
+                                    _sideEffects.emit(
+                                        SignupSideEffect
+                                            .ShowСhangeableMessage(
+                                                app.cashadvisor.uikit.R.string.wrong_code_number_lock_duration,
+                                                getRightEndingMinutes(minutesLeft.toInt())
+                                            )
+                                    )
+
+                                } else {
+                                    _sideEffects.emit(
+                                        SignupSideEffect
+                                            .ShowСhangeableMessage(
+                                                app.cashadvisor.uikit.R.string.wrong_code_number_attempts,
+                                                getRightEndingAttempts(attemptsToSendConfirmationCode)
+                                            )
+                                    )
+                                }
                             }
                         }
 
                         is ErrorEntity.NetworksError.NoInternet -> {
                             logDebugMessage("NoInternet ${result.error.message}")
+                            _sideEffects.emit(SignupSideEffect
+                                .ShowMessage(app.cashadvisor.uikit.R.string.no_internet))
                         }
 
                         else -> logDebugMessage("Something went wrong ${result.error.message}")
@@ -321,9 +340,42 @@ class SignupViewModel @Inject constructor(
         }
     }
 
+    private fun getRightEndingMinutes(minutes: Int): String {
+        val preLastDigit = minutes % 100 / 10
+
+        if (preLastDigit == 1) {
+            return "$minutes минут"
+        }
+
+        return when (minutes % 10) {
+            1 -> "$minutes минута"
+            2 -> "$minutes минуты"
+            3 -> "$minutes минуты"
+            4 -> "$minutes минуты"
+            else -> "$minutes минут"
+        }
+    }
+
+    private fun getRightEndingAttempts(attempts: Int): String {
+        val preLastDigit = attempts % 100 / 10
+
+        if (preLastDigit == 1) {
+            return "$attempts попыток"
+        }
+
+        return when (attempts % 10) {
+            1 -> "$attempts попытка"
+            2 -> "$attempts попытки"
+            3 -> "$attempts попытки"
+            4 -> "$attempts попытки"
+            else -> "$attempts попыток"
+        }
+    }
+
     companion object{
         private const val VALIDATE_DATA_DELAY_MILLIS = 2000L
         private const val RESENDING_COOL_DOWN = 30000L
         private const val COUNT_DOWN_INTERVAL = 1000L
+        private const val DURATION_CONVERTING_CONST = 60000000000
     }
 }

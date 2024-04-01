@@ -85,6 +85,8 @@ class SignupFragment:
             }
         }
 
+
+
         viewModel.init()
     }
 
@@ -202,7 +204,14 @@ class SignupFragment:
     private fun handleSideEffects(sideEffect: SignupSideEffect) {
         when (sideEffect) {
             is SignupSideEffect.ShowMessage ->
-                Toast.makeText(requireContext(), sideEffect.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(sideEffect.messageId), Toast.LENGTH_LONG).show()
+
+            is SignupSideEffect.ShowСhangeableMessage ->
+                Toast.makeText(
+                    requireContext(),
+                    getString(sideEffect.messageId) + sideEffect.messageСhangeable,
+                    Toast.LENGTH_LONG
+                ).show()
         }
     }
 
