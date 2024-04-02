@@ -6,6 +6,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -53,11 +54,21 @@ class SignupFragment:
                 viewModel.validateConfirmPassword(text.toString())
         }
 
-        binding.etConfirmationCode.doOnTextChanged { text, start, before, count ->
-            if (text?.length == 4) {
-                viewModel.sendRegisterConfirmCode(text.toString())
+//        binding.etConfirmationCode.doOnTextChanged { text, start, before, count ->
+//
+////            if (text?.length == 4) {
+////                viewModel.sendRegisterConfirmCode(text.toString())
+////            }
+//        }
+
+        binding.etConfirmationCode.addTextChangedListener {
+            it?.let { code ->
+                if (code.length == 4) {
+                    viewModel.sendRegisterConfirmCode(code.toString())
+                }
             }
         }
+
     }
 
     override fun onSubscribe() {
@@ -233,7 +244,6 @@ class SignupFragment:
                     customSteps.changeSteps(2, 2)
                     clSignupInputDate.visibility = View.GONE
                     clSignupConfirmationCode.visibility = View.VISIBLE
-                    etConfirmationCode.text?.clear()
 
                     if (signupScreenstate.resendingCoolDownSec.isNullOrBlank()) {
                         tvSendAgain.apply {

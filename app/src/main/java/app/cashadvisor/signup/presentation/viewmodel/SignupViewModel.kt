@@ -249,20 +249,6 @@ class SignupViewModel @Inject constructor(
 
                         is ErrorEntity.RegisterConfirmationWithCode.WrongConfirmationCode -> {
                             logDebugMessage("WrongConfirmationCode ${result.error.message}")
-//                            viewModelScope.launch {
-//                                _sideEffects.emit(
-//                                    TestSideEffect.ShowMessage(
-//                                        "You left only ${result.error.remainingAttempts} attempts \n " +
-//                                                "Your lock duration for ${result.error.lockDuration / 1000000000} seconds"
-//                                    )
-//                                )
-//                                _sideEffects.emit(SignupSideEffect
-//                                    .ShowMessage(
-//                                        app.cashadvisor.uikit.R.string
-//                                            .debug_message_wrong_code_remaining_attempts.toString()
-//                                    )
-//                                )
-//                            }
 
                             viewModelScope.launch {
                                 attemptsToSendConfirmationCode = result.error.remainingAttempts
