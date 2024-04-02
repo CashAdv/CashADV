@@ -3,9 +3,11 @@ package app.cashadvisor.authorization.di
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.LoginInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
+import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
 import app.cashadvisor.authorization.domain.impl.InputValidationInteractorImpl
 import app.cashadvisor.authorization.domain.impl.LoginInteractorImpl
 import app.cashadvisor.authorization.domain.impl.RegisterInteractorImpl
+import app.cashadvisor.authorization.domain.impl.ResetPasswordInteractorImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -29,5 +31,10 @@ interface AuthenticationDomainModule {
     fun bindInputValidationInteractor(
         impl: InputValidationInteractorImpl
     ): InputValidationInteractor
+
+    @Binds
+    fun bindResetPasswordInteractor(
+        impl: ResetPasswordInteractorImpl
+    ):ResetPasswordInteractor
 
 }

@@ -50,6 +50,42 @@ sealed class ErrorEntity(open val message: String) {
             RegisterConfirmationWithCode(message)
     }
 
+    sealed class ConfirmEmailToResetPassword(override val message: String) :
+        ErrorEntity(message) {
+        data class InvalidInput(override val message: String) : ConfirmEmailToResetPassword(message)
+        data class FailedToGenerateTokenOrSendEmail(override val message: String) :
+            ConfirmEmailToResetPassword(message)
+
+    }
+
+    sealed class ConfirmResetPasswordByEmailWithCode(override val message: String) :
+        ErrorEntity(message) {
+        data class InvalidInput(override val message: String) :
+            ConfirmResetPasswordByEmailWithCode(message)
+
+        data class WrongConfirmationCode(
+            override val message: String,
+            val remainingAttempts:Int,
+            val lockDuration:Int
+        ) : ConfirmResetPasswordByEmailWithCode(message)
+
+        data class FailedToConfirmPasswordReset(override val message: String) :
+            ConfirmResetPasswordByEmailWithCode(message)
+    }
+
+    sealed class SaveNewPassword(override val message: String) : ErrorEntity(message) {
+
+        data class InvalidInput(override val message: String) :
+            SaveNewPassword(message)
+
+        data class InvalidToken(override val message: String) :
+            SaveNewPassword(message)
+
+        data class FailedToResetPassword(override val message: String) :
+            SaveNewPassword(message)
+    }
+
+
     companion object {
         const val BLANC_ERROR = ""
     }

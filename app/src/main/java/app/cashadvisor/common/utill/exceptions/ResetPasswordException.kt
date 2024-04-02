@@ -51,7 +51,7 @@ sealed class ResetPasswordException(
 
     sealed class SaveNewPassword(
         message: String
-    ):ConfirmEmailToResetPassword(message){
+    ):ResetPasswordException(message){
         class BadRequestInvalidPasswordOrMissingContentTypeHeader(
             override val message: String,
             val statusCode: Int
