@@ -41,7 +41,7 @@ class SignupViewModel @Inject constructor(
     private var validatePasswordJob: Job? = null
     private var resendCountDownJob: Job? = null
     private var isClickAllowed = true
-    private var attemptsToSendConfirmationCode = 3
+    private var attemptsToSendConfirmationCode: Int = 3
 
     private val _signupDataState: MutableStateFlow<SignupDataState> = MutableStateFlow(SignupDataState())
     private val signupDataState: StateFlow<SignupDataState> =_signupDataState.asStateFlow()
@@ -233,6 +233,7 @@ class SignupViewModel @Inject constructor(
                     viewModelScope.launch {
                         _signupScreenState.emit(SignupScreenState.SignupEmailSuccessfullyConfirmed)
                     }
+
                 }
 
                 is Resource.Error -> {

@@ -217,10 +217,10 @@ class SignupFragment:
             is SignupSideEffect.ShowMessage ->
                 Toast.makeText(requireContext(), getString(sideEffect.messageId), Toast.LENGTH_LONG).show()
 
-            is SignupSideEffect.ShowСhangeableMessage ->
+            is SignupSideEffect. ShowСhangeableMessage ->
                 Toast.makeText(
                     requireContext(),
-                    getString(sideEffect.messageId) + sideEffect.messageСhangeable,
+                    getString(sideEffect.messageId, sideEffect.messageСhangeable),
                     Toast.LENGTH_LONG
                 ).show()
         }
