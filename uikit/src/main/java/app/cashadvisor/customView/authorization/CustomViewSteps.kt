@@ -18,7 +18,6 @@ class CustomViewSteps @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-
     private val binding: ComponentStepsBinding
     private var maxSteps = 1
     private var currentStep = 1

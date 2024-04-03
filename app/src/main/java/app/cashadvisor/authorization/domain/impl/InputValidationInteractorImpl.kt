@@ -31,6 +31,12 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
     }
 
     override suspend fun validatePassword(password: String): PasswordValidationState {
+        if (password.length < 8) {
+            return PasswordValidationState.Error(
+                password = Password(EMPTY_VALUE),
+                passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH
+            )
+        }
         val isPasswordValid = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_PASSWORD)
         val isPasswordLengthValid: Boolean = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_LENGTH_PASSWORD)
         return if (isPasswordValid) {
@@ -38,7 +44,7 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
         } else if (!isPasswordLengthValid){
             PasswordValidationState.Error(
                 password = Password(EMPTY_VALUE),
-                passwordValidationError = PasswordValidationError.PASSWORD_IS_SHORT)
+                passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH)
         }
            else PasswordValidationState.Error(
             password = Password(EMPTY_VALUE),

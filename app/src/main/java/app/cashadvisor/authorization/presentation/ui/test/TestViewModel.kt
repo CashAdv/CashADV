@@ -88,6 +88,10 @@ class TestViewModel @Inject constructor(
                         it.copy(email = result.email, isEmailValid = false)
                     }
                 }
+
+                EmailValidationState.Default -> {
+
+                }
             }
         }
     }
