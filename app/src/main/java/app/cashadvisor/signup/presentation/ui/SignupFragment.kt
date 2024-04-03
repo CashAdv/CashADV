@@ -1,6 +1,7 @@
 package app.cashadvisor.signup.presentation.ui
 
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -20,6 +21,8 @@ import app.cashadvisor.signup.presentation.viewmodel.SignupViewModel
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupScreenState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
+import app.cashadvisor.uikit.databinding.ItemDialogNoInternetBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -53,13 +56,6 @@ class SignupFragment:
                 checkEmptyInput(text, binding.edittextConfirmThePassword)
                 viewModel.validateConfirmPassword(text.toString())
         }
-
-//        binding.etConfirmationCode.doOnTextChanged { text, start, before, count ->
-//
-////            if (text?.length == 4) {
-////                viewModel.sendRegisterConfirmCode(text.toString())
-////            }
-//        }
 
         binding.etConfirmationCode.addTextChangedListener {
             it?.let { code ->
@@ -217,12 +213,17 @@ class SignupFragment:
             is SignupSideEffect.ShowMessage ->
                 Toast.makeText(requireContext(), getString(sideEffect.messageId), Toast.LENGTH_LONG).show()
 
-            is SignupSideEffect. ShowСhangeableMessage ->
+            is SignupSideEffect. ShowChangeableMessage ->
                 Toast.makeText(
                     requireContext(),
-                    getString(sideEffect.messageId, sideEffect.messageСhangeable),
+                    getString(sideEffect.messageId, sideEffect.messageChangeable),
                     Toast.LENGTH_LONG
                 ).show()
+
+            is SignupSideEffect.NoInternetConnection -> {
+                hideKeyboard()
+                showNoInternetDialog()
+            }
         }
     }
 
@@ -267,6 +268,26 @@ class SignupFragment:
             SignupScreenState.SignupEmailSuccessfullyConfirmed -> {
                 findNavController().navigate(R.id.action_signupFragment_to_analyticsFragment)
             }
+        }
+    }
+
+    private fun showNoInternetDialog() {
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogBinding = ItemDialogNoInternetBinding.inflate(inflater)
+
+        val noInternetDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setBackground(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    app.cashadvisor.uikit.R.drawable.dialog_no_internet_background,
+                    null
+                )
+            )
+            .show()
+
+        dialogBinding.btnClose.setOnClickListener {
+            noInternetDialog.dismiss()
         }
     }
 

@@ -195,8 +195,8 @@ class SignupViewModel @Inject constructor(
 
                         is ErrorEntity.NetworksError.NoInternet -> {
                             logDebugMessage("NoInternet ${result.error.message}")
-                            _sideEffects.emit(SignupSideEffect
-                                .ShowMessage(app.cashadvisor.uikit.R.string.no_internet))
+
+                            _sideEffects.emit(SignupSideEffect.NoInternetConnection)
                         }
 
                         is ErrorEntity.Register -> {
@@ -263,7 +263,7 @@ class SignupViewModel @Inject constructor(
                                 if (result.error.lockDuration > 0) {
                                     _sideEffects.emit(
                                         SignupSideEffect
-                                            .ShowСhangeableMessage(
+                                            .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_lock_duration,
                                                 getRightEndingMinutes(minutesLeft.toInt())
                                             )
@@ -272,7 +272,7 @@ class SignupViewModel @Inject constructor(
                                 } else {
                                     _sideEffects.emit(
                                         SignupSideEffect
-                                            .ShowСhangeableMessage(
+                                            .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_attempts,
                                                 getRightEndingAttempts(attemptsToSendConfirmationCode)
                                             )
@@ -283,8 +283,7 @@ class SignupViewModel @Inject constructor(
 
                         is ErrorEntity.NetworksError.NoInternet -> {
                             logDebugMessage("NoInternet ${result.error.message}")
-                            _sideEffects.emit(SignupSideEffect
-                                .ShowMessage(app.cashadvisor.uikit.R.string.no_internet))
+                            _sideEffects.emit(SignupSideEffect.NoInternetConnection)
                         }
 
                         else -> logDebugMessage("Something went wrong ${result.error.message}")

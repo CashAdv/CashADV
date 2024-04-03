@@ -69,9 +69,9 @@ class NetworkToRegisterExceptionMapper @Inject constructor(
 
     private fun handleCommonException(exception: NetworkException): RegisterException {
         return when (exception) {
+
             is NetworkException.NoInternetConnection -> {
-                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                RegisterException.NoConnection(errorResponse.message)
+                RegisterException.NoConnection(exception.errorBody)
             }
 
             is NetworkException.Undefined -> {
