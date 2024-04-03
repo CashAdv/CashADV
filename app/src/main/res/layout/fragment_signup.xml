@@ -191,7 +191,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ti_confirmation_code"
-            style="@style/Widget.CashAdvisor.TextInputEditText"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/login_screen_edit_text_top_margin"

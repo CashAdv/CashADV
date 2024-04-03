@@ -92,6 +92,8 @@ class SignupViewModel @Inject constructor(
 
                     _signupUiState.emit(SignupUiState.EmailValid)
                 }
+
+                EmailValidationState.Default -> TODO()
             }
         }
     }
@@ -111,7 +113,7 @@ class SignupViewModel @Inject constructor(
                 is PasswordValidationState.Error ->{
                     when (resultValidatePassword.passwordValidationError){
 
-                        PasswordValidationError.PASSWORD_IS_SHORT -> {
+                        PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH -> {
                             delay(VALIDATE_DATA_DELAY_MILLIS)
                             _signupDataState.update {it.copy(
                                 password = Password(password),
@@ -138,6 +140,8 @@ class SignupViewModel @Inject constructor(
 
                     _signupUiState.emit(SignupUiState.PasswordValid)
                 }
+
+                PasswordValidationState.Default -> TODO()
             }
         }
     }
