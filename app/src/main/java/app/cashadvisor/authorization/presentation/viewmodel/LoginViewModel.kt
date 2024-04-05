@@ -286,7 +286,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun confirmLoginUsingCode(context: Context, confirmationCode: Editable?) {
+    fun confirmLoginUsingCode(context: Context, confirmationCode: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             val result = loginInteractor.confirmLoginByEmailWithCode(

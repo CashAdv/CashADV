@@ -21,7 +21,6 @@ import androidx.annotation.StyleRes
 import androidx.core.view.children
 import app.cashadvisor.uikit.R
 
-
 class CodeConfirmationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,

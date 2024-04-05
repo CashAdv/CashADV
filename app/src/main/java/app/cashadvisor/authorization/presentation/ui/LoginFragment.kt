@@ -66,8 +66,14 @@ class LoginFragment :
             etConfirmationCode.addTextChangedListener {
                 it?.let { code ->
                     if (code.length == 4) {
-                        viewModel.confirmLoginUsingCode(requireContext(), code)
+                        //viewModel.confirmLoginUsingCode(requireContext(), code)
                     }
+                }
+            }
+
+            codeConfirmationView.setCallback {
+                if (it.length == 4) {
+                    viewModel.confirmLoginUsingCode(requireContext(), it)
                 }
             }
 
@@ -113,6 +119,7 @@ class LoginFragment :
                     clLoginForms.visibility = View.VISIBLE
                     clConfirmationCode.visibility = View.GONE
                     etConfirmationCode.text?.clear()
+                    codeConfirmationView.setCode("")
 
                     btnLogin.isEnabled = state.isBtnLoginEnabled
                     manageEmailValidation(state.emailState)
@@ -266,14 +273,14 @@ class LoginFragment :
                 is LoginScreenMessageContent.ConfirmationCodeMessage -> {
                     showSnackbar(
                         content.message,
-                        etConfirmationCode
+                        codeConfirmationView
                     )
                 }
             }
         }
     }
 
-    private fun showSnackbar(message: String, viewToFocus: TextInputEditText) {
+    private fun showSnackbar(message: String, viewToFocus: View) {
         hideKeyboard()
         Snackbar.make(binding.root, message, SNACKBAR_DURATION)
             .setBackgroundTint(resources.getColor(R.color.black, null))
