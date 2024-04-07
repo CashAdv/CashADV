@@ -1,9 +1,15 @@
 package app.cashadvisor.profile.presentation.ui
 
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,8 +23,10 @@ import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffec
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import app.cashadvisor.profile.presentation.viewmodel.ProfileSettingsViewModel
 import app.cashadvisor.uikit.R
+import app.cashadvisor.uikit.databinding.ItemDialogNoInternetEditingDataBinding
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -38,6 +46,7 @@ class ProfileSettingsFragment :
         setBtnSaveClickListener()
         setBtnBackClickListener()
         setTextWatchers()
+        setupEditorActionListener()
     }
 
     override fun onSubscribe() {
@@ -62,6 +71,7 @@ class ProfileSettingsFragment :
             is ProfileSettingsScreenState.UserData -> {
                 updateUserInfo(uiState)
             }
+
             is ProfileSettingsScreenState.InputValidation -> {
                 updateValidationState(uiState)
             }
@@ -106,16 +116,19 @@ class ProfileSettingsFragment :
 
 
     private fun handleSideEffects(sideEffect: ProfileSettingsScreenSideEffects) {
-        val message = when (sideEffect) {
-            ProfileSettingsScreenSideEffects.EmptyName -> "Поле \"Имя\" обязательно для заполнения"
-            ProfileSettingsScreenSideEffects.IncorrectSurname -> "Фамилия может содержать от 1 до 50 латинского или русского алфавита"
-            ProfileSettingsScreenSideEffects.DataSaved -> "Данные успешно обновлены"
-            ProfileSettingsScreenSideEffects.FailedToSaveData -> ""
-            ProfileSettingsScreenSideEffects.IncorrectName -> "Имя может содержать от 1 до 50 латинского или русского алфавита"
-            ProfileSettingsScreenSideEffects.IncorrectNameAndSurname -> "Фамилия и имя могут содержать от 1 до 50 латинского или русского алфавита"
-            ProfileSettingsScreenSideEffects.NoInternetConnection -> ""
+        var message: String? = null
+        when (sideEffect) {
+            ProfileSettingsScreenSideEffects.EmptyName -> message = getString(R.string.name_cant_be_empty)
+            ProfileSettingsScreenSideEffects.IncorrectSurname -> message = getString(R.string.error_surname_format)
+            ProfileSettingsScreenSideEffects.DataSaved -> message = getString(R.string.success_save_data)
+            ProfileSettingsScreenSideEffects.FailedToSaveData -> message = getString(R.string.failed_to_save_data)
+            ProfileSettingsScreenSideEffects.IncorrectName -> message = getString(R.string.error_name_format)
+            ProfileSettingsScreenSideEffects.IncorrectNameAndSurname -> message = getString(R.string.error_name_surname_format)
+            ProfileSettingsScreenSideEffects.NoInternetConnection -> showNoInternetDialog()
+            ProfileSettingsScreenSideEffects.FailedToUpdateProfilePic -> message = getString(R.string.failed_to_update_profile_pic)
+            ProfileSettingsScreenSideEffects.FailedToUpdateUsername -> message = getString(R.string.failed_to_update_name)
         }
-        showSnackbar(message)
+        message?.let { showSnackbar(it) }
     }
 
     private fun showSnackbar(message: String) {
@@ -126,6 +139,26 @@ class ProfileSettingsFragment :
             .setAction("OK") {//dismiss
             }
             .show()
+    }
+
+    private fun showNoInternetDialog() {
+        val inflater = LayoutInflater.from(requireContext())
+        val dialogBinding = ItemDialogNoInternetEditingDataBinding.inflate(inflater)
+
+        val noInternetDialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogBinding.root)
+            .setBackground(
+                ResourcesCompat.getDrawable(
+                    resources,
+                    R.drawable.dialog_no_internet_background,
+                    null
+                )
+            )
+            .show()
+
+        dialogBinding.btnClose.setOnClickListener {
+            noInternetDialog.dismiss()
+        }
     }
 
     private fun setChangePictureViewClickListener() {
@@ -176,6 +209,23 @@ class ProfileSettingsFragment :
         }
         binding.etSurname.doAfterTextChanged {
             viewModel.updateInput(surname = it?.toString())
+        }
+    }
+
+    private fun setupEditorActionListener() {
+        binding.etName.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.etName.clearFocus()
+                true
+            }
+            false
+        }
+        binding.etSurname.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                binding.etSurname.clearFocus()
+                true
+            }
+            false
         }
     }
 }

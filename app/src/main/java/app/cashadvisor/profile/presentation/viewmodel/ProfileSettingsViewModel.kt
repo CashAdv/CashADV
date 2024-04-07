@@ -3,8 +3,9 @@ package app.cashadvisor.profile.presentation.viewmodel
 import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.common.domain.Resource
+import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
-import app.cashadvisor.common.utill.extensions.logDebugError
+import app.cashadvisor.profile.data.mapper.UserProfileException
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
@@ -56,6 +57,7 @@ class ProfileSettingsViewModel @Inject constructor(
                         surname = result.data.surname,
                         profilePicUrl = result.data.profilePicUrl
                     )
+                    picUrl = result.data.profilePicUrl
                 }
             }
 
@@ -103,26 +105,41 @@ class ProfileSettingsViewModel @Inject constructor(
         saveNameResult: Resource<Unit>
     ) {
         when {
-            savePicResult is Resource.Success && saveNameResult is Resource.Success -> {
+            (savePicResult is Resource.Success || savePicResult == null)
+                    && saveNameResult is Resource.Success -> {
                 _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
                 getProfileInfo()
             }
 
-            savePicResult == null && saveNameResult is Resource.Success -> {
-                _sideEffects.emit(ProfileSettingsScreenSideEffects.DataSaved)
-                getProfileInfo()
+            (savePicResult is Resource.Success || savePicResult == null)
+                    && saveNameResult is Resource.Error -> {
+                _sideEffects.emit(
+                    if (saveNameResult.error is ErrorEntity.NetworksError.NoInternet) {
+                        ProfileSettingsScreenSideEffects.NoInternetConnection
+                    } else {
+                        ProfileSettingsScreenSideEffects.FailedToUpdateUsername
+                    }
+                )
             }
 
-            savePicResult == null && saveNameResult is Resource.Error -> {
-                logDebugError(saveNameResult.error.message)
+            savePicResult is Resource.Error && saveNameResult is Resource.Error -> {
+                _sideEffects.emit(
+                    if (saveNameResult.error is ErrorEntity.NetworksError.NoInternet) {
+                        ProfileSettingsScreenSideEffects.NoInternetConnection
+                    } else {
+                        ProfileSettingsScreenSideEffects.FailedToSaveData
+                    }
+                )
             }
 
             savePicResult is Resource.Error -> {
-                logDebugError(savePicResult.error.message)
-            }
-
-            saveNameResult is Resource.Error -> {
-                logDebugError(saveNameResult.error.message)
+                _sideEffects.emit(
+                    if (savePicResult.error is ErrorEntity.NetworksError.NoInternet) {
+                        ProfileSettingsScreenSideEffects.NoInternetConnection
+                    } else {
+                        ProfileSettingsScreenSideEffects.FailedToUpdateProfilePic
+                    }
+                )
             }
         }
     }

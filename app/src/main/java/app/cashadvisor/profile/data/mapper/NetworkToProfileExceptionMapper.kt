@@ -69,8 +69,7 @@ class NetworkToProfileExceptionMapper @Inject constructor(
     private fun handleCommonException(exception: NetworkException): UserProfileException {
         return when (exception) {
             is NetworkException.NoInternetConnection -> {
-                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                UserProfileException.NoConnection(errorResponse.message)
+                UserProfileException.NoConnection(exception.errorBody)
             }
 
             is NetworkException.Undefined -> {
