@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.data
+package app.cashadvisor.profile.data.mapper
 
 import app.cashadvisor.profile.data.dto.UserInfoDto
 import app.cashadvisor.profile.domain.model.UserProfileInfo

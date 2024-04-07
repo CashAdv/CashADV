@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.data
+package app.cashadvisor.profile.data.mapper
 
 import java.io.IOException
 

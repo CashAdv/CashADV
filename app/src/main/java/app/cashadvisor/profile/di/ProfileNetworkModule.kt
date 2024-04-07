@@ -1,6 +1,6 @@
 package app.cashadvisor.profile.di
 
-import app.cashadvisor.profile.data.NetworkToProfileExceptionMapper
+import app.cashadvisor.profile.data.mapper.NetworkToProfileExceptionMapper
 import app.cashadvisor.profile.data.api.ProfileInfoApiService
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.impl.ProfileInfoRemoteDataSourceImpl

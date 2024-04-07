@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.data
+package app.cashadvisor.profile.data.mapper
 
 import app.cashadvisor.authorization.data.models.response.customError.ErrorWrongConfirmationCodeResponse
 import app.cashadvisor.common.data.models.ErrorResponse
