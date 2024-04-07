@@ -6,6 +6,8 @@ interface ProfileInfoStorage {
 
     suspend fun getProfileInfo(): UserInfoDto?
 
+    suspend fun saveProfileInfo(userInfoDto: UserInfoDto)
+
     suspend fun updateUserName(name: String, surname: String)
 
     suspend fun updateProfilePic(picUrl: String)

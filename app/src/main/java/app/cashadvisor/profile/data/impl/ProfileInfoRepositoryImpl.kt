@@ -33,7 +33,8 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
         return try {
             val response = remoteDataSource.getUserInfo(getAccessToken())
-            Resource.Success(mapper.mapToDomain(response.userInfo!!))
+            storage.saveProfileInfo(userInfoDto = response.userInfo!!)
+            Resource.Success(mapper.mapToDomain(response.userInfo))
         } catch (exception: Exception) {
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)

@@ -18,6 +18,13 @@ class ProfileInfoStorageImpl(
         }
     }
 
+    override suspend fun saveProfileInfo(userInfoDto: UserInfoDto) {
+        val data = json.encodeToString(userInfoDto)
+        storage.edit {
+            putString(key, data)
+        }
+    }
+
     override suspend fun updateUserName(name: String, surname: String) {
         val currentInfo = getProfileInfo()
         currentInfo?.let {
