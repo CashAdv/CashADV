@@ -11,4 +11,6 @@ data class PasswordRecoveryState(
     val recoveryCode: ConfirmCode = ConfirmCode(""),
     val isEmailValid: Boolean = false,
     val isEmailCodeValid: Boolean = false,
+    val isNewPasswordValid: Boolean = false,
+    val isRecoveryPasswordInProgress:Boolean = false
 )
