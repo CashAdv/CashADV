@@ -19,11 +19,16 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ProfileDataModule {
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class ProfileSharedPrefs
 
     @Provides
     @Singleton
@@ -48,11 +53,13 @@ class ProfileDataModule {
 
     @Provides
     @Singleton
+    @ProfileSharedPrefs
     fun providesMasterKey(): String =
         MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
 
     @Provides
     @Singleton
+    @ProfileSharedPrefs
     fun providesEncryptedSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
         val masterKey = providesMasterKey()
         return EncryptedSharedPreferences.create(
@@ -68,7 +75,7 @@ class ProfileDataModule {
     @Singleton
     fun providesProfileInfoStorage(
         @ApplicationContext context: Context,
-        storage: SharedPreferences = providesEncryptedSharedPreferences(context),
+        @ProfileSharedPrefs storage: SharedPreferences = providesEncryptedSharedPreferences(context),
         key: String = PROFILE_KEY,
         gson: Json
     ): ProfileInfoStorage = ProfileInfoStorageImpl(storage, key, gson)
