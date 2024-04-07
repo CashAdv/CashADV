@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="?attr/colour1" android:state_single="true" />
+    <item android:color="?attr/m1" android:state_checked="true"/>
+    <item android:color="?attr/subcolour2" /> <!-- Default background -->
+</selector>

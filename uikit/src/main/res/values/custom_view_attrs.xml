@@ -37,4 +37,15 @@
         <attr name="android:fontFamily"/>
     </declare-styleable>
 
+
+    <declare-styleable name="CustomViewSteps">
+        <attr name="maxSteps" format="integer"/>
+        <attr name="currentStep" format="integer"/>
+    </declare-styleable>
+
+    <attr name="CustomStepActive" format="reference" />
+    <attr name="CustomStepInactive" format="reference" />
+    <attr name="CustomStepCompleted" format="reference" />
+
+
 </resources>
