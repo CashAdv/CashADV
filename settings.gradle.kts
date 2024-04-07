@@ -202,6 +202,12 @@ dependencyResolutionManagement {
             ).versionRef("glide")
 
             library(
+                "glide-okhttp3",
+                "com.github.bumptech.glide",
+                "okhttp3-integration"
+            ).versionRef("glide")
+
+            library(
                 "compiler",
                 "com.github.bumptech.glide",
                 "compiler"

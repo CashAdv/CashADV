@@ -157,6 +157,7 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
+    implementation(libs.glide.okhttp3)
     annotationProcessor(libs.compiler)
 
     // Timber

@@ -5,6 +5,7 @@ import app.cashadvisor.BuildConfig
 import app.cashadvisor.common.data.ErrorInterceptor
 import app.cashadvisor.common.data.api.NetworkConnectionProvider
 import app.cashadvisor.common.data.impl.NetworkConnectionProviderImpl
+import app.cashadvisor.profile.presentation.ui.UnsafeOkHttpGlideModule
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

@@ -12,6 +12,7 @@ import app.cashadvisor.profile.domain.api.ProfileInfoInteractor
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenSideEffects
 import app.cashadvisor.profile.presentation.model.ProfileSettingsScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -46,7 +47,7 @@ class ProfileSettingsViewModel @Inject constructor(
     }
 
     private fun getProfileInfo() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             when (val result = profileInfoInteractor.getUserInfo()) {
                 is Resource.Error -> {} // обрабатываем ошибку
                 is Resource.Success -> {
