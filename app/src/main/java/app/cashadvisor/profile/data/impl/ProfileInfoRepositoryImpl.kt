@@ -1,22 +1,21 @@
 package app.cashadvisor.profile.data.impl
 
-import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
-import app.cashadvisor.profile.data.ProfileInfoMapper
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
+import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
+import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.domain.model.UserProfileInfo
-import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class ProfileInfoRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+    private val storage: ProfileInfoStorage,
     private val remoteDataSource: ProfileInfoRemoteDataSource,
     private val credentialsRepository: CredentialsRepository,
     private val mapper: ProfileInfoMapper,
@@ -28,6 +27,10 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserInfo(): Resource<UserProfileInfo> {
+        storage.getProfileInfo()?.let {
+            return Resource.Success(mapper.mapToDomain(it))
+        }
+
         return try {
             val response = remoteDataSource.getUserInfo(getAccessToken())
             Resource.Success(mapper.mapToDomain(response.userInfo!!))
@@ -47,6 +50,7 @@ class ProfileInfoRepositoryImpl @Inject constructor(
                 accessToken = getAccessToken(),
                 dto = UpdateUserNameRequest(name, surname)
             )
+            storage.updateUserName(name, surname)
             Resource.Success(Unit)
         } catch (exception: Exception) {
             Resource.Error(
@@ -57,10 +61,13 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
     override suspend fun updateProfilePic(profilePic: Uri): Resource<Unit> {
         return try {
-            remoteDataSource.updateProfilePic(
+            val response = remoteDataSource.updateProfilePic(
                 dto = UpdateProfilePicRequest(profilePic = profilePic.toFile()),
                 accessToken = getAccessToken()
             )
+            response.profilePicUrl?.let {
+                storage.updateProfilePic(it)
+            }
             Resource.Success(Unit)
         } catch (exception: Exception) {
             Resource.Error(
