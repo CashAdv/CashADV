@@ -13,6 +13,7 @@ import java.io.InputStream
 import javax.inject.Inject
 
 
+// TODO: можно будет удалить, когда решится проблема с сертификатами
 @GlideModule
 class UnsafeOkHttpGlideModule @Inject constructor(
     @UnAuthInterceptorOkHttpClient private val okHttpClient: OkHttpClient
