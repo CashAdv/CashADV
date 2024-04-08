@@ -49,7 +49,10 @@ class ProfileSettingsViewModel @Inject constructor(
     private fun getProfileInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = profileInfoInteractor.getUserInfo()) {
-                is Resource.Error -> {} // обрабатываем ошибку
+                is Resource.Error -> {
+                    handleGetProfileError(result.error)
+                }
+
                 is Resource.Success -> {
                     _uiState.value = ProfileSettingsScreenState.UserData(
                         name = result.data.name,
@@ -58,6 +61,27 @@ class ProfileSettingsViewModel @Inject constructor(
                     )
                     picUrl = result.data.profilePicUrl
                 }
+            }
+        }
+    }
+
+    private suspend fun handleGetProfileError(error: ErrorEntity) {
+        when (error) {
+            is ErrorEntity.Profile.FailedToGetData -> {
+                _sideEffects.emit(ProfileSettingsScreenSideEffects.FailedToGetData)
+
+            }
+
+            is ErrorEntity.NetworksError.NoInternet -> {
+                _sideEffects.emit(ProfileSettingsScreenSideEffects.NoInternetConnection)
+            }
+
+            is ErrorEntity.Profile.EmptyProfile -> {
+                _uiState.emit(ProfileSettingsScreenState.Default)
+            }
+
+            else -> {
+                _sideEffects.emit(ProfileSettingsScreenSideEffects.UndefinedError)
             }
         }
     }

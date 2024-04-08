@@ -15,7 +15,11 @@ sealed interface ProfileSettingsScreenSideEffects {
 
     data object FailedToUpdateUsername : ProfileSettingsScreenSideEffects
 
+    data object FailedToGetData: ProfileSettingsScreenSideEffects
+
     data object FailedToUpdateProfilePic : ProfileSettingsScreenSideEffects
 
     data object DataSaved : ProfileSettingsScreenSideEffects
+
+    data object UndefinedError: ProfileSettingsScreenSideEffects
 }

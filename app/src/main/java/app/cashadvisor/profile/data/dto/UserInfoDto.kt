@@ -8,5 +8,5 @@ data class UserInfoDto(
     val surname: String,
     val name: String,
     @SerialName("user_id") val id: String,
-    @SerialName("avatar_url") val profilePicUrl: String
+    @SerialName("avatar_url") val profilePicUrl: String?
 )

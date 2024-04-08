@@ -58,6 +58,8 @@ sealed class ErrorEntity(open val message: String) {
 
         data class FailedToSaveData(override val message: String) :
             Profile(message)
+
+        data class EmptyProfile(override val message: String = BLANC_ERROR) : Profile(message)
     }
 
     companion object {

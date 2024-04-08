@@ -5,8 +5,10 @@ import android.net.Uri
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
+import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.api.ProfileInfoStorage
+import app.cashadvisor.profile.data.dto.UserInfoDto
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
@@ -38,12 +40,21 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
         return try {
             val response = remoteDataSource.getUserInfo(getAccessToken())
-            storage.saveProfileInfo(userInfoDto = response.userInfo!!)
+            if (isEmptyProfile(response.userInfo!!)) {
+                return Resource.Error(ErrorEntity.Profile.EmptyProfile())
+            }
+            storage.saveProfileInfo(userInfoDto = response.userInfo)
             Resource.Success(mapper.mapToDomain(response.userInfo))
         } catch (exception: Exception) {
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)
             )
+        }
+    }
+
+    private fun isEmptyProfile(userProfile: UserInfoDto): Boolean {
+        return with(userProfile) {
+            surname.isBlank() && name == BLANK_PROFILE_NAME && profilePicUrl == null
         }
     }
 
@@ -100,5 +111,9 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         }
 
         return file
+    }
+
+    companion object {
+        private const val BLANK_PROFILE_NAME = "Мы тебя не знаем..."
     }
 }

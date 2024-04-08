@@ -79,6 +79,8 @@
     <string name="error_name_surname_format">Фамилия и имя может содержать от 1 до 50 латинского или русского алфавита</string>
     <string name="success_save_data">Данные успешно обновлены</string>
     <string name="failed_to_save_data">Не удалось обновить данные профиля</string>
+    <string name="failed_to_get_data">Не удалось получить данные профиля</string>
+    <string name="undefined_error">Что-то пошло не так, попробуйте позже или обратитесь в поддержку</string>
     <string name="failed_to_update_name">Не удалось обновить имя пользователя</string>
     <string name="failed_to_update_profile_pic">Не удалось обновить изображение пользователя</string>
     <string name="no_internet_connection_edit">Вы не сможете редактировать и удалять информацию в приложении, пока не возобновится соединение </string>

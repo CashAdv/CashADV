@@ -136,11 +136,18 @@ class ProfileSettingsFragment :
                 getString(R.string.error_name_surname_format)
 
             ProfileSettingsScreenSideEffects.NoInternetConnection -> showNoInternetDialog()
+
             ProfileSettingsScreenSideEffects.FailedToUpdateProfilePic -> message =
                 getString(R.string.failed_to_update_profile_pic)
 
             ProfileSettingsScreenSideEffects.FailedToUpdateUsername -> message =
                 getString(R.string.failed_to_update_name)
+
+            ProfileSettingsScreenSideEffects.FailedToGetData -> message =
+                getString(R.string.failed_to_get_data)
+
+            ProfileSettingsScreenSideEffects.UndefinedError -> message =
+                getString(R.string.undefined_error)
         }
         message?.let { showSnackbar(it) }
     }
