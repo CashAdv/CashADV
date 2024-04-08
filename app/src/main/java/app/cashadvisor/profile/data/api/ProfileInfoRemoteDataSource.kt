@@ -19,4 +19,5 @@ interface ProfileInfoRemoteDataSource {
         dto: UpdateProfilePicRequest,
         accessToken: String
     ): ConfirmUpdatePicResponse
+
 }

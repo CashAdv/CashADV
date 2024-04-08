@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class ProfileInfoMapper @Inject constructor() {
     fun mapToDomain(userInfoDto: UserInfoDto) = UserProfileInfo(
+        id = userInfoDto.id,
         name = userInfoDto.name,
         surname = userInfoDto.surname,
         profilePicUrl = userInfoDto.profilePicUrl

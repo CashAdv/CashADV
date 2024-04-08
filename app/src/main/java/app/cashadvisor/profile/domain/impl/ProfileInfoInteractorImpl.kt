@@ -5,7 +5,6 @@ import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.profile.domain.api.ProfileInfoInteractor
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.domain.model.UserProfileInfo
-import java.io.File
 import javax.inject.Inject
 
 class ProfileInfoInteractorImpl @Inject constructor(
@@ -22,4 +21,5 @@ class ProfileInfoInteractorImpl @Inject constructor(
     override suspend fun updateProfilePic(profilePic: Uri): Resource<Unit> {
         return profileInfoRepository.updateProfilePic(profilePic)
     }
+
 }

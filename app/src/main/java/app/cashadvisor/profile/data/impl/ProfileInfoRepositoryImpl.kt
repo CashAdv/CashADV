@@ -1,7 +1,7 @@
 package app.cashadvisor.profile.data.impl
 
+import android.content.Context
 import android.net.Uri
-import androidx.core.net.toFile
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
@@ -12,9 +12,14 @@ import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
 import app.cashadvisor.profile.domain.model.UserProfileInfo
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
 import javax.inject.Inject
 
 class ProfileInfoRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val storage: ProfileInfoStorage,
     private val remoteDataSource: ProfileInfoRemoteDataSource,
     private val credentialsRepository: CredentialsRepository,
@@ -61,9 +66,15 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateProfilePic(profilePic: Uri): Resource<Unit> {
+
+        val inputStream = context.contentResolver.openInputStream(profilePic)
+        val file = createTemporaryFile(inputStream)
+
+
+
         return try {
             val response = remoteDataSource.updateProfilePic(
-                dto = UpdateProfilePicRequest(profilePic = profilePic.toFile()),
+                dto = UpdateProfilePicRequest(profilePic = file),
                 accessToken = getAccessToken()
             )
             response.profilePicUrl?.let {
@@ -75,5 +86,19 @@ class ProfileInfoRepositoryImpl @Inject constructor(
                 profileExceptionToErrorMapper.handleException(exception)
             )
         }
+    }
+
+
+    private fun createTemporaryFile(inputStream: InputStream?): File {
+        val file = File.createTempFile("temp_image", null, context.cacheDir)
+        file.deleteOnExit()
+
+        inputStream?.use { input ->
+            FileOutputStream(file).use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        return file
     }
 }

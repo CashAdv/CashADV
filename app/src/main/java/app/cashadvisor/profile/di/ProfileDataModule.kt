@@ -33,12 +33,14 @@ class ProfileDataModule {
     @Provides
     @Singleton
     fun provideProfileInfoRepository(
+        @ApplicationContext context: Context,
         remoteDataSource: ProfileInfoRemoteDataSource,
         storage: ProfileInfoStorage,
         credentialsRepository: CredentialsRepository,
         mapper: ProfileInfoMapper,
         profileExceptionToErrorMapper: ProfileExceptionToErrorMapper
     ): ProfileInfoRepository = ProfileInfoRepositoryImpl(
+        context = context,
         remoteDataSource = remoteDataSource,
         credentialsRepository = credentialsRepository,
         storage = storage,

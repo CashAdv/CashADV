@@ -3,7 +3,6 @@ package app.cashadvisor.profile.domain.api
 import android.net.Uri
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.profile.domain.model.UserProfileInfo
-import java.io.File
 
 interface ProfileInfoRepository {
     suspend fun getUserInfo(): Resource<UserProfileInfo>
