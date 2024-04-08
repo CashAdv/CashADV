@@ -1,13 +1,11 @@
 package app.cashadvisor.profile.presentation.ui
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.addCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
@@ -47,6 +45,7 @@ class ProfileSettingsFragment :
         setBtnBackClickListener()
         setTextWatchers()
         setupEditorActionListener()
+        addOnBackPressedCallback()
     }
 
     override fun onSubscribe() {
@@ -118,15 +117,30 @@ class ProfileSettingsFragment :
     private fun handleSideEffects(sideEffect: ProfileSettingsScreenSideEffects) {
         var message: String? = null
         when (sideEffect) {
-            ProfileSettingsScreenSideEffects.EmptyName -> message = getString(R.string.name_cant_be_empty)
-            ProfileSettingsScreenSideEffects.IncorrectSurname -> message = getString(R.string.error_surname_format)
-            ProfileSettingsScreenSideEffects.DataSaved -> message = getString(R.string.success_save_data)
-            ProfileSettingsScreenSideEffects.FailedToSaveData -> message = getString(R.string.failed_to_save_data)
-            ProfileSettingsScreenSideEffects.IncorrectName -> message = getString(R.string.error_name_format)
-            ProfileSettingsScreenSideEffects.IncorrectNameAndSurname -> message = getString(R.string.error_name_surname_format)
+            ProfileSettingsScreenSideEffects.EmptyName -> message =
+                getString(R.string.name_cant_be_empty)
+
+            ProfileSettingsScreenSideEffects.IncorrectSurname -> message =
+                getString(R.string.error_surname_format)
+
+            ProfileSettingsScreenSideEffects.DataSaved -> message =
+                getString(R.string.success_save_data)
+
+            ProfileSettingsScreenSideEffects.FailedToSaveData -> message =
+                getString(R.string.failed_to_save_data)
+
+            ProfileSettingsScreenSideEffects.IncorrectName -> message =
+                getString(R.string.error_name_format)
+
+            ProfileSettingsScreenSideEffects.IncorrectNameAndSurname -> message =
+                getString(R.string.error_name_surname_format)
+
             ProfileSettingsScreenSideEffects.NoInternetConnection -> showNoInternetDialog()
-            ProfileSettingsScreenSideEffects.FailedToUpdateProfilePic -> message = getString(R.string.failed_to_update_profile_pic)
-            ProfileSettingsScreenSideEffects.FailedToUpdateUsername -> message = getString(R.string.failed_to_update_name)
+            ProfileSettingsScreenSideEffects.FailedToUpdateProfilePic -> message =
+                getString(R.string.failed_to_update_profile_pic)
+
+            ProfileSettingsScreenSideEffects.FailedToUpdateUsername -> message =
+                getString(R.string.failed_to_update_name)
         }
         message?.let { showSnackbar(it) }
     }
@@ -200,7 +214,9 @@ class ProfileSettingsFragment :
     }
 
     private fun setBtnBackClickListener() {
-        findNavController().navigateUp()
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setTextWatchers() {
@@ -226,6 +242,12 @@ class ProfileSettingsFragment :
                 true
             }
             false
+        }
+    }
+
+    private fun addOnBackPressedCallback() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
-import app.cashadvisor.profile.data.mapper.UserProfileException
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
@@ -60,7 +59,6 @@ class ProfileSettingsViewModel @Inject constructor(
                     picUrl = result.data.profilePicUrl
                 }
             }
-
         }
     }
 
@@ -97,7 +95,6 @@ class ProfileSettingsViewModel @Inject constructor(
                 emitErrorMessage()
             }
         }
-
     }
 
     private suspend fun processSaveResult(
