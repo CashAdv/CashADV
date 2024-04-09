@@ -41,7 +41,7 @@
     <dimen name="login_screen_login_btn_top_margin">80dp</dimen>
     <dimen name="login_screen_progress_bar_size">24dp</dimen>
 
-
+    <dimen name="symbol_view_text_size">16sp</dimen>
 
 
 
