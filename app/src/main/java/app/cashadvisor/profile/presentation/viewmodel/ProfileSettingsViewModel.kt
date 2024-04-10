@@ -86,6 +86,7 @@ class ProfileSettingsViewModel @Inject constructor(
         }
     }
 
+    // TODO: надо дебаунс добавить
     fun saveChanges(
         name: String,
         surname: String,

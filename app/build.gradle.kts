@@ -158,7 +158,7 @@ dependencies {
     // Glide
     implementation(libs.glide)
     implementation(libs.glide.okhttp3)
-    annotationProcessor(libs.compiler)
+    kapt(libs.compiler)
 
     // Timber
     implementation(libs.timber)
