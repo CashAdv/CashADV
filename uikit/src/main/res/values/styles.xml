@@ -243,7 +243,7 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
-    <!-- Edit Text Email and Password-->
+    <!-- Signup styles-->
     <style name="Widget.CashAdvisor.TextInputEditText" parent="Widget.CashAdvisor.Text.Text_cont">
         <item name="android:textColorHint">?attr/subcolour2</item>
         <item name="android:maxLines">1</item>
@@ -254,6 +254,7 @@
         <item name="android:paddingEnd">15dp</item>
         <item name="android:paddingBottom">10dp</item>
         <item name="android:paddingTop">10dp</item>
+
     </style>
 
     <style name="Widget.CashAdvisor.TextInputLayout" parent="Widget.Design.TextInputLayout">
@@ -264,5 +265,11 @@
         <item name="hintEnabled">false</item>
         <item name="hintAnimationEnabled">false</item>
         <item name="expandedHintEnabled">true</item>
+        <item name="android:layout_height">@dimen/signup_height_edittext</item>
+    </style>
+
+    <style name="TextView">
+        <item name="android:layout_marginBottom">@dimen/signup_edittext_margin</item>
+        <item name="android:layout_marginTop">@dimen/signup_edittext_margin_top</item>
     </style>
 </resources>

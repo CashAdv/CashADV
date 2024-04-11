@@ -70,6 +70,7 @@
     <!-- Signup screen string-->
     <string name="registration">Регистрация</string>
     <string name="entering_account_data">Ввод данных аккаунта</string>
+    <string name="confirm">Подтверждение</string>
     <string name="enter_your_email">Введите свой email</string>
     <string name="example_email">example@gmail.com</string>
     <string name="come_up_with_a_password">Придумайте пароль</string>

@@ -1,6 +1,7 @@
 package app.cashadvisor.signup.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import app.cashadvisor.R
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.RegisterInteractor
 import app.cashadvisor.authorization.domain.models.ConfirmCode
@@ -14,7 +15,7 @@ import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.common.utill.extensions.logDebugMessage
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupDataState
-import app.cashadvisor.signup.presentation.viewmodel.models.SignupScreenState
+import app.cashadvisor.signup.presentation.viewmodel.models.SignUpStep
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -52,8 +53,8 @@ class SignupViewModel @Inject constructor(
     private val _signupUiState: MutableSharedFlow<SignupUiState> = MutableSharedFlow()
     val signupUiState: SharedFlow<SignupUiState> = _signupUiState.asSharedFlow()
 
-    private val _signupScreenState: MutableStateFlow<SignupScreenState> = MutableStateFlow(SignupScreenState.SignupScreen)
-    val signupScreenState: StateFlow<SignupScreenState> = _signupScreenState.asStateFlow()
+    private val _signUpStep: MutableStateFlow<SignUpStep> = MutableStateFlow(SignUpStep.SignupScreen)
+    val signUpStep: StateFlow<SignUpStep> = _signUpStep.asStateFlow()
 
     private val currentState get() = signupDataState.replayCache.firstOrNull() ?: SignupDataState()
 
@@ -98,14 +99,15 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-    fun validatePassword(password: String){
+    fun validatePassword(password: String, confirmPassword: String){
         validatePasswordJob?.cancel()
 
-        if (password.isEmpty()) return
+        //if (password.isEmpty()) return
 
         if (password == signupDataState.value.password.value) return
 
         validatePasswordJob = viewModelScope.launch {
+            delay(VALIDATE_DATA_DELAY_MILLIS)
             val resultValidatePassword
             = inputValidationInteractor.validatePassword(password)
 
@@ -114,7 +116,6 @@ class SignupViewModel @Inject constructor(
                     when (resultValidatePassword.passwordValidationError){
 
                         PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH -> {
-                            delay(VALIDATE_DATA_DELAY_MILLIS)
                             _signupDataState.update {it.copy(
                                 password = Password(password),
                                 isPasswordLengthValid = false)}
@@ -123,7 +124,6 @@ class SignupViewModel @Inject constructor(
                         }
 
                         PasswordValidationError.PASSWORD_NOT_VALID -> {
-                            delay(VALIDATE_DATA_DELAY_MILLIS)
                             _signupDataState.update {it.copy(
                                 password = Password(password),
                                 isPasswordValid = false)}
@@ -139,9 +139,11 @@ class SignupViewModel @Inject constructor(
                         isPasswordLengthValid = true)}
 
                     _signupUiState.emit(SignupUiState.PasswordValid)
+
+                    validateConfirmPassword(confirmPassword)
                 }
 
-                PasswordValidationState.Default -> TODO()
+                is PasswordValidationState.Default -> TODO()
             }
         }
     }
@@ -168,6 +170,8 @@ class SignupViewModel @Inject constructor(
                     it.copy(isConfirmPasswordValid = false) }
 
                 _signupUiState.emit(SignupUiState.ConfirmPasswordNotValid)
+
+
             }
         }
     }
@@ -186,7 +190,7 @@ class SignupViewModel @Inject constructor(
                     logDebugMessage("Message register ${result.data.message}")
                     sendConfirmationCodeByEmail()
 
-                    _signupScreenState.emit(SignupScreenState.ConfirmationCodeScreen())
+                    _signUpStep.emit(SignUpStep.ConfirmationCodeScreen())
                 }
 
                 is Resource.Error -> {
@@ -235,7 +239,7 @@ class SignupViewModel @Inject constructor(
 
 
                     viewModelScope.launch {
-                        _signupScreenState.emit(SignupScreenState.SignupEmailSuccessfullyConfirmed)
+                        _signUpStep.emit(SignUpStep.SignupEmailSuccessfullyConfirmed)
                     }
 
                 }
@@ -265,7 +269,8 @@ class SignupViewModel @Inject constructor(
                                         SignupSideEffect
                                             .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_lock_duration,
-                                                getRightEndingMinutes(minutesLeft.toInt())
+                                                minutesLeft.toInt(),
+                                                R.plurals.endingMinutes
                                             )
                                     )
 
@@ -274,7 +279,8 @@ class SignupViewModel @Inject constructor(
                                         SignupSideEffect
                                             .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_attempts,
-                                                getRightEndingAttempts(attemptsToSendConfirmationCode)
+                                                attemptsToSendConfirmationCode,
+                                                R.plurals.endingAttempts
                                             )
                                     )
                                 }
@@ -318,45 +324,13 @@ class SignupViewModel @Inject constructor(
             val interval = COUNT_DOWN_INTERVAL
 
             while (allTime > 0) {
-                _signupScreenState.value = SignupScreenState.ConfirmationCodeScreen(
+                _signUpStep.value = SignUpStep.ConfirmationCodeScreen(
                     resendingCoolDownSec = (allTime / 1000).toString()
                 )
                 allTime -= interval
                 delay(interval)
             }
-            _signupScreenState.value = SignupScreenState.ConfirmationCodeScreen()
-        }
-    }
-
-    private fun getRightEndingMinutes(minutes: Int): String {
-        val preLastDigit = minutes % 100 / 10
-
-        if (preLastDigit == 1) {
-            return "$minutes минут"
-        }
-
-        return when (minutes % 10) {
-            1 -> "$minutes минута"
-            2 -> "$minutes минуты"
-            3 -> "$minutes минуты"
-            4 -> "$minutes минуты"
-            else -> "$minutes минут"
-        }
-    }
-
-    private fun getRightEndingAttempts(attempts: Int): String {
-        val preLastDigit = attempts % 100 / 10
-
-        if (preLastDigit == 1) {
-            return "$attempts попыток"
-        }
-
-        return when (attempts % 10) {
-            1 -> "$attempts попытка"
-            2 -> "$attempts попытки"
-            3 -> "$attempts попытки"
-            4 -> "$attempts попытки"
-            else -> "$attempts попыток"
+            _signUpStep.value = SignUpStep.ConfirmationCodeScreen()
         }
     }
 

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -18,7 +18,7 @@ import app.cashadvisor.R
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentSignupBinding
 import app.cashadvisor.signup.presentation.viewmodel.SignupViewModel
-import app.cashadvisor.signup.presentation.viewmodel.models.SignupScreenState
+import app.cashadvisor.signup.presentation.viewmodel.models.SignUpStep
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import app.cashadvisor.uikit.databinding.ItemDialogNoInternetBinding
@@ -49,7 +49,10 @@ class SignupFragment:
 
         binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
                 checkEmptyInput(text, binding.edittextComeUpWithAPassword)
-                viewModel.validatePassword(text.toString())
+                viewModel.validatePassword(
+                    text.toString(),
+                    binding.edittextConfirmThePassword.text.toString()
+                )
         }
 
         binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
@@ -64,7 +67,6 @@ class SignupFragment:
                 }
             }
         }
-
     }
 
     override fun onSubscribe() {
@@ -86,13 +88,11 @@ class SignupFragment:
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.signupScreenState.collect{ signupScreenState ->
+                viewModel.signUpStep.collect{ signupScreenState ->
                     updateScreenState(signupScreenState)
                 }
             }
         }
-
-
 
         viewModel.init()
     }
@@ -140,10 +140,8 @@ class SignupFragment:
             SignupUiState.SignupDataIsValid -> {
                 with(binding.btnCreateAccount){
                     isEnabled = true
-                    background = ResourcesCompat
-                        .getDrawable(resources,
-                            app.cashadvisor.uikit.R.drawable.black_button_r_10_no_stroke,
-                            null)
+                    background =  ContextCompat.getDrawable(
+                        requireContext(), app.cashadvisor.uikit.R.drawable.black_button_background)
                 }
 
             }
@@ -178,27 +176,18 @@ class SignupFragment:
     }
 
     private fun showErrorEditText(editText: EditText) {
-        editText.background = ResourcesCompat.getDrawable(
-            resources,
-            app.cashadvisor.uikit.R.drawable.text_input_background_error,
-            null
-        )
+        editText.background = ContextCompat.getDrawable(
+            requireContext(), app.cashadvisor.uikit.R.drawable.text_input_background_error)
     }
 
     private fun showSuccessEditText(editText: EditText) {
-        editText.background = ResourcesCompat.getDrawable(
-            resources,
-            app.cashadvisor.uikit.R.drawable.text_input_background_succes,
-            null
-        )
+        editText.background = ContextCompat.getDrawable(
+            requireContext(), app.cashadvisor.uikit.R.drawable.text_input_background_succes)
     }
 
     private fun showNeutralEditText(editText: EditText) {
-        editText.background = ResourcesCompat.getDrawable(
-            resources,
-            app.cashadvisor.uikit.R.drawable.corner_rectangle_bottomsheet,
-            null
-        )
+        editText.background = ContextCompat.getDrawable(
+            requireContext(), app.cashadvisor.uikit.R.drawable.text_input_background_neutral)
     }
 
     private fun checkEmptyInput(text: CharSequence?, editText: EditText): Boolean{
@@ -213,10 +202,15 @@ class SignupFragment:
             is SignupSideEffect.ShowMessage ->
                 Toast.makeText(requireContext(), getString(sideEffect.messageId), Toast.LENGTH_LONG).show()
 
-            is SignupSideEffect. ShowChangeableMessage ->
+            is SignupSideEffect.ShowChangeableMessage ->
                 Toast.makeText(
                     requireContext(),
-                    getString(sideEffect.messageId, sideEffect.messageChangeable),
+                    getString(
+                        sideEffect.messageId,
+                        resources.getQuantityString(
+                            sideEffect.pluralId,
+                            sideEffect.messageChangeable,
+                            sideEffect.messageChangeable)),
                     Toast.LENGTH_LONG
                 ).show()
 
@@ -227,20 +221,18 @@ class SignupFragment:
         }
     }
 
-    private fun updateScreenState(signupScreenstate: SignupScreenState){
+    private fun updateScreenState(signupScreenstate: SignUpStep){
         when (signupScreenstate){
-            is SignupScreenState.SignupScreen -> {
+            is SignUpStep.SignupScreen -> {
                 with(binding){
                     customSteps.changeSteps(2, 1)
                     clSignupInputDate.visibility = View.VISIBLE
                     clSignupConfirmationCode.visibility = View.GONE
                     etConfirmationCode.text?.clear()
-
-                    //btnLogin.isEnabled = state.isBtnLoginEnabled
                 }
             }
 
-            is SignupScreenState.ConfirmationCodeScreen -> {
+            is SignUpStep.ConfirmationCodeScreen -> {
                 with(binding) {
                     customSteps.changeSteps(2, 2)
                     clSignupInputDate.visibility = View.GONE
@@ -265,7 +257,7 @@ class SignupFragment:
                 }
             }
 
-            SignupScreenState.SignupEmailSuccessfullyConfirmed -> {
+            SignUpStep.SignupEmailSuccessfullyConfirmed -> {
                 findNavController().navigate(R.id.action_signupFragment_to_analyticsFragment)
             }
         }
@@ -278,11 +270,8 @@ class SignupFragment:
         val noInternetDialog = MaterialAlertDialogBuilder(requireContext())
             .setView(dialogBinding.root)
             .setBackground(
-                ResourcesCompat.getDrawable(
-                    resources,
-                    app.cashadvisor.uikit.R.drawable.dialog_no_internet_background,
-                    null
-                )
+                ContextCompat.getDrawable(
+                    requireContext(), app.cashadvisor.uikit.R.drawable.dialog_no_internet_background)
             )
             .show()
 

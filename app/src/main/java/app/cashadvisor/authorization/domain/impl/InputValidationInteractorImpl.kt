@@ -22,23 +22,29 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
 
     override suspend fun validateEmail(email: String): EmailValidationState {
         val isEmailValid = isValidText(email.trimStart().trimEnd(), REGEX_PATTERN_EMAIL)
-        return if (isEmailValid) {
+        return if (email.isEmpty()) EmailValidationState.Default
+        else if (isEmailValid) {
             EmailValidationState.Success(Email(value = email))
-        } else EmailValidationState.Error(
+        } else  EmailValidationState.Error(
             email = Email(EMPTY_VALUE),
             emailValidationError = EmailValidationError.EMAIL_NOT_VALID
         )
     }
 
     override suspend fun validatePassword(password: String): PasswordValidationState {
-        if (password.length < 8) {
+
+        if (password.isEmpty()) return PasswordValidationState.Default
+
+        else if (password.length < 8) {
             return PasswordValidationState.Error(
                 password = Password(EMPTY_VALUE),
                 passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH
             )
         }
+
         val isPasswordValid = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_PASSWORD)
         val isPasswordLengthValid: Boolean = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_LENGTH_PASSWORD)
+
         return if (isPasswordValid) {
             PasswordValidationState.Success(Password(value = password))
         } else if (!isPasswordLengthValid){
