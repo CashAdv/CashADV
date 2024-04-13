@@ -1,25 +1,65 @@
 package app.cashadvisor.authorization.presentation.ui
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.widget.addTextChangedListener
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import app.cashadvisor.R
-import app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery.PasswordRecoveryViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import app.cashadvisor.authorization.domain.models.ResetPasswordState
+import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryState
+import app.cashadvisor.authorization.presentation.viewmodel.PasswordRecoveryViewModel
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentPasswordRecoveryBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class PasswordRecoveryFragment() : BaseFragment<FragmentPasswordRecoveryBinding, PasswordRecoveryViewModel>(FragmentPasswordRecoveryBinding::inflate) {
     override val viewModel: PasswordRecoveryViewModel by viewModels()
     override fun onConfigureViews() {
-        TODO("Not yet implemented")
+        with(binding){
+            btnGetCode.setOnClickListener{
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.Recovery)
+            }
+            btnGetCode.setOnClickListener{
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmEmail)
+            }
+            btnSendNewPassword.setOnClickListener {
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmNewPassword)
+            }
+            etEmailInput.doOnTextChanged { text, _, _, _->
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmail(text.toString()))
+            }
+            etConfirmationCode.doOnTextChanged{ text, _, _, _ ->
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(text.toString()))
+            }
+            etPasswordInput.doOnTextChanged{text, _, _, _ ->
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetPassword(text.toString()))
+            }
+        }
     }
 
     override fun onSubscribe() {
-        TODO("Not yet implemented")
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.uiState.collect{ uiState ->
+
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch{
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.sideEffect.collect{
+
+                }
+            }
+        }
+        viewModel.init()
+    }
+    private fun updateUi(state:PasswordRecoveryState){
+
     }
 
 

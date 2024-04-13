@@ -64,6 +64,14 @@
     <string name="close">Закрыть</string>
     <string name="description_sleep_image">Это изображение спящего смайлика</string>
 
+    <!--RecoveryPassword screen-->
+    <string name="recoveryPassword">Восстановление пароля</string>
+    <string name="enter_email_acc">Введите email аккаунта</string>
+    <string name="get_the_code">Получить код</string>
+    <string name="recovery_instructions">На указанную почту мы отправим письмо \nсо ссылкой для сброса пароля</string>
+    <string name="come_up_with_a_password">Придумайте пароль</string>
+    <string name="new_password_instruction">Используйте цифры, буквы A-z и знак </string>
+
 
 
 

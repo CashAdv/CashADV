@@ -1,4 +1,4 @@
-package app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery.models
+package app.cashadvisor.authorization.domain.models.states
 
 import app.cashadvisor.authorization.domain.models.ConfirmCode
 import app.cashadvisor.authorization.domain.models.Email

@@ -1,4 +1,4 @@
-package app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery
+package app.cashadvisor.authorization.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
@@ -6,8 +6,10 @@ import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
 import app.cashadvisor.authorization.domain.models.states.ConfirmCodeValidationState
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-import app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery.models.PasswordRecoveryState
-import app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery.models.PasswordRecoveryUiState
+import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
+import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryState
+import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryUiState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
@@ -82,6 +84,9 @@ class PasswordRecoveryViewModel @Inject constructor(
                     _state.update {
                         it.copy(email = result.email, isEmailValid = false)
                     }
+                }
+                EmailValidationState.Default -> {
+
                 }
             }
         }
@@ -205,6 +210,9 @@ class PasswordRecoveryViewModel @Inject constructor(
                     _state.update {
                         it.copy(password = result.password, isNewPasswordValid = false)
                     }
+                }
+                PasswordValidationState.Default -> {
+
                 }
             }
         }

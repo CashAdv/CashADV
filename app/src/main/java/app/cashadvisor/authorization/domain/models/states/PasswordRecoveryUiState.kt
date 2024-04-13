@@ -1,4 +1,4 @@
-package app.cashadvisor.authorization.presentation.viewmodel.passwordrecovery.models
+package app.cashadvisor.authorization.domain.models.states
 
 data class PasswordRecoveryUiState(
     val emailIsValid:Boolean = false,
