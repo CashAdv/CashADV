@@ -93,8 +93,6 @@ class SignupViewModel @Inject constructor(
 
                     _signupUiState.emit(SignupUiState.EmailValid)
                 }
-
-                EmailValidationState.Default -> TODO()
             }
         }
     }
@@ -108,6 +106,7 @@ class SignupViewModel @Inject constructor(
 
         validatePasswordJob = viewModelScope.launch {
             delay(VALIDATE_DATA_DELAY_MILLIS)
+
             val resultValidatePassword
             = inputValidationInteractor.validatePassword(password)
 
@@ -142,8 +141,6 @@ class SignupViewModel @Inject constructor(
 
                     validateConfirmPassword(confirmPassword)
                 }
-
-                is PasswordValidationState.Default -> TODO()
             }
         }
     }

@@ -9,5 +9,4 @@ sealed interface PasswordValidationState {
         val password: Password,
         val passwordValidationError: PasswordValidationError
     ) : PasswordValidationState
-    data object Default : PasswordValidationState
 }
