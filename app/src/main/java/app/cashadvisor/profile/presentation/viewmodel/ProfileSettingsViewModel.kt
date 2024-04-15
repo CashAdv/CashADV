@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
+import app.cashadvisor.common.utils.debounce
 import app.cashadvisor.profile.domain.api.InputValidationError
 import app.cashadvisor.profile.domain.api.InputValidationInteractor
 import app.cashadvisor.profile.domain.api.InputValidationState
@@ -41,6 +42,15 @@ class ProfileSettingsViewModel @Inject constructor(
     private var picUrl: String? = null
     private var nameInput = ""
     private var surnameInput = ""
+
+    private val saveProfileDebounce =
+        debounce<Triple<String, String, String?>>(
+            DEBOUNCE_IN_MILLIS,
+            viewModelScope,
+            true
+        ) { newInfo ->
+            saveProfileRequest(newInfo)
+        }
 
     init {
         getProfileInfo()
@@ -86,12 +96,17 @@ class ProfileSettingsViewModel @Inject constructor(
         }
     }
 
-    // TODO: надо дебаунс добавить
     fun saveChanges(
         name: String,
         surname: String,
         profilePicUrl: String?
     ) {
+        saveProfileDebounce(Triple(name, surname, profilePicUrl))
+    }
+
+    private fun saveProfileRequest(data: Triple<String, String, String?>) {
+        val (name, surname, profilePicUrl) = data
+
         viewModelScope.launch {
             nameValidationState = inputValidationInteractor.validateName(name)
             surnameValidationState = inputValidationInteractor.validateSurname(surname)
@@ -212,5 +227,9 @@ class ProfileSettingsViewModel @Inject constructor(
             nameInputValidationState = nameValidationState,
             surnameInputValidationState = surnameValidationState
         )
+    }
+
+    companion object {
+        private const val DEBOUNCE_IN_MILLIS = 1000L
     }
 }
