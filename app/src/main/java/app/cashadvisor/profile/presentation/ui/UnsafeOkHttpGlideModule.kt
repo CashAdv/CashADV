@@ -1,7 +1,6 @@
 package app.cashadvisor.profile.presentation.ui
 
 import android.content.Context
-import app.cashadvisor.common.di.UnAuthInterceptorOkHttpClient
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
@@ -11,7 +10,6 @@ import com.bumptech.glide.module.AppGlideModule
 import okhttp3.OkHttpClient
 import java.io.InputStream
 import java.security.cert.CertificateException
-import javax.inject.Inject
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManager
@@ -20,7 +18,7 @@ import javax.net.ssl.X509TrustManager
 
 // TODO: можно будет удалить, когда решится проблема с сертификатами
 @GlideModule
-class UnsafeOkHttpGlideModule(): AppGlideModule() {
+class UnsafeOkHttpGlideModule() : AppGlideModule() {
     override fun registerComponents(context: Context, glide: Glide, registry: Registry) {
 
         val okHttpClient = provideUnsafeOkhttpClientBuilder().build()
@@ -33,7 +31,7 @@ class UnsafeOkHttpGlideModule(): AppGlideModule() {
         )
     }
 
-    // В конструктор модуля нельзя ничего передавать, поэтому без инджекта, но выносить никуда не стала
+    // В конструктор модуля нельзя ничего передавать, поэтому без инжекта, но выносить никуда не стала
     // Т.к. потом это всё равно можно будет убрать
 
     private fun provideUnsafeOkhttpClientBuilder(): OkHttpClient.Builder {
