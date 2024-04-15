@@ -33,6 +33,9 @@ class UnsafeOkHttpGlideModule(): AppGlideModule() {
         )
     }
 
+    // В конструктор модуля нельзя ничего передавать, поэтому без инджекта, но выносить никуда не стала
+    // Т.к. потом это всё равно можно будет убрать
+
     private fun provideUnsafeOkhttpClientBuilder(): OkHttpClient.Builder {
         try {
             // Create a trust manager that does not validate certificate chains
