@@ -144,6 +144,9 @@ class CodeConfirmationView @JvmOverloads constructor(
                 enteredCode.isNotEmpty()
             ) {
                 enteredCode = enteredCode.dropLast(1)
+                callback?.let {
+                    it(enteredCode)
+                }
                 return true // обработали событие удаления
             }
         }
