@@ -70,71 +70,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val logAndCrashButton = Button(this).apply {
-            text = "Log and Crash"
-            setOnClickListener {
-                Timber.tag("MainActivity").d("Debug log")
-                Timber.tag("MainActivity").i("Info log")
-                Timber.tag("MainActivity").w("Warning log")
-                Timber.tag("MainActivity").e("Error log")
-                throw RuntimeException("This is a test crash.")
-                FirebaseCrashlytics.getInstance().log("This is a test crash sended from button.")
-            }
-        }
-        binding.root.addView(logAndCrashButton)
-
 
         this.lifecycleScope.launch {
             viewModel.state.collect {
                 Timber.tag("MainActivity").d("AccountInformation: $it")
             }
         }
-
-        val storageButton = Button(this).apply {
-            text = "Storage"
-            setOnClickListener {
-                viewModel.saveCredentials( "test", "test")
-            }
-        }
-        var layoutParams =
-            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.topToTop = ConstraintLayout.LayoutParams.PARENT_ID
-        layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-
-        with(binding.root as ConstraintLayout) {
-            addView(storageButton, layoutParams)
-        }
-
-        val deleteStorageButton = Button(this).apply {
-            text = "Logout"
-            setOnClickListener {
-                viewModel.logout()
-            }
-        }
-        layoutParams =
-            ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID
-        layoutParams.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID
-
-        with(binding.root as ConstraintLayout) {
-            addView(deleteStorageButton, layoutParams)
-        }
-
-
-        // Creates a button that mimics a crash when pressed
-        /*val crashButton = TextView(this)
-        crashButton.text = "Test Crash"
-        crashButton.setOnClickListener {
-            throw RuntimeException("Test Crash") // Force a crash
-        }
-
-        addContentView(crashButton, ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT))*/
-
-
 
     }
 
