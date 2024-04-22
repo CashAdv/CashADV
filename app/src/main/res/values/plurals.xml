@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="endingMinutes">
+    <plurals name="ending_minutes">
         <item quantity="zero">минут</item>
         <item quantity="one">%1$d минуту</item>
         <item quantity="two">%1d минуты</item>
@@ -9,7 +9,7 @@
         <item quantity="other">%1$d минут</item>
     </plurals>
 
-    <plurals name="endingAttempts">
+    <plurals name="ending_attempts">
         <item quantity="one">%1$d попытка</item>
         <item quantity="two">%1$d попытки</item>
         <item quantity="few">%1$d попытки</item>

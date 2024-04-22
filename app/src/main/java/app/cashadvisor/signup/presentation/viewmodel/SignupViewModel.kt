@@ -259,7 +259,7 @@ class SignupViewModel @Inject constructor(
                             viewModelScope.launch {
                                 attemptsToSendConfirmationCode = result.error.remainingAttempts
                                 val minutesLeft =
-                                    result.error.lockDuration / DURATION_CONVERTING_CONST
+                                    result.error.lockDuration
 
                                 if (result.error.lockDuration > 0) {
                                     _sideEffects.emit(
@@ -267,7 +267,7 @@ class SignupViewModel @Inject constructor(
                                             .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_lock_duration,
                                                 minutesLeft.toInt(),
-                                                R.plurals.endingMinutes
+                                                R.plurals.ending_minutes
                                             )
                                     )
 
@@ -277,7 +277,7 @@ class SignupViewModel @Inject constructor(
                                             .ShowChangeableMessage(
                                                 app.cashadvisor.uikit.R.string.wrong_code_number_attempts,
                                                 attemptsToSendConfirmationCode,
-                                                R.plurals.endingAttempts
+                                                R.plurals.ending_attempts
                                             )
                                     )
                                 }
@@ -335,6 +335,5 @@ class SignupViewModel @Inject constructor(
         private const val VALIDATE_DATA_DELAY_MILLIS = 2000L
         private const val RESENDING_COOL_DOWN = 30000L
         private const val COUNT_DOWN_INTERVAL = 1000L
-        private const val DURATION_CONVERTING_CONST = 60000000000
     }
 }
