@@ -6,6 +6,7 @@ import app.cashadvisor.common.utill.exceptions.NetworkException
 import app.cashadvisor.common.utill.exceptions.RegisterException
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.nanoseconds
 
 class NetworkToRegisterExceptionMapper @Inject constructor(
     private val json: Json
@@ -49,7 +50,7 @@ class NetworkToRegisterExceptionMapper @Inject constructor(
                     handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
                 RegisterException.EmailCodeConfirmation.UnauthorizedWrongConfirmationCode(
                     remainingAttempts = errorResponse.remainingAttempts,
-                    lockDuration = errorResponse.lockDuration,
+                    lockDuration = errorResponse.lockDurationNanoseconds.nanoseconds.inWholeMinutes,
                     message = errorResponse.error,
                     statusCode = errorResponse.statusCode
                 )
