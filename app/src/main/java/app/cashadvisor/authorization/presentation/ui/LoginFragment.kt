@@ -63,14 +63,6 @@ class LoginFragment :
                 //navigation to support screen. It`s not exist yet
             }
 
-            etConfirmationCode.addTextChangedListener {
-                it?.let { code ->
-                    if (code.length == 4) {
-                        //viewModel.confirmLoginUsingCode(requireContext(), code)
-                    }
-                }
-            }
-
             codeConfirmationView.setCallback {
                 if (it.length == 4) {
                     viewModel.confirmLoginUsingCode(requireContext(), it)
@@ -118,7 +110,6 @@ class LoginFragment :
                     tvSubtitle.text = getString(R.string.enter_account_data)
                     clLoginForms.visibility = View.VISIBLE
                     clConfirmationCode.visibility = View.GONE
-                    etConfirmationCode.text?.clear()
                     codeConfirmationView.setCode("")
 
                     btnLogin.isEnabled = state.isBtnLoginEnabled
