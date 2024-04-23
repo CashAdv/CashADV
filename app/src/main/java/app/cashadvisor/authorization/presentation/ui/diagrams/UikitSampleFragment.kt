@@ -36,6 +36,10 @@ class UikitSampleFragment :
         binding.testFragmentButton.setOnClickListener {
             findNavController().navigate(R.id.action_uikitSampleFragment_to_testFragment)
         }
+
+        binding.codeConfirmationFragmentButton.setOnClickListener {
+            findNavController().navigate(R.id.action_uikitSampleFragment_to_codeConfirmationFragment)
+        }
     }
 
     override fun onSubscribe() {
