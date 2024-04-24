@@ -208,7 +208,7 @@ dependencyResolutionManagement {
             ).versionRef("glide")
 
             library(
-                "compiler",
+                "glide-compiler",
                 "com.github.bumptech.glide",
                 "compiler"
             ).versionRef("glide")

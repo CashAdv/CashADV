@@ -43,7 +43,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.glide)
-    annotationProcessor(libs.compiler)
+    annotationProcessor(libs.glide.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
