@@ -74,13 +74,14 @@ class SignupViewModel @Inject constructor(
         if (email.isEmpty()) return
 
         validateEmailJob = viewModelScope.launch {
+            delay(VALIDATE_DATA_DELAY_MILLIS)
 
             val resultValidationEmail
             = inputValidationInteractor.validateEmail(email)
 
             when (resultValidationEmail){
                 is EmailValidationState.Error -> {
-                    delay(VALIDATE_DATA_DELAY_MILLIS)
+
                     _signupDataState.update {it.copy(isEmailValid = false)}
 
                     _signupUiState.emit(SignupUiState.EmailNotValid)
@@ -100,7 +101,7 @@ class SignupViewModel @Inject constructor(
     fun validatePassword(password: String, confirmPassword: String){
         validatePasswordJob?.cancel()
 
-        //if (password.isEmpty()) return
+        if (password.isEmpty()) return
 
         if (password == signupDataState.value.password.value) return
 

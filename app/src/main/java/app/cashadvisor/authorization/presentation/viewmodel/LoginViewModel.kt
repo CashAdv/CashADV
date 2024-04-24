@@ -377,14 +377,14 @@ class LoginViewModel @Inject constructor(
                             logDebugMessage(
                                 context.getString(
                                     R.string.debug_message_wrong_code_lock_duration,
-                                    (result.error.lockDuration / DURATION_CONVERTING_CONST)
+                                    (result.error.lockDuration)
                                 )
                             )
 
                             viewModelScope.launch {
                                 attemptsToSendConfirmationCode = result.error.remainingAttempts
                                 val minutesLeft =
-                                    result.error.lockDuration / DURATION_CONVERTING_CONST
+                                    result.error.lockDuration
 
                                 if (result.error.lockDuration > 0) {
                                     /*_messageEvent.emit(
@@ -481,7 +481,5 @@ class LoginViewModel @Inject constructor(
     companion object {
         const val RESENDING_COOL_DOWN = 30000L
         const val COUNT_DOWN_INTERVAL = 1000L
-        const val DURATION_CONVERTING_CONST = 60000000000
     }
-
 }

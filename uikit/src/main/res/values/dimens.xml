@@ -60,4 +60,6 @@
     <dimen name="signup_padding_text_view_12">12dp</dimen>
     <dimen name="signup_padding_text_view_14">14dp</dimen>
     <dimen name="signup_margin_text_view">20dp</dimen>
+
+    <dimen name="symbol_view_text_size">16sp</dimen>
 </resources>

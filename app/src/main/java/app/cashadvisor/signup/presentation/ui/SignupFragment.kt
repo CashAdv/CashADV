@@ -60,11 +60,10 @@ class SignupFragment:
                 viewModel.validateConfirmPassword(text.toString())
         }
 
-        binding.etConfirmationCode.addTextChangedListener {
-            it?.let { code ->
-                if (code.length == 4) {
-                    viewModel.sendRegisterConfirmCode(code.toString())
-                }
+        binding.codeConfirmationView.setCallback { code ->
+
+            if (code.length == 4) {
+                viewModel.sendRegisterConfirmCode(code)
             }
         }
     }
@@ -202,7 +201,7 @@ class SignupFragment:
             is SignupSideEffect.ShowMessage ->
                 Toast.makeText(requireContext(), getString(sideEffect.messageId), Toast.LENGTH_LONG).show()
 
-            is SignupSideEffect.ShowChangeableMessage ->
+            is SignupSideEffect.ShowChangeableMessage -> {
                 Toast.makeText(
                     requireContext(),
                     getString(
@@ -210,9 +209,12 @@ class SignupFragment:
                         resources.getQuantityString(
                             sideEffect.pluralId,
                             sideEffect.messageChangeable,
-                            sideEffect.messageChangeable)),
+                            sideEffect.messageChangeable
+                        )
+                    ),
                     Toast.LENGTH_LONG
                 ).show()
+            }
 
             is SignupSideEffect.NoInternetConnection -> {
                 hideKeyboard()
@@ -228,7 +230,7 @@ class SignupFragment:
                     customSteps.changeSteps(2, 1)
                     clSignupInputDate.visibility = View.VISIBLE
                     clSignupConfirmationCode.visibility = View.GONE
-                    etConfirmationCode.text?.clear()
+                    codeConfirmationView.setCode("")
                 }
             }
 

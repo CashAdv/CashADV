@@ -164,20 +164,23 @@
                 android:textAppearance="@style/Widget.CashAdvisor.Text.Text_cont"
                 android:textColor="@color/colour1"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/ti_confirmation_code"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/signup_height_edittext"
-                app:hintEnabled="false">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_confirmation_code"
-                    style="@style/Widget.CashAdvisor.TextInputEditText"
-                    android:inputType="number"
-                    android:maxLength="4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
-            </com.google.android.material.textfield.TextInputLayout>
+            <app.cashadvisor.customView.CodeConfirmationView
+                android:id="@+id/codeConfirmationView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:symbolHeight="40dp"
+                app:symbolWidth="75dp"
+                app:symbolsSpacing="0dp"
+                app:symbolTextSize="14sp"
+                app:borderWidth="2dp"
+                app:borderColor="@color/subcolour1"
+                app:backgroundColour="@color/bg1"
+                app:codeLength="4"
+                app:backgroundCornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:layout_width="match_parent"
