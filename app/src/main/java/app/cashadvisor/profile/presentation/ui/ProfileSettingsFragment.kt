@@ -86,7 +86,7 @@ class ProfileSettingsFragment :
         uiState.profilePicUrl?.let {
             setImageToIV(it)
             profilePicUrl = it
-        }
+        } ?: setAvatarPlaceholder()
     }
 
     private fun updateValidationState(uiState: ProfileSettingsScreenState.InputValidation) {
@@ -94,7 +94,8 @@ class ProfileSettingsFragment :
             if (it != profilePicUrl) {
                 setImageToIV(it)
             }
-        }
+        } ?: setAvatarPlaceholder()
+
         binding.etName.updateState(uiState.nameInputValidationState)
         binding.etSurname.updateState(uiState.surnameInputValidationState)
     }
@@ -208,6 +209,13 @@ class ProfileSettingsFragment :
             )
             .apply(RequestOptions.circleCropTransform())
             .into(binding.ivProfilePic)
+    }
+
+    private fun setAvatarPlaceholder() {
+        binding.ivProfilePic.background = ContextCompat.getDrawable(
+            requireContext(),
+            R.drawable.placeholder_profile_picture
+        )
     }
 
     private fun setBtnSaveClickListener() {
