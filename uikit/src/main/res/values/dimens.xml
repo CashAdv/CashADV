@@ -40,12 +40,13 @@
     <dimen name="login_screen_edit_text_stroke_width">1dp</dimen>
     <dimen name="login_screen_login_btn_top_margin">80dp</dimen>
     <dimen name="login_screen_progress_bar_size">24dp</dimen>
-
+    <dimen name="symbol_view_text_size">16sp</dimen>
 
     <!--  Profile settings  -->
     <dimen name="root_layout_horizontal_padding">36dp</dimen>
     <dimen name="views_margin">20dp</dimen>
     <dimen name="profile_pic_size">45dp</dimen>
+
 
     <!--  Profile header dimens  -->
     <dimen name="header_margin_horizontal">36dp</dimen>

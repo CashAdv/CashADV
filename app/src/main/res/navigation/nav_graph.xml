@@ -393,6 +393,9 @@
         <action
             android:id="@+id/action_uikitSampleFragment_to_testFragment"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_uikitSampleFragment_to_codeConfirmationFragment"
+            app:destination="@id/codeConfirmationFragment" />
     </fragment>
     <fragment
         android:id="@+id/firstDiagramFragment"
@@ -438,4 +441,9 @@
         android:name="app.cashadvisor.profile.presentation.ui.ProfileSettingsFragment"
         android:label="fragment_profile_settings"
         tools:layout="@layout/fragment_profile_settings" />
+    <fragment
+        android:id="@+id/codeConfirmationFragment"
+        android:name="app.cashadvisor.authorization.presentation.ui.demo.CodeConfirmationFragment"
+        android:label="fragment_code_confirmation"
+        tools:layout="@layout/fragment_code_confirmation" />
 </navigation>
