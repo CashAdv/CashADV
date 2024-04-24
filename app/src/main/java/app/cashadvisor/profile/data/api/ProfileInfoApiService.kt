@@ -15,13 +15,11 @@ import retrofit2.http.Part
 
 interface ProfileInfoApiService {
 
-    @Headers("Content-Type: application/json")
     @GET("profile/info/get")
     suspend fun getUserInfo(
         @Header("Authorization") accessToken: String
     ): ProfileInfoResponse
 
-    @Headers("Content-Type: application/json")
     @PUT("profile/name/put")
     suspend fun updateUserName(
         @Header("Authorization") accessToken: String,
