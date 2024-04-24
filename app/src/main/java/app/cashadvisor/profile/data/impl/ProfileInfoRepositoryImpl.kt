@@ -54,7 +54,7 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
     private fun isEmptyProfile(userProfile: UserInfoDto): Boolean {
         return with(userProfile) {
-            surname == BLANK_PROFILE_SURNAME && name == BLANK_PROFILE_NAME && profilePicUrl == null
+            surname == BLANK_PROFILE_SURNAME && name == BLANK_PROFILE_NAME && profilePicUrl == BLANK_AVATAR_URL
         }
     }
 
@@ -116,5 +116,6 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     companion object {
         private const val BLANK_PROFILE_NAME = "Мы тебя не знаем..."
         private const val BLANK_PROFILE_SURNAME = "..."
+        private const val BLANK_AVATAR_URL = "null"
     }
 }
