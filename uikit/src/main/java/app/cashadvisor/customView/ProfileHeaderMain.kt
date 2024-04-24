@@ -21,9 +21,9 @@ class ProfileHeaderMain @JvmOverloads constructor(
     @StyleRes defStyleRes: Int = R.style.DefaultProfileHeaderStyle,
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private var tvUserName: TextView
-    private var tvAccountBalance: TextView
-    private var ivProfilePic: ImageView
+    private val tvUserName: TextView
+    private val tvAccountBalance: TextView
+    private val ivProfilePic: ImageView
 
     var userName: String = ""
         set(value) {
