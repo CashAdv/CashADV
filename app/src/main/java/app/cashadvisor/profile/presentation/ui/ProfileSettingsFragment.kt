@@ -157,7 +157,7 @@ class ProfileSettingsFragment :
             .setBackgroundTint(resources.getColor(R.color.black, null))
             .setTextColor(resources.getColor(R.color.white, null))
             .setActionTextColor(resources.getColor(R.color.white, null))
-            .setAction("OK") {//dismiss
+            .setAction(getString(R.string.ok)) {//dismiss
             }
             .show()
     }
