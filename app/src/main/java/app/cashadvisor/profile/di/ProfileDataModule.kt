@@ -1,9 +1,6 @@
 package app.cashadvisor.profile.di
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKeys
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
@@ -18,17 +15,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ProfileDataModule {
-
-    @Qualifier
-    @Retention(AnnotationRetention.BINARY)
-    annotation class ProfileSharedPrefs
 
     @Provides
     @Singleton
@@ -52,38 +43,7 @@ class ProfileDataModule {
     fun providesProfileExceptionToErrorMapper(): BaseExceptionToErrorMapper =
         ProfileExceptionToErrorMapper()
 
-
     @Provides
     @Singleton
-    @ProfileSharedPrefs
-    fun providesMasterKey(): String =
-        MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-
-    @Provides
-    @Singleton
-    @ProfileSharedPrefs
-    fun providesEncryptedSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        val masterKey = providesMasterKey()
-        return EncryptedSharedPreferences.create(
-            PROFILE_PREFS,
-            masterKey,
-            context,
-            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        )
-    }
-
-    @Provides
-    @Singleton
-    fun providesProfileInfoStorage(
-        @ApplicationContext context: Context,
-        @ProfileSharedPrefs storage: SharedPreferences = providesEncryptedSharedPreferences(context),
-        key: String = PROFILE_KEY,
-        gson: Json
-    ): ProfileInfoStorage = ProfileInfoStorageImpl(storage, key, gson)
-
-    companion object {
-        private const val PROFILE_PREFS = "profile_shared_prefs"
-        private const val PROFILE_KEY = "profile_key"
-    }
+    fun providesProfileInfoStorage(): ProfileInfoStorage = ProfileInfoStorageImpl()
 }

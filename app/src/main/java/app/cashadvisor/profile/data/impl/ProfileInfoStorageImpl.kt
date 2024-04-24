@@ -1,51 +1,36 @@
 package app.cashadvisor.profile.data.impl
 
-import android.content.SharedPreferences
-import androidx.core.content.edit
 import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.dto.UserInfoDto
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlinx.coroutines.sync.Mutex
 
-class ProfileInfoStorageImpl(
-    private val storage: SharedPreferences,
-    private val key: String,
-    private val json: Json
-) : ProfileInfoStorage {
+class ProfileInfoStorageImpl : ProfileInfoStorage {
+
+    private val profileInfoMutex = Mutex()
+    private var profileInfo: UserInfoDto? = null
+
     override suspend fun getProfileInfo(): UserInfoDto? {
-        return storage.getString(key, null)?.let {
-            json.decodeFromString<UserInfoDto>(it)
-        }
+        profileInfoMutex.lock()
+        val copy = profileInfo?.copy()
+        profileInfoMutex.unlock()
+        return copy
     }
 
     override suspend fun saveProfileInfo(userInfoDto: UserInfoDto) {
-        val data = json.encodeToString(userInfoDto)
-        storage.edit {
-            putString(key, data)
-        }
+        profileInfoMutex.lock()
+        profileInfo = userInfoDto.copy()
+        profileInfoMutex.unlock()
     }
 
     override suspend fun updateUserName(name: String, surname: String) {
-        val currentInfo = getProfileInfo()
-        currentInfo?.let {
-            val data = json.encodeToString(
-                it.copy(name = name, surname = surname)
-            )
-            storage.edit {
-                putString(key, data)
-            }
-        }
+        profileInfoMutex.lock()
+        profileInfo = profileInfo?.copy(name = name, surname = surname)
+        profileInfoMutex.unlock()
     }
 
     override suspend fun updateProfilePic(picUrl: String) {
-        val currentInfo = getProfileInfo()
-        currentInfo?.let {
-            val data = json.encodeToString(
-                it.copy(profilePicUrl = picUrl)
-            )
-            storage.edit {
-                putString(key, data)
-            }
-        }
+        profileInfoMutex.lock()
+        profileInfo = profileInfo?.copy(profilePicUrl = picUrl)
+        profileInfoMutex.unlock()
     }
 }
