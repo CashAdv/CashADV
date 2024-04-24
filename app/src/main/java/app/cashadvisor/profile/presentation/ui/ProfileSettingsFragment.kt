@@ -254,7 +254,6 @@ class ProfileSettingsFragment :
         binding.etSurname.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 binding.etSurname.clearFocus()
-                true
             }
             false
         }
