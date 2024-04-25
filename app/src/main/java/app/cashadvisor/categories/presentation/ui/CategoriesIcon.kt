@@ -1,11 +1,12 @@
 package app.cashadvisor.categories.presentation.ui
 
 import androidx.annotation.DrawableRes
-import app.cashadvisor.R
 
 enum class CategoriesIcon(
     @DrawableRes val imageResId: Int,
     val imageId: Int) {
+
+    //Иконки для категорий с привязкой к id согласно документации
 
     WRAPPED_GIFT(app.cashadvisor.uikit.R.drawable.ic_wrapped_gift, 1),
     SAVINGS(app.cashadvisor.uikit.R.drawable.ic_savings, 2),
@@ -31,5 +32,25 @@ enum class CategoriesIcon(
     PIZZA(app.cashadvisor.uikit.R.drawable.ic_pizza, 22),
     HAMMER_AND_WRENCH(app.cashadvisor.uikit.R.drawable.ic_hammer_and_wrench, 23),
     CURRENCY(app.cashadvisor.uikit.R.drawable.ic_currency, 24),
-    BRIFCASE(app.cashadvisor.uikit.R.drawable.ic_briefcase, 25),
+    BRIEFCASE(app.cashadvisor.uikit.R.drawable.ic_briefcase, 25);
+
+    companion object {
+        //Ключ id по документации, значение id иконки в ресурсах
+        private val mapCategoriesIconResId =
+            entries.associateBy(CategoriesIcon::imageId, CategoriesIcon::imageResId)
+
+        //Ключ id иконки в ресурсах, значение id по документации
+        private val mapCategoriesIconId =
+            entries.associateBy(CategoriesIcon::imageId, CategoriesIcon::imageResId)
+
+        //Функция для получения id иконки в ресурах по id в документации
+        fun getCategoriesImageResIdFromId(id: Int): Int?{
+            return mapCategoriesIconResId[id]
+        }
+
+        //Функция для получения id документации по id иконки в ресурсах
+        fun getCategoriesImageFromResId(resId: Int): Int?{
+            return mapCategoriesIconResId[resId]
+        }
+    }
 }
