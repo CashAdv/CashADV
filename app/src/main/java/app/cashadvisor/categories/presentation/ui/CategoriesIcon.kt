@@ -41,7 +41,7 @@ enum class CategoriesIcon(
 
         //Ключ id иконки в ресурсах, значение id по документации
         private val mapCategoriesIconId =
-            entries.associateBy(CategoriesIcon::imageId, CategoriesIcon::imageResId)
+            entries.associateBy(CategoriesIcon::imageResId, CategoriesIcon::imageId)
 
         //Функция для получения id иконки в ресурах по id в документации
         fun getCategoriesImageResIdFromId(id: Int): Int?{
@@ -50,7 +50,7 @@ enum class CategoriesIcon(
 
         //Функция для получения id документации по id иконки в ресурсах
         fun getCategoriesImageFromResId(resId: Int): Int?{
-            return mapCategoriesIconResId[resId]
+            return mapCategoriesIconId[resId]
         }
     }
 }
