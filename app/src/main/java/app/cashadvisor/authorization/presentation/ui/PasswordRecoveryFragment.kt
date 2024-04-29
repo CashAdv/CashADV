@@ -1,18 +1,15 @@
 package app.cashadvisor.authorization.presentation.ui
 
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import app.cashadvisor.authorization.domain.models.ResetPasswordState
-import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryState
+import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryScreenState
 import app.cashadvisor.authorization.presentation.viewmodel.PasswordRecoveryViewModel
 import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentPasswordRecoveryBinding
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class PasswordRecoveryFragment() : BaseFragment<FragmentPasswordRecoveryBinding, PasswordRecoveryViewModel>(FragmentPasswordRecoveryBinding::inflate) {
@@ -23,19 +20,19 @@ class PasswordRecoveryFragment() : BaseFragment<FragmentPasswordRecoveryBinding,
                 viewModel.handleEvent(RecoveryPasswordScreenEvent.Recovery)
             }
             btnGetCode.setOnClickListener{
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmEmail)
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmEmail(requireContext()))
             }
             btnSendNewPassword.setOnClickListener {
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmNewPassword)
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.ConfirmNewPassword(requireContext()))
             }
             etEmailInput.doOnTextChanged { text, _, _, _->
                 viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmail(text.toString()))
             }
             etConfirmationCode.doOnTextChanged{ text, _, _, _ ->
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(text.toString()))
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(text.toString(), requireContext()))
             }
             etPasswordInput.doOnTextChanged{text, _, _, _ ->
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetPassword(text.toString()))
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetPassword(text.toString(), requireContext()))
             }
         }
     }
@@ -44,6 +41,7 @@ class PasswordRecoveryFragment() : BaseFragment<FragmentPasswordRecoveryBinding,
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.uiState.collect{ uiState ->
+                    updateUi(uiState)
 
                 }
 
@@ -56,9 +54,20 @@ class PasswordRecoveryFragment() : BaseFragment<FragmentPasswordRecoveryBinding,
                 }
             }
         }
-        viewModel.init()
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                viewModel.messageEvent.collect{
+
+                }
+            }
+        }
+
     }
-    private fun updateUi(state:PasswordRecoveryState){
+    private fun updateUi(state: PasswordRecoveryScreenState){
+        with(binding){
+
+
+        }
 
     }
 

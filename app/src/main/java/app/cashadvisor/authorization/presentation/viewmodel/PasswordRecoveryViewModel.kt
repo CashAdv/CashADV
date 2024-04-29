@@ -1,29 +1,37 @@
 package app.cashadvisor.authorization.presentation.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
+import app.cashadvisor.authorization.domain.models.ConfirmCode
+import app.cashadvisor.authorization.domain.models.Email
+import app.cashadvisor.authorization.domain.models.Password
+import app.cashadvisor.authorization.domain.models.PasswordValidationError
 import app.cashadvisor.authorization.domain.models.states.ConfirmCodeValidationState
 import app.cashadvisor.authorization.domain.models.states.EmailValidationState
+import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryScreenState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
+import app.cashadvisor.authorization.presentation.ui.models.RecoveryScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
 import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
-import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryState
-import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryUiState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.common.utill.extensions.logDebugMessage
+import app.cashadvisor.uikit.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class PasswordRecoveryViewModel @Inject constructor(
@@ -31,225 +39,360 @@ class PasswordRecoveryViewModel @Inject constructor(
     private val inputValidationInteractor: InputValidationInteractor
 ) : BaseViewModel() {
 
-    private val _uiState:MutableStateFlow<PasswordRecoveryUiState> = MutableStateFlow(
-        PasswordRecoveryUiState()
-    )
-    val uiState:StateFlow<PasswordRecoveryUiState> = _uiState.asStateFlow()
 
-    private val _state: MutableStateFlow<PasswordRecoveryState> = MutableStateFlow(
-        PasswordRecoveryState()
+    private var emailInput = ""
+    private var confirmCode = ""
+    private var passwordInput = ""
+
+    private var attemptsToSendConfirmationCode = 3
+
+    private var resendCountDownJob: Job? = null
+
+    private val _uiState: MutableStateFlow<PasswordRecoveryScreenState> = MutableStateFlow(
+        PasswordRecoveryScreenState.EmailInput(
+            emailState = EmailValidationState.Default,
+            isBtnLoginEnabled = false
+        )
     )
-    private val state: StateFlow<PasswordRecoveryState> = _state.asStateFlow()
+    val uiState: StateFlow<PasswordRecoveryScreenState> = _uiState.asStateFlow()
 
     private val _sideEffects: MutableSharedFlow<RecoverySideEffect> = MutableSharedFlow()
-
     val sideEffect: SharedFlow<RecoverySideEffect> = _sideEffects.asSharedFlow()
-    private val currentState get() = state.replayCache.firstOrNull() ?: PasswordRecoveryState()
 
-    fun init(){
-        viewModelScope.launch {
-            state.collect{ state ->
-                _uiState.update { uiState ->
-                    uiState.copy(
-                        emailIsValid = state.isEmailValid,
-                        confirmEmailCodeIsValid = state.isEmailCodeValid && state.isRecoveryPasswordInProgress,
-                        newPasswordIsValid = state.isNewPasswordValid && state.isRecoveryPasswordInProgress
-                    )
-                }
+    private val _messageEvent = MutableSharedFlow<RecoveryScreenMessageContent>()
+    val messageEvent = _messageEvent.asSharedFlow()
 
 
-            }
-        }
-    }
-    fun handleEvent(event: RecoveryPasswordScreenEvent){
-        when(event){
+    fun handleEvent(event: RecoveryPasswordScreenEvent) {
+        when (event) {
             is RecoveryPasswordScreenEvent.SetEmail -> setEmail(event.email)
             RecoveryPasswordScreenEvent.Recovery -> recovery()
-            is RecoveryPasswordScreenEvent.SetEmailConfirmCode -> setEmailConfirmCode(event.code)
-            RecoveryPasswordScreenEvent.ConfirmEmail -> sendEmailConfirmCode()
-            is RecoveryPasswordScreenEvent.SetPassword -> setPassword(event.password)
-            RecoveryPasswordScreenEvent.ConfirmNewPassword -> sendNewPassword()
+            is RecoveryPasswordScreenEvent.SetEmailConfirmCode -> setEmailConfirmCode(event.code, event.context)
+            is RecoveryPasswordScreenEvent.ConfirmEmail -> sendEmailConfirmCode(event.context)
+            is RecoveryPasswordScreenEvent.SetPassword -> setPassword(event.password, event.context)
+            is RecoveryPasswordScreenEvent.ConfirmNewPassword -> sendNewPassword(event.context)
         }
     }
-    private fun setEmail(email:String){
+
+    private fun setEmail(email: String) {
         viewModelScope.launch {
             val result = inputValidationInteractor.validateEmail(email)
             when (result) {
                 is EmailValidationState.Success -> {
-                    _state.update {
-                        it.copy(email = result.email, isEmailValid = true)
-                    }
+                    _uiState.value = PasswordRecoveryScreenState.EmailInput(
+                        emailState = result,
+                        isBtnLoginEnabled = true
+                    )
+                    emailInput = email
+                    RecoveryPasswordScreenEvent.Recovery
                 }
+
                 is EmailValidationState.Error -> {
-                    _state.update {
-                        it.copy(email = result.email, isEmailValid = false)
-                    }
+                    _uiState.value = PasswordRecoveryScreenState.EmailInput(
+                        emailState = result,
+                        isBtnLoginEnabled = false
+                    )
+                    emailValidationErrorMessage(result)
                 }
+
                 EmailValidationState.Default -> {
+                    _uiState.value = PasswordRecoveryScreenState.EmailInput(
+                        emailState = result,
+                        isBtnLoginEnabled = false
+                    )
 
                 }
             }
         }
     }
-    private fun recovery(){
-        viewModelScope.launch{
-            resetPasswordInteractor.isResetPasswordInProgress().collect{ isInProgress ->
-                _state.update {
-                    it.copy(
-                        isRecoveryPasswordInProgress = isInProgress
-                    )
-                }
 
-            }
+
+
+
+private fun recovery() {
+    viewModelScope.launch {
+        resetPasswordInteractor.isResetPasswordInProgress().collect { isInProgress ->
+            _uiState.value
+
         }
-        viewModelScope.launch{
-            val result = resetPasswordInteractor.confirmEmailForPasswordReset(
-                currentState.email
-            )
-            when(result){
-                is Resource.Success -> {
-                    logDebugMessage("Message recovery ${result.data.message}")
-                    viewModelScope.launch {
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = result.data.message))
-                    }
+    }
+    viewModelScope.launch {
+        val result = resetPasswordInteractor.confirmEmailForPasswordReset(
+            Email(emailInput)
+        )
+        when (result) {
+            is Resource.Success -> {
+                logDebugMessage("Message recovery ${result.data.message}")
+                viewModelScope.launch {
+                    _uiState.value = PasswordRecoveryScreenState.ConfirmationCode()
+                    _sideEffects.emit(RecoverySideEffect.HideKeyboard)
+                   sendConfirmationCodeByEmail()
                 }
-                is Resource.Error -> {
-                    viewModelScope.launch{
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = "Error: ${result.error.message}"))
+            }
+
+            is Resource.Error -> {
+
+                when (result.error) {
+
+                    is ErrorEntity.NetworksError.NoInternet -> {
+                        logDebugMessage("NoInternet ${result.error.message}")
+                        _sideEffects.emit(RecoverySideEffect.NoInternetConnection)
                     }
-                    when (result.error) {
 
-                        is ErrorEntity.NetworksError.NoInternet -> {
-                            logDebugMessage("NoInternet ${result.error.message}")
-                        }
+                    is ErrorEntity.ConfirmEmailToResetPassword -> {
+                        when (result.error) {
+                            is ErrorEntity.ConfirmEmailToResetPassword.FailedToGenerateTokenOrSendEmail -> {
+                                logDebugMessage("FailedToGenerateTokenOrSendEmail ${result.error.message}")
 
-                        is ErrorEntity.ConfirmEmailToResetPassword -> {
-                            when (result.error) {
-                                is ErrorEntity.ConfirmEmailToResetPassword.FailedToGenerateTokenOrSendEmail -> {
-                                    logDebugMessage("FailedToGenerateTokenOrSendEmail ${result.error.message}")
-                                }
+                            }
 
-                                is ErrorEntity.ConfirmEmailToResetPassword.InvalidInput -> {
-                                    logDebugMessage("InvalidEmail ${result.error.message}")
+                            is ErrorEntity.ConfirmEmailToResetPassword.InvalidInput -> {
+                                logDebugMessage("InvalidEmail ${result.error.message}")
+                                _messageEvent.emit(RecoveryScreenMessageContent.LoginError(message = result.error.message))
 
-                                }
                             }
                         }
+                    }
 
-                        else -> {
-                            logDebugMessage("Something went wrong ${result.error.message}")
-                        }
+                    else -> {
+                        logDebugMessage("Something went wrong ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.LoginError(message = result.error.message))
                     }
                 }
             }
         }
     }
-    private fun setEmailConfirmCode(code:String){
+}
+
+private fun setEmailConfirmCode(code: String, context: Context) {
+    viewModelScope.launch {
+        val result = inputValidationInteractor.validateConfirmationCode(code)
+        when (result) {
+            is ConfirmCodeValidationState.Success -> {
+                _uiState.value = PasswordRecoveryScreenState.ConfirmationCode()
+                confirmCode = code
+                RecoveryPasswordScreenEvent.ConfirmEmail(context)
+            }
+
+            is ConfirmCodeValidationState.Error -> {
+
+
+            }
+        }
+    }
+}
+
+private fun sendEmailConfirmCode(context:Context) {
+    viewModelScope.launch {
+        val result = resetPasswordInteractor.resetPasswordConfirmWithCode(ConfirmCode(confirmCode))
+        when (result) {
+            is Resource.Success -> {
+                viewModelScope.launch {
+                   _uiState.value = PasswordRecoveryScreenState.PasswordInput(
+                       passwordState = PasswordValidationState.Default,
+                       isBtnResetPasswordEnabled = false
+                   )
+                }
+            }
+
+            is Resource.Error -> {
+
+                when (result.error) {
+                    is ErrorEntity.ConfirmResetPasswordByEmailWithCode.InvalidInput -> {
+                        logDebugMessage(
+                            context.getString(
+                                R.string.debug_message_invalid_request_payload,
+                                result.error.message
+                            )
+                        )
+                        _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                        context.getString(R.string.invalid_or_expired_token)))
+                        navigateBackToEmailState()
+                    }
+
+                    is ErrorEntity.ConfirmResetPasswordByEmailWithCode.WrongConfirmationCode -> {
+
+                        logDebugMessage("InvalidToken ${result.error.message}")
+                        viewModelScope.launch {
+                            attemptsToSendConfirmationCode = result.error.remainingAttempts
+                            if(attemptsToSendConfirmationCode>0){
+                                _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                                context.getString(R.string.invalid_confirmation_code)))
+                            }else{
+                                _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                                context.getString(R.string.user_is_locked)))
+                                navigateBackToEmailState()
+                            }
+
+
+                        }
+
+                    }
+
+                    is ErrorEntity.ConfirmResetPasswordByEmailWithCode.FailedToConfirmPasswordReset -> {
+                        logDebugMessage("WrongConfirmationCode ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                        context.getString(R.string.failed_to_confirm_email_or_register_user)))
+                        navigateBackToEmailState()
+                    }
+
+                    is ErrorEntity.NetworksError.NoInternet -> {
+                        logDebugMessage("NoInternet ${result.error.message}")
+                        _sideEffects.emit(RecoverySideEffect.NoInternetConnection)
+
+                    }
+
+                    else -> {
+                        logDebugMessage(
+                            context.getString(
+                                R.string.debug_message_something_went_wrong,
+                                result.error.message
+                            ))
+                        _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                        result.error.message))
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+private fun setPassword(password: String, context: Context) {
+    viewModelScope.launch {
+        val result = inputValidationInteractor.validatePassword(password)
+        when (result) {
+            is PasswordValidationState.Success -> {
+                _uiState.value = PasswordRecoveryScreenState.PasswordInput(
+                    passwordState = result,
+                    isBtnResetPasswordEnabled = true
+                )
+                RecoveryPasswordScreenEvent.ConfirmNewPassword(context)
+            }
+
+            is PasswordValidationState.Error -> {
+                _uiState.value = PasswordRecoveryScreenState.PasswordInput(
+                    passwordState = result,
+                    isBtnResetPasswordEnabled = false
+                )
+                passwordValidationErrorMessage(result)
+            }
+
+            PasswordValidationState.Default -> {
+                _uiState.value = PasswordRecoveryScreenState.PasswordInput(
+                    passwordState = result,
+                    isBtnResetPasswordEnabled = false
+                )
+
+            }
+        }
+    }
+}
+
+private fun sendNewPassword(context: Context) {
+    viewModelScope.launch {
+        val result =
+            resetPasswordInteractor.saveNewPassword(email = Email(emailInput), password = Password(passwordInput))
+        when (result) {
+            is Resource.Success -> {
+                viewModelScope.launch {
+                    logDebugMessage(
+                        context.getString(R.string.debug_message_success_reset_password)
+                    )
+                    _sideEffects.emit(RecoverySideEffect.PasswordSuccessfullyConfirmed)
+                }
+            }
+
+            is Resource.Error -> {
+                when (result.error) {
+                    is ErrorEntity.SaveNewPassword.InvalidInput -> {
+                        logDebugMessage("InvalidInput ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                    }
+
+                    is ErrorEntity.SaveNewPassword.InvalidToken -> {
+                        logDebugMessage("InvalidToken ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                    }
+
+                    is ErrorEntity.SaveNewPassword.FailedToResetPassword -> {
+                        logDebugMessage("FailedToResetPassword ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                    }
+
+                    is ErrorEntity.NetworksError.NoInternet -> {
+                        logDebugMessage("NoInternet ${result.error.message}")
+                        _sideEffects.emit(RecoverySideEffect.NoInternetConnection)
+                    }
+
+                    else -> {
+                        logDebugMessage("Something went wrong ${result.error.message}")
+                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                    }
+
+                }
+            }
+        }
+    }
+}
+    private fun emailValidationErrorMessage(
+        emailValidationState: EmailValidationState,
+    ) {
         viewModelScope.launch {
-            val result = inputValidationInteractor.validateConfirmationCode(code)
-            when(result){
-                is ConfirmCodeValidationState.Success -> {
-                    _state.update {
-                        it.copy(emailCode =  result.confirmCode, isEmailCodeValid = true)
-                    }
-                }
-                is ConfirmCodeValidationState.Error -> {
-                    _state.update {
-                        it.copy(emailCode = result.confirmCode, isEmailCodeValid = false)
-                    }
-                }
-            }
-        }
-    }
-    private fun sendEmailConfirmCode(){
-        viewModelScope.launch {
-            val result = resetPasswordInteractor.resetPasswordConfirmWithCode(currentState.emailCode)
-            when(result){
-                is Resource.Success -> {
-                    viewModelScope.launch{
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = result.data))
-                    }
-                }
-                is Resource.Error -> {
-                    viewModelScope.launch{
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = result.error.message))
-                    }
-                    when(result.error){
-                        is ErrorEntity.ConfirmResetPasswordByEmailWithCode.InvalidInput -> {
-                            logDebugMessage("FailedToConfirmEmailOrRegisterUser ${result.error.message}")
-                        }
-                        is ErrorEntity.ConfirmResetPasswordByEmailWithCode.WrongConfirmationCode -> {
-
-                            logDebugMessage("InvalidToken ${result.error.message}")
-                        }
-                        is ErrorEntity.ConfirmResetPasswordByEmailWithCode.FailedToConfirmPasswordReset ->{
-                            logDebugMessage("WrongConfirmationCode ${result.error.message}")
-
-                        }
-                        is ErrorEntity.NetworksError.NoInternet ->{
-                            logDebugMessage("NoInternet ${result.error.message}")
-
-                        }
-                        else -> {}
-                    }
-                }
+            if (emailValidationState is EmailValidationState.Error) {
+                _messageEvent.emit(RecoveryScreenMessageContent.EmailFormatError)
 
             }
         }
     }
-    private fun setPassword(password:String){
+    private fun passwordValidationErrorMessage(
+        passwordValidationState: PasswordValidationState
+    ){
         viewModelScope.launch{
-            val result = inputValidationInteractor.validatePassword(password)
-            when(result){
-                is PasswordValidationState.Success -> {
-                    _state.update {
-                        it.copy(password = result.password, isNewPasswordValid = true)
+            if (passwordValidationState is PasswordValidationState.Error){
+                when(passwordValidationState.passwordValidationError){
+                    PasswordValidationError.PASSWORD_NOT_VALID -> {
+                        _messageEvent.emit(RecoveryScreenMessageContent.PasswordFormatError)
                     }
-                }
-                is PasswordValidationState.Error -> {
-                    _state.update {
-                        it.copy(password = result.password, isNewPasswordValid = false)
+                    PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH -> {
+                        _messageEvent.emit(RecoveryScreenMessageContent.PasswordCountError)
                     }
-                }
-                PasswordValidationState.Default -> {
-
                 }
             }
         }
     }
-    private fun sendNewPassword(){
-        viewModelScope.launch {
-            val result = resetPasswordInteractor.saveNewPassword(currentState.email, currentState.password)
-            when(result){
-                is Resource.Success -> {
-                    viewModelScope.launch{
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = result.data.message))
-                    }
-                }
-                is Resource.Error -> {
-                    viewModelScope.launch{
-                        _sideEffects.emit(RecoverySideEffect.ShowMessage(message = result.error.message))
-                    }
-                    when(result.error){
-                        is ErrorEntity.SaveNewPassword.InvalidInput ->{
-                            logDebugMessage("InvalidInput ${result.error.message}")
-                        }
-                        is ErrorEntity.SaveNewPassword.InvalidToken -> {
-                            logDebugMessage("InvalidToken ${result.error.message}")
-                        }
-                        is ErrorEntity.SaveNewPassword.FailedToResetPassword -> {
-                            logDebugMessage("FailedToResetPassword ${result.error.message}")
-                        }
-                        is ErrorEntity.NetworksError.NoInternet -> {
-                            logDebugMessage("NoInternet ${result.error.message}")
-                        }
-                        else -> {
-                            logDebugMessage("Something went wrong ${result.error.message}")
-                        }
+    fun sendConfirmationCodeByEmail() {
+        //add some method in future to send code to email
+        startCountDownToResendCode()
+    }
+    private fun startCountDownToResendCode(
+    ) {
+        resendCountDownJob = viewModelScope.launch(Dispatchers.IO) {
+            var allTime = RESENDING_COOL_DOWN
+            val interval = COUNT_DOWN_INTERVAL
 
-                    }
-                }
+            while (allTime > 0) {
+                _uiState.value = PasswordRecoveryScreenState.ConfirmationCode(
+                    resendingCoolDownSec = (allTime / 1000).toString()
+                )
+                allTime -= interval
+                delay(interval)
             }
+            _uiState.value = PasswordRecoveryScreenState.ConfirmationCode()
         }
+    }
+    fun navigateBackToEmailState() {
+        viewModelScope.launch {
+            resendCountDownJob?.cancel()
+            _uiState.value = PasswordRecoveryScreenState.EmailInput(
+                emailState = EmailValidationState.Default,
+                isLoginSuccessful = null,
+                isBtnLoginEnabled = true
+            )
+        }
+    }
+    companion object {
+        const val RESENDING_COOL_DOWN = 30000L
+        const val COUNT_DOWN_INTERVAL = 1000L
     }
 }
