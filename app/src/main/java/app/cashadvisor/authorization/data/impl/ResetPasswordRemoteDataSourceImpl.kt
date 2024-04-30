@@ -11,6 +11,7 @@ import app.cashadvisor.authorization.data.models.ResetPasswordOutputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordInputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordOutputDto
 import app.cashadvisor.common.utill.exceptions.NetworkException
+import app.cashadvisor.common.utill.extensions.logDebugMessage
 import javax.inject.Inject
 
 class ResetPasswordRemoteDataSourceImpl @Inject constructor(
@@ -21,8 +22,9 @@ class ResetPasswordRemoteDataSourceImpl @Inject constructor(
     override suspend fun resetPassword(inputDto: ResetPasswordInputDto): ResetPasswordOutputDto {
         return try {
             val response = resetPasswordApiService.resetPassword(
-                passworResetRequest = resetDataMapper.toResetPasswordRequest(inputDto)
+                passwordResetRequest = resetDataMapper.toResetPasswordRequest(inputDto)
             )
+            logDebugMessage(resetDataMapper.toResetPasswordRequest(inputDto).toString())
             resetDataMapper.toResetPasswordOutputDto(response)
         }catch (exception: NetworkException){
             throw networkToResetPasswordExceptionMapper.handleConfirmEmailToResetPassword(exception)

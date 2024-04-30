@@ -7,5 +7,4 @@ import kotlinx.serialization.Serializable
 data class ResetPasswordConfirmationResponse(
     val message:String,
     val token:String,
-    @SerialName("status_code") val statusCode: Int = 0
-    )
+    @SerialName("status_code") val statusCode: Int = 0)

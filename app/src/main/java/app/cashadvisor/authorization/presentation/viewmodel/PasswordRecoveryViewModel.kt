@@ -1,6 +1,7 @@
 package app.cashadvisor.authorization.presentation.viewmodel
 
 import android.content.Context
+import android.text.Editable
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
@@ -39,7 +40,6 @@ class PasswordRecoveryViewModel @Inject constructor(
     private val inputValidationInteractor: InputValidationInteractor
 ) : BaseViewModel() {
 
-
     private var emailInput = ""
     private var confirmCode = ""
     private var passwordInput = ""
@@ -74,7 +74,8 @@ class PasswordRecoveryViewModel @Inject constructor(
         }
     }
 
-    private fun setEmail(email: String) {
+    private fun setEmail(
+        email: String) {
         viewModelScope.launch {
             val result = inputValidationInteractor.validateEmail(email)
             when (result) {
@@ -84,7 +85,9 @@ class PasswordRecoveryViewModel @Inject constructor(
                         isBtnLoginEnabled = true
                     )
                     emailInput = email
-                    RecoveryPasswordScreenEvent.Recovery
+                    recovery()
+
+
                 }
 
                 is EmailValidationState.Error -> {
@@ -106,17 +109,16 @@ class PasswordRecoveryViewModel @Inject constructor(
         }
     }
 
-
-
-
 private fun recovery() {
-    viewModelScope.launch {
-        resetPasswordInteractor.isResetPasswordInProgress().collect { isInProgress ->
-            _uiState.value
 
+    viewModelScope.launch {
+        resetPasswordInteractor.isResetPasswordInProgress().collect{
+            _uiState.value
         }
     }
-    viewModelScope.launch {
+
+    viewModelScope.launch(Dispatchers.IO) {
+        logDebugMessage(emailInput)
         val result = resetPasswordInteractor.confirmEmailForPasswordReset(
             Email(emailInput)
         )
@@ -162,6 +164,7 @@ private fun recovery() {
             }
         }
     }
+
 }
 
 private fun setEmailConfirmCode(code: String, context: Context) {
@@ -390,6 +393,45 @@ private fun sendNewPassword(context: Context) {
                 isBtnLoginEnabled = true
             )
         }
+    }
+    fun emailInputListener(
+        emailInput: Editable? = null,
+
+    ) {
+        if (emailInput.toString() == this.emailInput) return
+
+        viewModelScope.launch {
+            emailInput?.let {
+                this@PasswordRecoveryViewModel.emailInput = it.toString()
+            }
+
+            val isBtnLoginEnabled =
+                this@PasswordRecoveryViewModel.emailInput.isNotBlank()
+
+            _uiState.value = PasswordRecoveryScreenState.EmailInput(
+                emailState = EmailValidationState.Default,
+                isBtnLoginEnabled = isBtnLoginEnabled
+            )
+        }
+    }
+    fun passwordInputListener(
+        passwordInput:Editable? = null
+    ){
+       if(passwordInput.toString() == this.passwordInput) return
+
+       viewModelScope.launch{
+           passwordInput?.let {
+               this@PasswordRecoveryViewModel.passwordInput = passwordInput.toString()
+           }
+           val isBtnResetPasswordEnabled =
+               this@PasswordRecoveryViewModel.passwordInput.isNotBlank()
+
+           _uiState.value = PasswordRecoveryScreenState.PasswordInput(
+               passwordState = PasswordValidationState.Default,
+               isBtnResetPasswordEnabled = isBtnResetPasswordEnabled
+           )
+
+       }
     }
     companion object {
         const val RESENDING_COOL_DOWN = 30000L

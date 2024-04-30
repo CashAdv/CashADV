@@ -13,11 +13,11 @@ import retrofit2.http.POST
 interface ResetPasswordApiService {
 
     @Headers("Content-Type: application/json")
-    @POST("/auth/login/reset/password/confirm")
-    suspend fun resetPassword(@Body passworResetRequest: ResetPasswordRequest ):ResetPasswordConfirmationResponse
+    @POST("auth/login/reset/password")
+    suspend fun resetPassword(@Body passwordResetRequest: ResetPasswordRequest ):ResetPasswordConfirmationResponse
 
     @Headers("Content-Type: application/json")
-        @POST("/auth/login/reset/password/")
+    @POST("/auth/login/reset/password/confirm")
     suspend fun resetPasswordConfirm(@Body resetPasswordRequest: ResetPasswordByEmailWithCodeRequest):ConfirmResetPasswordResponse
 
     @Headers("Content-Type: application/json")

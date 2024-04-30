@@ -1,6 +1,5 @@
 package app.cashadvisor.authorization.domain.impl
 
-import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
 import app.cashadvisor.authorization.domain.api.ResetPasswordRepository
 import app.cashadvisor.authorization.domain.models.ConfirmCode
@@ -9,12 +8,11 @@ import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.ResetPasswordData
 import app.cashadvisor.authorization.domain.models.SaveNewPasswordData
 import app.cashadvisor.common.domain.Resource
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
 class ResetPasswordInteractorImpl @Inject constructor(
     private val resetPasswordRepository: ResetPasswordRepository,
-    private val credentialsRepository: CredentialsRepository
 ):ResetPasswordInteractor {
     override suspend fun confirmEmailForPasswordReset(email: Email): Resource<ResetPasswordData> {
         val result = resetPasswordRepository.confirmEmailForPasswordReset(email)
