@@ -6,9 +6,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -42,23 +41,58 @@ class SignupFragment:
             viewModel.register()
         }
 
-        binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
-                checkEmptyInput(text, binding.edittextEnterEmail)
-                viewModel.validateEmail(text.toString())
+        binding.edittextEnterEmail.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus){
+                checkEmptyInput(
+                    binding.edittextEnterEmail.text,
+                    binding.edittextEnterEmail
+                )
+                viewModel.validateEmail(binding.edittextEnterEmail.text.toString())
+            }
+
+            else showNeutralEditText(binding.edittextEnterEmail)
         }
 
-        binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
-                checkEmptyInput(text, binding.edittextComeUpWithAPassword)
+//        binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
+//                checkEmptyInput(text, binding.edittextEnterEmail)
+//                viewModel.validateEmail(text.toString())
+//        }
+
+        binding.edittextComeUpWithAPassword.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus){
+                checkEmptyInput(
+                    binding.edittextComeUpWithAPassword.text,
+                    binding.edittextComeUpWithAPassword
+                )
                 viewModel.validatePassword(
-                    text.toString(),
+                    binding.edittextComeUpWithAPassword.text.toString(),
                     binding.edittextConfirmThePassword.text.toString()
                 )
+            }
         }
 
-        binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
-                checkEmptyInput(text, binding.edittextConfirmThePassword)
-                viewModel.validateConfirmPassword(text.toString())
+//        binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
+//                checkEmptyInput(text, binding.edittextComeUpWithAPassword)
+//                viewModel.validatePassword(
+//                    text.toString(),
+//                    binding.edittextConfirmThePassword.text.toString()
+//                )
+//        }
+
+        binding.edittextConfirmThePassword.setOnFocusChangeListener { view, hasFocus ->
+            if (!hasFocus){
+                checkEmptyInput(
+                    binding.edittextConfirmThePassword.text,
+                    binding.edittextConfirmThePassword
+                )
+                viewModel.validateConfirmPassword(binding.edittextConfirmThePassword.text.toString())
+            }
         }
+
+//        binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
+//                checkEmptyInput(text, binding.edittextConfirmThePassword)
+//                viewModel.validateConfirmPassword(text.toString())
+//        }
 
         binding.codeConfirmationView.setCallback { code ->
 
@@ -142,7 +176,12 @@ class SignupFragment:
                     background =  ContextCompat.getDrawable(
                         requireContext(), app.cashadvisor.uikit.R.drawable.black_button_background)
                 }
+            }
 
+            SignupUiState.EmailExist -> {
+                showSnackbar(
+                    getString(app.cashadvisor.uikit.R.string.email_already_exist),
+                    binding.edittextComeUpWithAPassword)
             }
         }
     }
@@ -154,7 +193,7 @@ class SignupFragment:
             .setTextColor(resources.getColor(app.cashadvisor.uikit.R.color.white, null))
             .setActionTextColor(resources.getColor(app.cashadvisor.uikit.R.color.white, null))
             .setAction(getString(app.cashadvisor.uikit.R.string.ok)) {
-                viewToFocus.requestFocus()
+                //viewToFocus.requestFocus()
                 showKeyboard(viewToFocus)
             }
             .show()
@@ -223,15 +262,28 @@ class SignupFragment:
         }
     }
 
-    private fun updateScreenState(signupScreenstate: SignUpStep){
-        when (signupScreenstate){
+    private fun updateScreenState(signupScreenState: SignUpStep){
+        when (signupScreenState){
             is SignUpStep.SignupScreen -> {
                 with(binding){
                     customSteps.changeSteps(2, 1)
                     clSignupInputDate.visibility = View.VISIBLE
                     clSignupConfirmationCode.visibility = View.GONE
                     codeConfirmationView.setCode("")
+
+                    edittextEnterEmail.text = null
+                    edittextConfirmThePassword.text = null
+                    edittextComeUpWithAPassword.text = null
+
+                    binding.btnBack.setOnClickListener {
+                        findNavController().navigateUp()
+                    }
+
+                    requireActivity().onBackPressedDispatcher.addCallback{
+                        findNavController().navigateUp()
+                    }
                 }
+
             }
 
             is SignUpStep.ConfirmationCodeScreen -> {
@@ -240,7 +292,15 @@ class SignupFragment:
                     clSignupInputDate.visibility = View.GONE
                     clSignupConfirmationCode.visibility = View.VISIBLE
 
-                    if (signupScreenstate.resendingCoolDownSec.isNullOrBlank()) {
+                    btnBack.setOnClickListener {
+                        viewModel.navigateBackToCredentialsState()
+                    }
+
+                    requireActivity().onBackPressedDispatcher.addCallback{
+                        viewModel.navigateBackToCredentialsState()
+                    }
+
+                    if (signupScreenState.resendingCoolDownSec.isNullOrBlank()) {
                         tvSendAgain.apply {
                             text = getString(app.cashadvisor.uikit.R.string.send_confirmation_code_again)
                             setTextColor(resources.getColor(R.color.black, null))
@@ -250,7 +310,7 @@ class SignupFragment:
                         tvSendAgain.apply {
                             text = getString(
                                 app.cashadvisor.uikit.R.string.send_confirmation_code_again_seconds,
-                                signupScreenstate.resendingCoolDownSec
+                                signupScreenState.resendingCoolDownSec
                             )
                             setTextColor(resources.getColor(R.color.subcolor_2, null))
                             setOnClickListener(null)

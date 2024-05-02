@@ -6,7 +6,7 @@ import app.cashadvisor.authorization.domain.models.PasswordValidationError
 sealed interface PasswordValidationState {
     data class Success(val password: Password) : PasswordValidationState
     data class Error(
-        val password: Password,
+        //val password: Password,
         val passwordValidationError: PasswordValidationError
     ) : PasswordValidationState
 }

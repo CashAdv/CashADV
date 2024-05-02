@@ -99,7 +99,7 @@ class LoginViewModel @Inject constructor(
 
                 is PasswordValidationState.Error -> {
                     LoginPasswordValidationState.Error(
-                        password = resultPasswordState.password,
+                        //password = resultPasswordState.password,
                         passwordValidationError = resultPasswordState.passwordValidationError
                     )
                 }

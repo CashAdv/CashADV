@@ -14,8 +14,8 @@ import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
 import app.cashadvisor.common.utill.extensions.logDebugMessage
-import app.cashadvisor.signup.presentation.viewmodel.models.SignupDataState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignUpStep
+import app.cashadvisor.signup.presentation.viewmodel.models.SignupDataState
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupSideEffect
 import app.cashadvisor.signup.presentation.viewmodel.models.SignupUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -168,8 +168,6 @@ class SignupViewModel @Inject constructor(
                     it.copy(isConfirmPasswordValid = false) }
 
                 _signupUiState.emit(SignupUiState.ConfirmPasswordNotValid)
-
-
             }
         }
     }
@@ -208,8 +206,8 @@ class SignupViewModel @Inject constructor(
                                 }
                                 is ErrorEntity.Register.InvalidEmail -> {
                                     logDebugMessage("InvalidEmail ${result.error.message}")
-                                    _sideEffects.emit(SignupSideEffect
-                                        .ShowMessage(app.cashadvisor.uikit.R.string.email_already_exist))
+
+                                    _signupUiState.emit(SignupUiState.EmailExist)
                                 }
                             }
                         }
@@ -332,8 +330,15 @@ class SignupViewModel @Inject constructor(
         }
     }
 
+    fun navigateBackToCredentialsState() {
+        viewModelScope.launch {
+            resendCountDownJob?.cancel()
+            _signUpStep.value = SignUpStep.SignupScreen
+        }
+    }
+
     companion object{
-        private const val VALIDATE_DATA_DELAY_MILLIS = 2000L
+        private const val VALIDATE_DATA_DELAY_MILLIS = 1000L
         private const val RESENDING_COOL_DOWN = 30000L
         private const val COUNT_DOWN_INTERVAL = 1000L
     }

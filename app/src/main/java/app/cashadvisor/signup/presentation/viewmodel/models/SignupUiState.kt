@@ -9,5 +9,6 @@ sealed interface SignupUiState{
     data object ConfirmPasswordNotValid: SignupUiState
     data object ConfirmPasswordValid: SignupUiState
     data object SignupDataIsValid: SignupUiState
+    data object EmailExist: SignupUiState
 }
 

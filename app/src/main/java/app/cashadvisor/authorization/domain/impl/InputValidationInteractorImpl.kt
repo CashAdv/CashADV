@@ -34,7 +34,7 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
 
         if (password.length < 8) {
             return PasswordValidationState.Error(
-                password = Password(EMPTY_VALUE),
+                //password = Password(EMPTY_VALUE),
                 passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH
             )
         }
@@ -46,11 +46,11 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
             PasswordValidationState.Success(Password(value = password))
         } else if (!isPasswordLengthValid){
             PasswordValidationState.Error(
-                password = Password(EMPTY_VALUE),
+                //password = Password(EMPTY_VALUE),
                 passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH)
         }
            else PasswordValidationState.Error(
-            password = Password(EMPTY_VALUE),
+           //password = Password(EMPTY_VALUE),
             passwordValidationError = PasswordValidationError.PASSWORD_NOT_VALID
         )
     }
