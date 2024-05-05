@@ -79,7 +79,7 @@
     </style>
     
     <style name="Widget.CashAdvisor.Button.CreateAccountInactive" parent="Widget.CashAdvisor.Button.SigninButton">
-        <item name="android:textColor">?attr/bg1</item>
+        <item name="android:textColor">?attr/bg2</item>
         <item name="android:background">@drawable/button_r10_gray_stroke</item>
     </style>
 </resources>

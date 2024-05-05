@@ -32,27 +32,28 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
 
     override suspend fun validatePassword(password: String): PasswordValidationState {
 
-        if (password.length < 8) {
-            return PasswordValidationState.Error(
-                //password = Password(EMPTY_VALUE),
-                passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH
-            )
-        }
+//        if (password.length in 31..7) {
+//            return PasswordValidationState.Error(
+//                //password = Password(EMPTY_VALUE),
+//                passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH
+//            )
+//        }
 
         val isPasswordValid = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_PASSWORD)
-        val isPasswordLengthValid: Boolean = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_LENGTH_PASSWORD)
+        //val isPasswordLengthValid: Boolean = isValidText(password.trimStart().trimEnd(), REGEX_PATTERN_LENGTH_PASSWORD)
 
-        return if (isPasswordValid) {
-            PasswordValidationState.Success(Password(value = password))
-        } else if (!isPasswordLengthValid){
+        return if (!isPasswordValid)
+            PasswordValidationState.Error(
+            //password = Password(EMPTY_VALUE),
+            passwordValidationError = PasswordValidationError.PASSWORD_NOT_VALID
+        )
+
+        else if (password.length !in 8 .. 30){
             PasswordValidationState.Error(
                 //password = Password(EMPTY_VALUE),
                 passwordValidationError = PasswordValidationError.PASSWORD_IS_NOT_LONG_ENOUGH)
         }
-           else PasswordValidationState.Error(
-           //password = Password(EMPTY_VALUE),
-            passwordValidationError = PasswordValidationError.PASSWORD_NOT_VALID
-        )
+           else PasswordValidationState.Success(Password(value = password))
     }
 
     override suspend fun validateConfirmationCode(code: String): ConfirmCodeValidationState {
@@ -72,7 +73,7 @@ class InputValidationInteractorImpl @Inject constructor() : InputValidationInter
     companion object {
         const val REGEX_PATTERN_EMAIL =
             """^(?=(?:(?!.*[_.-]{2,})(?!.*[_.-]$)(?!^[-_.])[a-zA-Z0-9._-]{1,49}[a-zA-Z0-9]@(?!-)[a-zA-Z0-9-]{1,63}(\.[a-zA-Z]{2,})+)$)(?=(?:.{7,114})$).*"""
-        const val REGEX_PATTERN_PASSWORD = """^[a-zA-Z0-9_]{8,30}$"""
+        const val REGEX_PATTERN_PASSWORD = """^[a-zA-Z0-9_]*$"""
         const val REGEX_PATTERN_LENGTH_PASSWORD = """^{8,30}$"""
         const val REGEX_PATTERN_CODE = """^[0-9]{4}$"""
         const val EMPTY_VALUE = ""

@@ -8,7 +8,11 @@ sealed interface SignupUiState{
     data object PasswordValid: SignupUiState
     data object ConfirmPasswordNotValid: SignupUiState
     data object ConfirmPasswordValid: SignupUiState
+    data object ConfirmPasswordLengthNotValid: SignupUiState
     data object SignupDataIsValid: SignupUiState
     data object EmailExist: SignupUiState
+    data object EmailIsEmpty: SignupUiState
+    data object PasswordIsEmpty: SignupUiState
+    data object ConfirmPasswordIsEmpty: SignupUiState
 }
 

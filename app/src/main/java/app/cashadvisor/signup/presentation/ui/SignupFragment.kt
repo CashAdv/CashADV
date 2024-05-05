@@ -8,6 +8,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.content.ContextCompat
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -30,8 +31,13 @@ import kotlinx.coroutines.launch
 class SignupFragment:
         BaseFragment<FragmentSignupBinding, SignupViewModel>(FragmentSignupBinding::inflate){
 
+    //private lateinit var validationDebounce: (SignUpValidationInteraction) -> Unit
+
     override val viewModel: SignupViewModel by viewModels()
+    private var confirmPassword: String = ""
     override fun onConfigureViews() {
+
+        //configureDebounce()
 
         binding.btnBack.setOnClickListener(){
             findNavController().navigateUp()
@@ -41,58 +47,30 @@ class SignupFragment:
             viewModel.register()
         }
 
-        binding.edittextEnterEmail.setOnFocusChangeListener { view, hasFocus ->
-            if (!hasFocus){
-                checkEmptyInput(
-                    binding.edittextEnterEmail.text,
-                    binding.edittextEnterEmail
-                )
-                viewModel.validateEmail(binding.edittextEnterEmail.text.toString())
-            }
-
-            else showNeutralEditText(binding.edittextEnterEmail)
+        binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
+                //checkEmptyInput(text, binding.edittextEnterEmail)
+                viewModel.validateEmail(text.toString())
+//                validationDebounce.invoke(
+//                    SignUpValidationInteraction.ValidationEmail(text.toString()))
         }
 
-//        binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
-//                checkEmptyInput(text, binding.edittextEnterEmail)
-//                viewModel.validateEmail(text.toString())
-//        }
-
-        binding.edittextComeUpWithAPassword.setOnFocusChangeListener { view, hasFocus ->
-            if (!hasFocus){
-                checkEmptyInput(
-                    binding.edittextComeUpWithAPassword.text,
-                    binding.edittextComeUpWithAPassword
-                )
-                viewModel.validatePassword(
-                    binding.edittextComeUpWithAPassword.text.toString(),
-                    binding.edittextConfirmThePassword.text.toString()
-                )
-            }
+        binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
+                //checkEmptyInput(text, binding.edittextComeUpWithAPassword)
+                viewModel.validatePassword(text.toString())
+//            validationDebounce.invoke(
+//                SignUpValidationInteraction.ValidationPassword(text.toString()))
         }
 
-//        binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
-//                checkEmptyInput(text, binding.edittextComeUpWithAPassword)
-//                viewModel.validatePassword(
-//                    text.toString(),
-//                    binding.edittextConfirmThePassword.text.toString()
-//                )
-//        }
-
-        binding.edittextConfirmThePassword.setOnFocusChangeListener { view, hasFocus ->
-            if (!hasFocus){
-                checkEmptyInput(
-                    binding.edittextConfirmThePassword.text,
-                    binding.edittextConfirmThePassword
-                )
-                viewModel.validateConfirmPassword(binding.edittextConfirmThePassword.text.toString())
+        binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
+            if (confirmPassword != text.toString()) {
+                confirmPassword = text.toString()
+                viewModel.validateConfirmPassword(text.toString())
             }
-        }
 
-//        binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
-//                checkEmptyInput(text, binding.edittextConfirmThePassword)
-//                viewModel.validateConfirmPassword(text.toString())
-//        }
+            //checkEmptyInput(text, binding.edittextConfirmThePassword)
+//            validationDebounce.invoke(
+//                SignUpValidationInteraction.ValidationConfirmPassword(text.toString()))
+        }
 
         binding.codeConfirmationView.setCallback { code ->
 
@@ -183,6 +161,23 @@ class SignupFragment:
                     getString(app.cashadvisor.uikit.R.string.email_already_exist),
                     binding.edittextComeUpWithAPassword)
             }
+
+            SignupUiState.ConfirmPasswordLengthNotValid -> {
+                showSnackbar(
+                    getString(app.cashadvisor.uikit.R.string.invalid_password_length),
+                    binding.edittextComeUpWithAPassword)
+
+                    showErrorEditText(binding.edittextConfirmThePassword)
+            }
+
+            SignupUiState.ConfirmPasswordIsEmpty ->
+                showNeutralEditText(binding.edittextConfirmThePassword)
+
+            SignupUiState.EmailIsEmpty ->
+                showNeutralEditText(binding.edittextEnterEmail)
+
+            SignupUiState.PasswordIsEmpty ->
+                showNeutralEditText(binding.edittextComeUpWithAPassword)
         }
     }
     private fun showSnackbar(message: String, viewToFocus: EditText
@@ -228,12 +223,12 @@ class SignupFragment:
             requireContext(), app.cashadvisor.uikit.R.drawable.text_input_background_neutral)
     }
 
-    private fun checkEmptyInput(text: CharSequence?, editText: EditText): Boolean{
-        return if (text.isNullOrEmpty()){
-            showNeutralEditText(editText)
-            false
-        } else true
-    }
+//    private fun checkEmptyInput(text: CharSequence?, editText: EditText): Boolean{
+//        return if (text.isNullOrEmpty()){
+//            showNeutralEditText(editText)
+//            false
+//        } else true
+//    }
 
     private fun handleSideEffects(sideEffect: SignupSideEffect) {
         when (sideEffect) {
@@ -271,9 +266,9 @@ class SignupFragment:
                     clSignupConfirmationCode.visibility = View.GONE
                     codeConfirmationView.setCode("")
 
-                    edittextEnterEmail.text = null
-                    edittextConfirmThePassword.text = null
-                    edittextComeUpWithAPassword.text = null
+//                    edittextEnterEmail.text = null
+//                    edittextConfirmThePassword.text = null
+//                    edittextComeUpWithAPassword.text = null
 
                     binding.btnBack.setOnClickListener {
                         findNavController().navigateUp()
@@ -342,7 +337,20 @@ class SignupFragment:
         }
     }
 
+//    private fun configureDebounce() {
+//
+//        validationDebounce = debounce(
+//            CLICK_DEBOUNCE_DELAY,
+//            viewLifecycleOwner.lifecycleScope,
+//            useLastParam = true,
+//            actionWithDelay = false
+//        ) { action ->
+//            viewModel.handleValidation(action)
+//        }
+//    }
+
     companion object {
         const val SNACKBAR_DURATION = 6000
+        private const val CLICK_DEBOUNCE_DELAY = 2000L
     }
 }

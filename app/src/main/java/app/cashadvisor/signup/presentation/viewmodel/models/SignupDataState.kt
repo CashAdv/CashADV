@@ -6,7 +6,8 @@ import app.cashadvisor.authorization.domain.models.Password
 
 data class SignupDataState(
     val email: Email = Email(""),
-    val password: Password = Password("password"),
+    val password: Password = Password(""),
+    val confirmPassword: Password = Password(""),
     val emailCode: ConfirmCode = ConfirmCode(""),
     val loginCode: ConfirmCode = ConfirmCode(""),
     val isEmailValid: Boolean = false,
