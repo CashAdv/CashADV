@@ -72,11 +72,16 @@ class ResetPasswordRepositoryImpl @Inject constructor(
                     token
                 )
             )
+            _state.update {
+                it.copy(state = ResetPasswordState.State.Initial)
+            }
 
             Resource.Success(
                 data = resetDomainMapper.toConfirmResetPasswordByEmailWithCodeData(data)
             )
+
         }catch (exception: Exception){
+
             Resource.Error(
                 exceptionToErrorMapper.handleException(exception)
             )

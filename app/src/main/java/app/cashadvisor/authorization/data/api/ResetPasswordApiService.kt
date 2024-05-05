@@ -17,7 +17,7 @@ interface ResetPasswordApiService {
     suspend fun resetPassword(@Body passwordResetRequest: ResetPasswordRequest ):ResetPasswordConfirmationResponse
 
     @Headers("Content-Type: application/json")
-    @POST("/auth/login/reset/password/confirm")
+    @POST("auth/login/reset/password/confirm")
     suspend fun resetPasswordConfirm(@Body resetPasswordRequest: ResetPasswordByEmailWithCodeRequest):ConfirmResetPasswordResponse
 
     @Headers("Content-Type: application/json")

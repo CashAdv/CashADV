@@ -174,10 +174,11 @@ private fun setEmailConfirmCode(code: String, context: Context) {
             is ConfirmCodeValidationState.Success -> {
                 _uiState.value = PasswordRecoveryScreenState.ConfirmationCode()
                 confirmCode = code
-                RecoveryPasswordScreenEvent.ConfirmEmail(context)
+                sendEmailConfirmCode(context)
             }
 
             is ConfirmCodeValidationState.Error -> {
+
 
 
             }
@@ -191,6 +192,8 @@ private fun sendEmailConfirmCode(context:Context) {
         when (result) {
             is Resource.Success -> {
                 viewModelScope.launch {
+                    logDebugMessage(result.data)
+                    resendCountDownJob!!.cancel()
                    _uiState.value = PasswordRecoveryScreenState.PasswordInput(
                        passwordState = PasswordValidationState.Default,
                        isBtnResetPasswordEnabled = false
