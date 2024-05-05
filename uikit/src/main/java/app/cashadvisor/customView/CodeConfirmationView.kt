@@ -21,7 +21,29 @@ import androidx.annotation.StyleRes
 import androidx.core.view.children
 import app.cashadvisor.uikit.R
 
-
+/**
+ * CodeConfirmationView - это пользовательский компонент для ввода кода
+подтверждения.
+ * Он позволяет пользователю ввести фиксированное количество символов и
+предоставляет обратный вызов с текущим введенным кодом.
+ *
+ * Атрибуты:
+ * - codeLength: Количество символов в коде подтверждения. По умолчанию DEFAULT_CODE_LENGTH.
+ * - symbolWidth: Ширина каждого символа. Значение по умолчанию -
+DEFAULT_SYMBOL_WIDTH.
+ * - symbolHeight: Высота каждого символа. Значение по умолчанию -
+DEFAULT_SYMBOL_HEIGHT.
+ * - symbolTextColor: Цвет текста каждого символа.
+ * - symbolsSpacing: Расстояние между символами.
+ * - symbolTextSize: Размер текста символов.
+ * - borderColor: Цвет границы вокруг каждого символа ввода.
+ * - borderWidth: Ширина границы вокруг каждого символа ввода.
+ * - backgroundColour: Цвет фона под символами.
+ * - backgroundCornerRadius: Радиус скругления границ фона под символами.
+ *
+ * Используйте эти атрибуты в XML разметке, чтобы настроить внешний вид и
+поведение компонента.
+ */
 class CodeConfirmationView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -144,6 +166,9 @@ class CodeConfirmationView @JvmOverloads constructor(
                 enteredCode.isNotEmpty()
             ) {
                 enteredCode = enteredCode.dropLast(1)
+                callback?.let {
+                    it(enteredCode)
+                }
                 return true // обработали событие удаления
             }
         }
