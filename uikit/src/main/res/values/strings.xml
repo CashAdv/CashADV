@@ -69,6 +69,7 @@
     <string name="enter_email_acc">Введите email аккаунта</string>
     <string name="get_the_code">Получить код</string>
     <string name="new_password">Новый пароль</string>
+    <string name="log_in">Войти в аккаунт</string>
     <string name="recovery_instructions">На указанную почту мы отправим письмо \nсо ссылкой для сброса пароля</string>
     <string name="come_up_with_a_password">Придумайте пароль</string>
     <string name="new_password_instruction">Используйте цифры, буквы A-z и знак </string>

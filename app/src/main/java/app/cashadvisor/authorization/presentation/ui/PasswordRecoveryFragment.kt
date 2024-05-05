@@ -138,7 +138,7 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
                     clConfirmationCode.visibility = View.GONE
                     clNewPassword.visibility = View.VISIBLE
 
-                    btnGetCode.isEnabled = state.isBtnResetPasswordEnabled
+                    btnSendNewPassword.isEnabled = state.isBtnResetPasswordEnabled
                     managePasswordValidation(state.passwordState)
 
                     state.resetPasswordSuccessful?.let { isResetPasswordSuccessful ->

@@ -196,7 +196,7 @@ private fun sendEmailConfirmCode(context:Context) {
                     resendCountDownJob!!.cancel()
                    _uiState.value = PasswordRecoveryScreenState.PasswordInput(
                        passwordState = PasswordValidationState.Default,
-                       isBtnResetPasswordEnabled = false
+                       isBtnResetPasswordEnabled = false,
                    )
                 }
             }
@@ -273,7 +273,7 @@ private fun setPassword(password: String, context: Context) {
                     passwordState = result,
                     isBtnResetPasswordEnabled = true
                 )
-                RecoveryPasswordScreenEvent.ConfirmNewPassword(context)
+                sendNewPassword(context)
             }
 
             is PasswordValidationState.Error -> {

@@ -72,9 +72,6 @@ class ResetPasswordRepositoryImpl @Inject constructor(
                     token
                 )
             )
-            _state.update {
-                it.copy(state = ResetPasswordState.State.Initial)
-            }
 
             Resource.Success(
                 data = resetDomainMapper.toConfirmResetPasswordByEmailWithCodeData(data)
