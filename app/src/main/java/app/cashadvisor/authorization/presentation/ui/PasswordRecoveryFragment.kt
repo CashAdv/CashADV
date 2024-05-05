@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -29,6 +28,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, PasswordRecoveryViewModel>(FragmentPasswordRecoveryBinding::inflate) {
     override val viewModel: PasswordRecoveryViewModel by viewModels()
@@ -47,11 +47,14 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
             etEmailInput.addTextChangedListener {
                viewModel.emailInputListener(it)
             }
-            etConfirmationCode.doOnTextChanged{ text, _, _, _ ->
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(text.toString(), requireContext()))
+            etConfirmationCode.setCallback {
+                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(it, requireContext()))
             }
             etPasswordInput.addTextChangedListener{
                 viewModel.passwordInputListener(it)
+            }
+            tvCantGetCode.setOnClickListener {
+                //navigation to support screen. It`s not exist yet
             }
         }
     }
