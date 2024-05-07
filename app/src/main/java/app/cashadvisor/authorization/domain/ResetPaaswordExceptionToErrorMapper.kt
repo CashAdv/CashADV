@@ -55,7 +55,7 @@ class ResetPasswordExceptionToErrorMapper @Inject constructor():BaseExceptionToE
                     exception.message
                 )
             }
-            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedInvalidTokenOrMissingContentTypeHeader -> {
+            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedWrongConfirmationCode -> {
                 ErrorEntity.ConfirmResetPasswordByEmailWithCode.WrongConfirmationCode(
                     exception.message,
                     exception.remainingAttempts,

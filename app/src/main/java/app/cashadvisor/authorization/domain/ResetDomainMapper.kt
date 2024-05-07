@@ -43,7 +43,6 @@ class ResetDomainMapper @Inject constructor() {
     fun toConfirmResetPasswordByEmailWithCodeData(data:ConfirmResetPasswordByEmailWithCodeOutputDto):ConfirmResetPasswordByEmailWithCodeData{
         return ConfirmResetPasswordByEmailWithCodeData(
             message = data.message,
-            statusCode = data.statusCode
         )
     }
     fun toResetPasswordData(data:ResetPasswordOutputDto):ResetPasswordData{

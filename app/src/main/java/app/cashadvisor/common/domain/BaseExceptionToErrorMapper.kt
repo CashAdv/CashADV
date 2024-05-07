@@ -4,6 +4,7 @@ import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.utill.exceptions.LoginException
 import app.cashadvisor.common.utill.exceptions.NetworkException
 import app.cashadvisor.common.utill.exceptions.RegisterException
+import app.cashadvisor.common.utill.exceptions.ResetPasswordException
 import app.cashadvisor.common.utill.extensions.logNetworkError
 import java.net.ConnectException
 
@@ -15,7 +16,7 @@ abstract class BaseExceptionToErrorMapper {
 
     fun handleException(exception: Exception): ErrorEntity {
         return when (exception) {
-            is ConnectException, is NetworkException, is LoginException.NoConnection, is RegisterException.NoConnection -> {
+            is ConnectException, is NetworkException, is LoginException.NoConnection, is RegisterException.NoConnection, is ResetPasswordException.NoConnection -> {
                 logNetworkError(exception.message)
                 handleNetworkError(exception)
             }

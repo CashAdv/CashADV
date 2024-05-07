@@ -67,7 +67,7 @@ class ResetPasswordRepositoryImpl @Inject constructor(
                 }
             }
             val data = resetPasswordRemoteDataSource.confirmResetPasswordByEmailWithCode(
-                resetDomainMapper.toConfirmResetPasswordByEmailWithCodeInputDto(
+                inputDto = resetDomainMapper.toConfirmResetPasswordByEmailWithCodeInputDto(
                     code,
                     token
                 )
@@ -76,6 +76,7 @@ class ResetPasswordRepositoryImpl @Inject constructor(
             Resource.Success(
                 data = resetDomainMapper.toConfirmResetPasswordByEmailWithCodeData(data)
             )
+
 
         }catch (exception: Exception){
 

@@ -14,14 +14,14 @@ sealed class ResetPasswordException(
         ResetPasswordException(message = message)
 
     sealed class ConfirmResetPasswordByEmailWithCode(
-        message: String
+        override val message: String
     ):ResetPasswordException(message){
         class BadRequestInvalidCodeOrMissingContentTypeHeader(
             override val message: String,
             val statusCode: Int
         ) : ConfirmResetPasswordByEmailWithCode(message = message)
 
-        class UnauthorizedInvalidTokenOrMissingContentTypeHeader(
+        class UnauthorizedWrongConfirmationCode(
             override val message: String,
             val remainingAttempts:Int,
             val lockDuration:Long,
@@ -36,7 +36,7 @@ sealed class ResetPasswordException(
     }
 
     sealed class ConfirmEmailToResetPassword(
-        message: String
+        override val message: String
     ):ResetPasswordException(message){
         class BadRequestInvalidEmailOrMissingContentTypeHeader(
             override val message: String,

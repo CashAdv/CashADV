@@ -22,7 +22,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
             }
             is NetworkException.Unauthorized -> {
                 val errorResponse = handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
-                ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedInvalidTokenOrMissingContentTypeHeader(
+                ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedWrongConfirmationCode(
                     remainingAttempts = errorResponse.remainingAttempts,
                     lockDuration = errorResponse.lockDuration,
                     message = errorResponse.error,
@@ -30,9 +30,9 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                 )
             }
             is NetworkException.InternalServerError -> {
-                val errorResponse = handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
+                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.ConfirmResetPasswordByEmailWithCode.InternalServerErrorFailedToConfirmResetPassword(
-                    message = errorResponse.error,
+                    message = errorResponse.message,
                     statusCode = errorResponse.statusCode
                 )
             }
