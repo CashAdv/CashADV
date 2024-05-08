@@ -38,9 +38,7 @@ class SignupViewModel @Inject constructor(
     private val registerInteractor: RegisterInteractor,
     private val inputValidationInteractor: InputValidationInteractor,
 ): BaseViewModel() {
-
-    private var validateEmailJob: Job? = null
-    private var validatePasswordJob: Job? = null
+    
     private var resendCountDownJob: Job? = null
     private var isClickAllowed = true
     private var attemptsToSendConfirmationCode: Int = 3
@@ -73,24 +71,6 @@ class SignupViewModel @Inject constructor(
                     _signupUiState.emit(SignupUiState.SignupDataIsValid)
             }
         }
-
-//       coolDownDebounce = debounce(
-//            VALIDATE_DATA_DELAY_MILLIS,
-//            viewModelScope,
-//            useLastParam = true,
-//            actionWithDelay = false
-//        ) { action: SignUpValidationInteraction ->
-//            when(action){
-//                is SignUpValidationInteraction.ValidationEmail ->
-//                    validateEmail(action.email)
-//
-//                is SignUpValidationInteraction.ValidationPassword ->
-//                    validatePassword(action.password)
-//
-//                is SignUpValidationInteraction.ValidationConfirmPassword ->
-//                    validateConfirmPassword(action.confirmPassword)
-//            }
-//        }
 
         validationEmailDebounce = debounce(
             VALIDATE_DATA_DELAY_MILLIS,
@@ -126,51 +106,7 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-//    fun handleValidation(action: SignUpValidationInteraction) {
-//        when (action){
-//            is SignUpValidationInteraction.ValidationEmail -> {
-//                val email = action.email
-//
-//                if (email.isEmpty()){
-//                    _signupDataState.update {it.copy(
-//                        email = Email(email),
-//                        isEmailValid = false)}
-//                    return
-//                }
-//
-//                if (email == signupDataState.value.email.value) return
-//
-//                coolDownDebounce.invoke(action)
-//            }
-//
-//            is SignUpValidationInteraction.ValidationPassword -> {
-//                val password = action.password
-//
-//                if (password.isEmpty()){
-//                    _signupDataState.update {it.copy(
-//                        password = Password(""),
-//                        isPasswordValid = false)}
-//                    return
-//                }
-//
-//                if (password == signupDataState.value.password.value) return
-//
-//                coolDownDebounce.invoke(action)
-//            }
-//
-//            is SignUpValidationInteraction.ValidationConfirmPassword -> {
-//                val confirmPassword = action.confirmPassword
-//
-//                if (checkEmptyOrOverlapConfirmPassword(confirmPassword)) return
-//
-//                coolDownDebounce.invoke(action)
-//            }
-//        }
-//    }
-
      fun validateEmail(email: String){
-
-        //validateEmailJob?.cancel()
 
         if (email.isEmpty()){
             _signupDataState.update {it.copy(
@@ -182,8 +118,7 @@ class SignupViewModel @Inject constructor(
 
          if (email == signupDataState.value.email.value) return
 
-        validateEmailJob = viewModelScope.launch {
-            //delay(VALIDATE_DATA_DELAY_MILLIS)
+        viewModelScope.launch {
 
             val resultValidationEmail
             = inputValidationInteractor.validateEmail(email)
@@ -195,7 +130,6 @@ class SignupViewModel @Inject constructor(
                         email = Email(email),
                         isEmailValid = false)}
 
-                    //_signupUiState.emit(SignupUiState.EmailNotValid)
                     validationEmailDebounce.invoke(SignupUiState.EmailNotValid)
                 }
 
@@ -204,7 +138,6 @@ class SignupViewModel @Inject constructor(
                         email = Email(email),
                         isEmailValid = true)}
 
-                    //_signupUiState.emit(SignupUiState.EmailValid)
                     validationEmailDebounce.invoke(SignupUiState.EmailValid)
                 }
             }
@@ -212,7 +145,6 @@ class SignupViewModel @Inject constructor(
     }
 
     fun validatePassword(password: String){
-        //validatePasswordJob?.cancel()
 
         if (password.isEmpty()){
             _signupDataState.update {it.copy(
@@ -224,8 +156,7 @@ class SignupViewModel @Inject constructor(
 
         if (password == signupDataState.value.password.value) return
 
-        validatePasswordJob = viewModelScope.launch {
-            //delay(VALIDATE_DATA_DELAY_MILLIS)
+        viewModelScope.launch {
 
             val resultValidatePassword
             = inputValidationInteractor.validatePassword(password)
@@ -239,7 +170,6 @@ class SignupViewModel @Inject constructor(
                                 password = Password(password),
                                 isPasswordLengthValid = false)}
 
-                            //_signupUiState.emit(SignupUiState.PasswordLengthNotValid)
                             validationPasswordDebounce.invoke(SignupUiState.PasswordLengthNotValid)
                         }
 
@@ -249,7 +179,6 @@ class SignupViewModel @Inject constructor(
                                 isPasswordValid = false)}
 
                             validationPasswordDebounce.invoke(SignupUiState.PasswordNotValid)
-                            //_signupUiState.emit(SignupUiState.PasswordNotValid)
                         }
                     }
                 }
@@ -259,7 +188,6 @@ class SignupViewModel @Inject constructor(
                         isPasswordValid = true,
                         isPasswordLengthValid = true)}
 
-                    //_signupUiState.emit(SignupUiState.PasswordValid)
                     validationPasswordDebounce.invoke(SignupUiState.PasswordValid)
                 }
             }
@@ -267,26 +195,10 @@ class SignupViewModel @Inject constructor(
         }
     }
 
-//    private fun checkEmptyOrOverlapConfirmPassword(confirmPassword: String): Boolean{
-//        return if (confirmPassword.isEmpty()
-//            || confirmPassword == signupDataState.value.confirmPassword.value){
-//            _signupDataState.update {
-//                it.copy(confirmPassword = Password(confirmPassword),
-//                    isConfirmPasswordValid = false) }
-//            true
-//        } else false
-//    }
      fun validateConfirmPassword(confirmPassword: String){
 
         val resultValidateConfirmPassword
                 = confirmPassword == signupDataState.value.password.value
-//
-//        if (confirmPassword.isEmpty() && !resultValidateConfirmPassword){
-//            signupUiStateDebounce.invoke(SignupUiState.ConfirmPasswordIsEmpty)
-//            return
-//        }
-
-        //validatePasswordJob?.cancel()
 
         if (confirmPassword.isEmpty()){
             _signupDataState.update {
@@ -296,9 +208,7 @@ class SignupViewModel @Inject constructor(
             return
         }
 
-        //if (confirmPassword == signupDataState.value.confirmPassword.value) return
-
-        validatePasswordJob = viewModelScope.launch {
+        viewModelScope.launch {
 
             val resultValidateLengthValid = confirmPassword.length >= 8
 
@@ -308,8 +218,6 @@ class SignupViewModel @Inject constructor(
                     isConfirmPasswordValid = true) }
 
                 validationConfirmPasswordDebounce.invoke(SignupUiState.ConfirmPasswordValid)
-
-                //_signupUiState.emit(SignupUiState.ConfirmPasswordValid)
             }
 
             else if (!resultValidateLengthValid){
@@ -317,17 +225,14 @@ class SignupViewModel @Inject constructor(
                     confirmPassword = Password(confirmPassword),
                     isConfirmPasswordValid = false) }
 
-                //_signupUiState.emit(SignupUiState.ConfirmPasswordLengthNotValid)
                 validationConfirmPasswordDebounce.invoke(SignupUiState.ConfirmPasswordLengthNotValid)
             }
 
             else{
-               // delay(VALIDATE_DATA_DELAY_MILLIS)
                 _signupDataState.update {
                     it.copy(confirmPassword = Password(confirmPassword),
                         isConfirmPasswordValid = false) }
 
-                //_signupUiState.emit(SignupUiState.ConfirmPasswordNotValid)
                 validationConfirmPasswordDebounce.invoke(SignupUiState.ConfirmPasswordNotValid)
             }
         }
@@ -452,7 +357,6 @@ class SignupViewModel @Inject constructor(
 
                         else -> logDebugMessage("Something went wrong ${result.error.message}")
                     }
-
                 }
             }
         }
@@ -500,7 +404,7 @@ class SignupViewModel @Inject constructor(
     }
 
     companion object{
-        private const val VALIDATE_DATA_DELAY_MILLIS = 1000L
+        private const val VALIDATE_DATA_DELAY_MILLIS = 2000L
         private const val RESENDING_COOL_DOWN = 30000L
         private const val COUNT_DOWN_INTERVAL = 1000L
     }

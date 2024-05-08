@@ -31,13 +31,9 @@ import kotlinx.coroutines.launch
 class SignupFragment:
         BaseFragment<FragmentSignupBinding, SignupViewModel>(FragmentSignupBinding::inflate){
 
-    //private lateinit var validationDebounce: (SignUpValidationInteraction) -> Unit
-
     override val viewModel: SignupViewModel by viewModels()
     private var confirmPassword: String = ""
     override fun onConfigureViews() {
-
-        //configureDebounce()
 
         binding.btnBack.setOnClickListener(){
             findNavController().navigateUp()
@@ -48,17 +44,11 @@ class SignupFragment:
         }
 
         binding.edittextEnterEmail.doOnTextChanged { text, start, before, count ->
-                //checkEmptyInput(text, binding.edittextEnterEmail)
                 viewModel.validateEmail(text.toString())
-//                validationDebounce.invoke(
-//                    SignUpValidationInteraction.ValidationEmail(text.toString()))
         }
 
         binding.edittextComeUpWithAPassword.doOnTextChanged { text, start, before, count ->
-                //checkEmptyInput(text, binding.edittextComeUpWithAPassword)
                 viewModel.validatePassword(text.toString())
-//            validationDebounce.invoke(
-//                SignUpValidationInteraction.ValidationPassword(text.toString()))
         }
 
         binding.edittextConfirmThePassword.doOnTextChanged { text, start, before, count ->
@@ -66,10 +56,6 @@ class SignupFragment:
                 confirmPassword = text.toString()
                 viewModel.validateConfirmPassword(text.toString())
             }
-
-            //checkEmptyInput(text, binding.edittextConfirmThePassword)
-//            validationDebounce.invoke(
-//                SignUpValidationInteraction.ValidationConfirmPassword(text.toString()))
         }
 
         binding.codeConfirmationView.setCallback { code ->
@@ -180,15 +166,14 @@ class SignupFragment:
                 showNeutralEditText(binding.edittextComeUpWithAPassword)
         }
     }
-    private fun showSnackbar(message: String, viewToFocus: EditText
-    ) {
+    private fun showSnackbar(message: String, viewToFocus: EditText) {
         hideKeyboard()
         Snackbar.make(binding.root, message, SNACKBAR_DURATION)
             .setBackgroundTint(resources.getColor(app.cashadvisor.uikit.R.color.black, null))
             .setTextColor(resources.getColor(app.cashadvisor.uikit.R.color.white, null))
             .setActionTextColor(resources.getColor(app.cashadvisor.uikit.R.color.white, null))
             .setAction(getString(app.cashadvisor.uikit.R.string.ok)) {
-                //viewToFocus.requestFocus()
+                viewToFocus.requestFocus()
                 showKeyboard(viewToFocus)
             }
             .show()
@@ -222,13 +207,6 @@ class SignupFragment:
         editText.background = ContextCompat.getDrawable(
             requireContext(), app.cashadvisor.uikit.R.drawable.text_input_background_neutral)
     }
-
-//    private fun checkEmptyInput(text: CharSequence?, editText: EditText): Boolean{
-//        return if (text.isNullOrEmpty()){
-//            showNeutralEditText(editText)
-//            false
-//        } else true
-//    }
 
     private fun handleSideEffects(sideEffect: SignupSideEffect) {
         when (sideEffect) {
@@ -265,10 +243,6 @@ class SignupFragment:
                     clSignupInputDate.visibility = View.VISIBLE
                     clSignupConfirmationCode.visibility = View.GONE
                     codeConfirmationView.setCode("")
-
-//                    edittextEnterEmail.text = null
-//                    edittextConfirmThePassword.text = null
-//                    edittextComeUpWithAPassword.text = null
 
                     binding.btnBack.setOnClickListener {
                         findNavController().navigateUp()
@@ -337,20 +311,7 @@ class SignupFragment:
         }
     }
 
-//    private fun configureDebounce() {
-//
-//        validationDebounce = debounce(
-//            CLICK_DEBOUNCE_DELAY,
-//            viewLifecycleOwner.lifecycleScope,
-//            useLastParam = true,
-//            actionWithDelay = false
-//        ) { action ->
-//            viewModel.handleValidation(action)
-//        }
-//    }
-
     companion object {
         const val SNACKBAR_DURATION = 6000
-        private const val CLICK_DEBOUNCE_DELAY = 2000L
     }
 }
