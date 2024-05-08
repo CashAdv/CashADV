@@ -8,7 +8,7 @@ import app.cashadvisor.authorization.data.models.SaveNewPasswordInputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordOutputDto
 
 interface ResetPasswordRemoteDataSource {
-    suspend fun resetPassword(inputDto: ResetPasswordInputDto):ResetPasswordOutputDto
+    suspend fun confirmEmail(inputDto: ResetPasswordInputDto):ResetPasswordOutputDto
     suspend fun confirmResetPasswordByEmailWithCode(inputDto: ConfirmResetPasswordByEmailWithCodeInputDto):ConfirmResetPasswordByEmailWithCodeOutputDto
     suspend fun saveNewPassword(inputDto:SaveNewPasswordInputDto):SaveNewPasswordOutputDto
 }

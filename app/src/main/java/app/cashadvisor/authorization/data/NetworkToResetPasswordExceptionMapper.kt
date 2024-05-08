@@ -44,7 +44,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
         return when(exception){
             is NetworkException.BadRequest -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                ResetPasswordException.ConfirmEmailToResetPassword.BadRequestInvalidEmailOrMissingContentTypeHeader(
+                ResetPasswordException.ConfirmEmailToResetPassword.BadRequestInvalidInputOrContentType(
                     message = errorResponse.message,
                     statusCode = errorResponse.statusCode
                 )
@@ -90,8 +90,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
     private fun handleCommonException(exception: NetworkException): ResetPasswordException {
         return when (exception) {
             is NetworkException.NoInternetConnection -> {
-                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                ResetPasswordException.NoConnection(errorResponse.message)
+                ResetPasswordException.NoConnection(exception.errorBody)
             }
 
             is NetworkException.Undefined -> {

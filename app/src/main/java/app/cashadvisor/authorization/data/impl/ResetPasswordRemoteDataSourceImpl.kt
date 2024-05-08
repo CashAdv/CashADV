@@ -19,7 +19,7 @@ class ResetPasswordRemoteDataSourceImpl @Inject constructor(
     private val resetPasswordApiService: ResetPasswordApiService,
     private val networkToResetPasswordExceptionMapper: NetworkToResetPasswordExceptionMapper):ResetPasswordRemoteDataSource {
 
-    override suspend fun resetPassword(inputDto: ResetPasswordInputDto): ResetPasswordOutputDto {
+    override suspend fun confirmEmail(inputDto: ResetPasswordInputDto): ResetPasswordOutputDto {
         return try {
             val response = resetPasswordApiService.resetPassword(
                 passwordResetRequest = resetDataMapper.toResetPasswordRequest(inputDto)

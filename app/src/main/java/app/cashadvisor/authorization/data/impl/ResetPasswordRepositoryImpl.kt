@@ -34,7 +34,7 @@ class ResetPasswordRepositoryImpl @Inject constructor(
 
     override suspend fun confirmEmailForPasswordReset(email: Email): Resource<ResetPasswordData> {
         return try {
-            val data = resetPasswordRemoteDataSource.resetPassword(
+            val data = resetPasswordRemoteDataSource.confirmEmail(
                 inputDto = resetDomainMapper.toResetPasswordInputDto(email))
 
             _state.update {

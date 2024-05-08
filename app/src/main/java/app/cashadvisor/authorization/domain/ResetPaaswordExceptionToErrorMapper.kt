@@ -16,7 +16,7 @@ class ResetPasswordExceptionToErrorMapper @Inject constructor():BaseExceptionToE
     }
     private fun handleConfirmEmailToResetPasswordException(exception: ResetPasswordException.ConfirmEmailToResetPassword):ErrorEntity{
         return when(exception){
-            is ResetPasswordException.ConfirmEmailToResetPassword.BadRequestInvalidEmailOrMissingContentTypeHeader -> {
+            is ResetPasswordException.ConfirmEmailToResetPassword.BadRequestInvalidInputOrContentType -> {
                 ErrorEntity.ConfirmEmailToResetPassword.InvalidInput(
                     exception.message
                 )
