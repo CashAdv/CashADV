@@ -18,7 +18,6 @@ import app.cashadvisor.authorization.domain.models.states.PasswordValidationStat
 import app.cashadvisor.authorization.presentation.ui.models.RecoveryScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
 import app.cashadvisor.authorization.presentation.viewmodel.PasswordRecoveryViewModel
-import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentPasswordRecoveryBinding
 import app.cashadvisor.uikit.R
@@ -35,20 +34,16 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
     override fun onConfigureViews() {
         with(binding){
             btnGetCode.setOnClickListener{
-                viewModel.handleEvent(
-                    RecoveryPasswordScreenEvent.SetEmail(
-                        email = etEmailInput.text.toString()
-                    )
-                )
+                viewModel.setEmail(email = etEmailInput.text.toString())
             }
             btnSendNewPassword.setOnClickListener {
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetPassword(etPasswordInput.text.toString(), requireContext()))
+                viewModel.setPassword(etPasswordInput.text.toString(), requireContext())
             }
             etEmailInput.addTextChangedListener {
                viewModel.emailInputListener(it)
             }
             etConfirmationCode.setCallback {
-                viewModel.handleEvent(RecoveryPasswordScreenEvent.SetEmailConfirmCode(it, requireContext()))
+                viewModel.setEmailConfirmCode(it, requireContext())
             }
             etPasswordInput.addTextChangedListener{
                 viewModel.passwordInputListener(it)

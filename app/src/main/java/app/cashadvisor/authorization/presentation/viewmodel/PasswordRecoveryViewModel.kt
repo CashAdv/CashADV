@@ -15,7 +15,6 @@ import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryScreen
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
 import app.cashadvisor.authorization.presentation.ui.models.RecoveryScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
-import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordScreenEvent
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
@@ -63,18 +62,8 @@ class PasswordRecoveryViewModel @Inject constructor(
     val messageEvent = _messageEvent.asSharedFlow()
 
 
-    fun handleEvent(event: RecoveryPasswordScreenEvent) {
-        when (event) {
-            is RecoveryPasswordScreenEvent.SetEmail -> setEmail(event.email)
-            RecoveryPasswordScreenEvent.Recovery -> recovery()
-            is RecoveryPasswordScreenEvent.SetEmailConfirmCode -> setEmailConfirmCode(event.code, event.context)
-            is RecoveryPasswordScreenEvent.ConfirmEmail -> sendEmailConfirmCode(event.context)
-            is RecoveryPasswordScreenEvent.SetPassword -> setPassword(event.password, event.context)
-            is RecoveryPasswordScreenEvent.ConfirmNewPassword -> sendNewPassword(event.context)
-        }
-    }
 
-    private fun setEmail(
+     fun setEmail(
         email: String) {
         viewModelScope.launch {
             val result = inputValidationInteractor.validateEmail(email)
@@ -167,7 +156,7 @@ private fun recovery() {
 
 }
 
-private fun setEmailConfirmCode(code: String, context: Context) {
+fun setEmailConfirmCode(code: String, context: Context) {
     viewModelScope.launch {
         val result = inputValidationInteractor.validateConfirmationCode(code)
         when (result) {
@@ -264,7 +253,7 @@ private fun sendEmailConfirmCode(context:Context) {
     }
 }
 
-private fun setPassword(password: String, context: Context) {
+fun setPassword(password: String, context: Context) {
     viewModelScope.launch {
         val result = inputValidationInteractor.validatePassword(password)
         when (result) {
