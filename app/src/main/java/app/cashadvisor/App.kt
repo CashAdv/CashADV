@@ -2,6 +2,8 @@ package app.cashadvisor
 
 import android.app.Application
 import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
@@ -11,6 +13,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        setRussianLocale()
         configureTimber()
     }
 
@@ -53,6 +56,12 @@ class App : Application() {
                 }
             }
         })
+    }
+
+    private fun setRussianLocale() {
+        val appLocale: LocaleListCompat =
+            LocaleListCompat.forLanguageTags("ru")
+        AppCompatDelegate.setApplicationLocales(appLocale)
     }
 
     companion object {

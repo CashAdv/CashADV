@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--Common strings -->
+    <string name="back">Назад</string>
+    <string name="ok">OK</string>
+    <string name="no_internet">Отсутствует интернет соединение</string>
+
     <!-- Circular graph strings -->
     <string name="circular_graph_header_total">Всего!</string>
     <string name="circular_graph_currency_symbol_ruble">₽</string>
@@ -20,8 +25,7 @@
     <!-- PinCode screen strings -->
     <string name="pin_code_screen">Экран ввода пинкода</string>
     <string name="enter">Войти</string>
-    <string name="back">Назад</string>
-    
+
     <!--Login screen-->
     <string name="authorization">Авторизация</string>
     <string name="enter_account_data">Ввод данных аккаунта</string>
@@ -44,7 +48,6 @@
     <string name="wrong_password_format_and_email_format">Пароль содержит недопустимые символы и формат email выбран неверно</string>
     <string name="wrong_password_count_and_email_format">Пароль содержит менее 8 знаков и формат email выбран неверно</string>
     <string name="edit">Изменить</string>
-    <string name="ok">OK</string>
     <string name="wrong_code_number_attempts">У Вас осталось %1$s</string>
     <string name="wrong_code_number_lock_duration">Попытки входа закончилсь, попробуйте через %1$s</string>
     <string name="invalid_token">Срок действия кода истек, повторите попытку</string>
@@ -64,7 +67,20 @@
     <string name="close">Закрыть</string>
     <string name="description_sleep_image">Это изображение спящего смайлика</string>
 
-
-
-
+    <!-- Signup screen string-->
+    <string name="registration">Регистрация</string>
+    <string name="entering_account_data">Ввод данных аккаунта</string>
+    <string name="confirm">Подтверждение</string>
+    <string name="enter_your_email">Введите свой email</string>
+    <string name="example_email">example@gmail.com</string>
+    <string name="come_up_with_a_password">Придумайте пароль</string>
+    <string name="example_password">********</string>
+    <string name="confirm_the_password">Подтвердите пароль</string>
+    <string name="allowed_characters_for_the_password">Используйте цифры, буквы A-z и знак «_»</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="invalid_email_format">Неверный формат email, повторите попытку</string>
+    <string name="invalid_password_format">Пароль содержит недопустимые символы</string>
+    <string name="invalid_password_length">Пароль должен содержать не менее 8 знаков</string>
+    <string name="invalid_confirm_password">Введенные пароли не совпадают</string>
+    <string name="email_already_exist">Учетная запись с такой электронной почтой уже существует</string>
 </resources>
