@@ -84,7 +84,7 @@ class ProfileSettingsFragment :
         binding.etName.setText(uiState.name)
         binding.etSurname.setText(uiState.surname)
         uiState.profilePicUrl?.let {
-            setImageToIV(it)
+            setProfilePicture(it)
             profilePicUrl = it
         } ?: setAvatarPlaceholder()
     }
@@ -92,7 +92,8 @@ class ProfileSettingsFragment :
     private fun updateValidationState(uiState: ProfileSettingsScreenState.InputValidation) {
         uiState.profilePicUrl?.let {
             if (it != profilePicUrl) {
-                setImageToIV(it)
+                setProfilePicture(it)
+                profilePicUrl = it
             }
         } ?: setAvatarPlaceholder()
 
@@ -193,14 +194,13 @@ class ProfileSettingsFragment :
     private fun registerPickMediaRequest() =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                profilePicUrl = uri.toString()
-                setImageToIV(uri.toString())
+                viewModel.updateProfilePicUrl(uri.toString())
             }
         }
 
-    private fun setImageToIV(uri: String) {
+    private fun setProfilePicture(url: String) {
         Glide.with(this)
-            .load(uri)
+            .load(url)
             .placeholder(
                 ContextCompat.getDrawable(
                     requireContext(),
@@ -247,7 +247,6 @@ class ProfileSettingsFragment :
         binding.etName.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 binding.etName.clearFocus()
-                true
             }
             false
         }

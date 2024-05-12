@@ -116,10 +116,8 @@ class ProfileSettingsViewModel @Inject constructor(
                 surnameValidationState = InputValidationState.Default
 
                 var savePicResult: Resource<Unit>? = null
-                if (profilePicUrl != picUrl) {
-                    profilePicUrl?.let {
-                        savePicResult = profileInfoInteractor.updateProfilePic(it.toUri())
-                    }
+                profilePicUrl?.let {
+                    savePicResult = profileInfoInteractor.updateProfilePic(it.toUri())
                 }
                 val saveNameResult = profileInfoInteractor.updateUserName(name, surname)
 
@@ -227,6 +225,26 @@ class ProfileSettingsViewModel @Inject constructor(
             nameInputValidationState = nameValidationState,
             surnameInputValidationState = surnameValidationState
         )
+    }
+
+    fun updateProfilePicUrl(profilePicUrl: String) {
+        picUrl = profilePicUrl
+
+        val newStateValue = when (val currentState = _uiState.value) {
+            ProfileSettingsScreenState.Default -> ProfileSettingsScreenState.Default
+            is ProfileSettingsScreenState.InputValidation -> {
+                currentState.copy(
+                    profilePicUrl = profilePicUrl
+                )
+            }
+
+            is ProfileSettingsScreenState.UserData -> {
+                currentState.copy(
+                    profilePicUrl = profilePicUrl
+                )
+            }
+        }
+        _uiState.value = newStateValue
     }
 
     companion object {
