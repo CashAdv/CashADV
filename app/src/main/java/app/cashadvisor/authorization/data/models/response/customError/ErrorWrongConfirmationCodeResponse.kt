@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class ErrorWrongConfirmationCodeResponse(
     @SerialName("remaining_attempts") val remainingAttempts: Int,
-    @SerialName("lock_duration") val lockDuration: Long,
+    @SerialName("lock_duration") val lockDurationNanoseconds: Long,
     val error: String,
     @SerialName("status_code") val statusCode: Int
 )

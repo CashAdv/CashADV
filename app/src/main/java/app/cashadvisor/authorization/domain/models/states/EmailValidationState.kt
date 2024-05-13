@@ -9,5 +9,4 @@ sealed interface EmailValidationState {
         val email: Email,
         val emailValidationError: EmailValidationError
     ) : EmailValidationState
-    data object Default: EmailValidationState
 }

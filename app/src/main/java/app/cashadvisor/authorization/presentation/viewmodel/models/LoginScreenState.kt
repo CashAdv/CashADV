@@ -1,12 +1,9 @@
 package app.cashadvisor.authorization.presentation.viewmodel.models
 
-import app.cashadvisor.authorization.domain.models.states.EmailValidationState
-import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-
 sealed interface LoginScreenState {
     data class CredentialsInput(
-        val emailState: EmailValidationState? = null,
-        val passwordState: PasswordValidationState? = null,
+        val emailState: LoginEmailValidationState? = null,
+        val passwordState: LoginPasswordValidationState? = null,
         val isLoginSuccessful: Boolean? = null,
         val isBtnLoginEnabled: Boolean,
         val isLoading: Boolean? = null
