@@ -13,25 +13,25 @@ sealed class ResetPasswordException(
     data class Undefined(override val message: String = UNDEFINED_MESSAGE) :
         ResetPasswordException(message = message)
 
-    sealed class ConfirmResetPasswordByEmailWithCode(
+    sealed class ConfirmResetPasswordWithCode(
         override val message: String
     ):ResetPasswordException(message){
         class BadRequestInvalidCodeOrMissingContentTypeHeader(
             override val message: String,
             val statusCode: Int
-        ) : ConfirmResetPasswordByEmailWithCode(message = message)
+        ) : ConfirmResetPasswordWithCode(message = message)
 
         class UnauthorizedWrongConfirmationCode(
             override val message: String,
             val remainingAttempts:Int,
             val lockDuration:Long,
             val statusCode: Int
-        ):ConfirmResetPasswordByEmailWithCode(message = message)
+        ):ConfirmResetPasswordWithCode(message = message)
 
         class InternalServerErrorFailedToConfirmResetPassword(
             override val message: String,
             val statusCode: Int
-        ) : ConfirmResetPasswordByEmailWithCode(message = message)
+        ) : ConfirmResetPasswordWithCode(message = message)
 
     }
 

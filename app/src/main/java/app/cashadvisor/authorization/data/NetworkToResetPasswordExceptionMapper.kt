@@ -11,37 +11,42 @@ import kotlinx.serialization.json.Json
 class NetworkToResetPasswordExceptionMapper @Inject constructor(
     private val json: Json
 ) {
-    fun handleConfirmResetPasswordByEmailWithCode(exception: NetworkException):ResetPasswordException{
-        return when(exception){
+    fun handleConfirmResetPasswordWithCode(exception: NetworkException): ResetPasswordException {
+        return when (exception) {
             is NetworkException.BadRequest -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                ResetPasswordException.ConfirmResetPasswordByEmailWithCode.BadRequestInvalidCodeOrMissingContentTypeHeader(
+                ResetPasswordException.ConfirmResetPasswordWithCode.BadRequestInvalidCodeOrMissingContentTypeHeader(
                     message = errorResponse.message,
                     statusCode = errorResponse.statusCode
                 )
             }
+
             is NetworkException.Unauthorized -> {
-                val errorResponse = handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
-                ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedWrongConfirmationCode(
+                val errorResponse =
+                    handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
+                ResetPasswordException.ConfirmResetPasswordWithCode.UnauthorizedWrongConfirmationCode(
                     remainingAttempts = errorResponse.remainingAttempts,
                     lockDuration = errorResponse.lockDuration,
                     message = errorResponse.error,
                     statusCode = errorResponse.statusCode
                 )
             }
+
             is NetworkException.InternalServerError -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
-                ResetPasswordException.ConfirmResetPasswordByEmailWithCode.InternalServerErrorFailedToConfirmResetPassword(
+                ResetPasswordException.ConfirmResetPasswordWithCode.InternalServerErrorFailedToConfirmResetPassword(
                     message = errorResponse.message,
                     statusCode = errorResponse.statusCode
                 )
             }
+
             else -> handleCommonException(exception)
         }
 
     }
-    fun handleConfirmEmailToResetPassword(exception: NetworkException):ResetPasswordException{
-        return when(exception){
+
+    fun handleConfirmEmailToResetPassword(exception: NetworkException): ResetPasswordException {
+        return when (exception) {
             is NetworkException.BadRequest -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.ConfirmEmailToResetPassword.BadRequestInvalidInputOrContentType(
@@ -49,6 +54,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                     statusCode = errorResponse.statusCode
                 )
             }
+
             is NetworkException.InternalServerError -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.ConfirmEmailToResetPassword.InternalServerErrorFailedToGenerateTokenOrSendEmail(
@@ -56,12 +62,14 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                     statusCode = errorResponse.statusCode
                 )
             }
+
             else -> handleCommonException(exception)
         }
 
     }
-    fun handleSaveNewPassword(exception: NetworkException):ResetPasswordException{
-        return when(exception){
+
+    fun handleSaveNewPassword(exception: NetworkException): ResetPasswordException {
+        return when (exception) {
             is NetworkException.BadRequest -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.SaveNewPassword.BadRequestInvalidPasswordOrMissingContentTypeHeader(
@@ -69,13 +77,16 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                     statusCode = errorResponse.statusCode
                 )
             }
+
             is NetworkException.Unauthorized -> {
-                val errorResponse = handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
+                val errorResponse =
+                    handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
                 ResetPasswordException.SaveNewPassword.UnauthorizedInvalidTokenOrMissingContentTypeHeader(
                     message = errorResponse.error,
                     statusCode = errorResponse.statusCode
                 )
             }
+
             is NetworkException.InternalServerError -> {
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.SaveNewPassword.InternalServerErrorFailedToResetPassword(
@@ -83,6 +94,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                     statusCode = errorResponse.statusCode
                 )
             }
+
             else -> handleCommonException(exception)
         }
     }
@@ -102,6 +114,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
             }
         }
     }
+
     private inline fun <reified T> handleErrorResponse(errorMessage: String): T {
         try {
             return json.decodeFromString<T>(errorMessage)

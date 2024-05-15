@@ -1,6 +1,6 @@
 package app.cashadvisor.authorization.data.models
 
-data class ConfirmResetPasswordByEmailWithCodeInputDto(
+data class ConfirmResetPasswordWithCodeInputDto(
    val code:String,
     val token:String
 )

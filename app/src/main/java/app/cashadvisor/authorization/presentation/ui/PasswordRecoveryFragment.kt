@@ -92,6 +92,7 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
                     clEmailForms.visibility = View.VISIBLE
                     clConfirmationCode.visibility = View.GONE
                     clNewPassword.visibility = View.GONE
+                    etConfirmationCode.setCode("")
 
                     btnGetCode.isEnabled= state.isBtnLoginEnabled
                     manageEmailValidation(state.emailState)

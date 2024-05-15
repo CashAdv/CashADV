@@ -4,9 +4,9 @@ import app.cashadvisor.authorization.data.NetworkToResetPasswordExceptionMapper
 import app.cashadvisor.authorization.data.ResetDataMapper
 import app.cashadvisor.authorization.data.api.ResetPasswordApiService
 import app.cashadvisor.authorization.data.api.ResetPasswordRemoteDataSource
-import app.cashadvisor.authorization.data.models.ConfirmResetPasswordByEmailWithCodeInputDto
+import app.cashadvisor.authorization.data.models.ConfirmResetPasswordWithCodeInputDto
 import app.cashadvisor.authorization.data.models.ResetPasswordInputDto
-import app.cashadvisor.authorization.data.models.ConfirmResetPasswordByEmailWithCodeOutputDto
+import app.cashadvisor.authorization.data.models.ConfirmResetPasswordWithCodeOutputDto
 import app.cashadvisor.authorization.data.models.ResetPasswordOutputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordInputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordOutputDto
@@ -31,14 +31,14 @@ class ResetPasswordRemoteDataSourceImpl @Inject constructor(
         }
     }
 
-    override suspend fun confirmResetPasswordByEmailWithCode(inputDto: ConfirmResetPasswordByEmailWithCodeInputDto): ConfirmResetPasswordByEmailWithCodeOutputDto {
+    override suspend fun confirmResetPasswordByEmailWithCode(inputDto: ConfirmResetPasswordWithCodeInputDto): ConfirmResetPasswordWithCodeOutputDto {
         return try {
             val response = resetPasswordApiService.resetPasswordConfirm(
-                resetPasswordRequest = resetDataMapper.toResetPasswordByEmailWithCodeRequest(inputDto)
+                resetPasswordRequest = resetDataMapper.toResetPasswordWithCodeRequest(inputDto)
             )
-            resetDataMapper.toConfirmResetPasswordByEmailWithCodeOutputDto(response)
+            resetDataMapper.toConfirmResetPasswordWithCodeOutputDto(response)
         }catch (exception: NetworkException){
-            throw networkToResetPasswordExceptionMapper.handleConfirmResetPasswordByEmailWithCode(exception)
+            throw networkToResetPasswordExceptionMapper.handleConfirmResetPasswordWithCode(exception)
         }
     }
 

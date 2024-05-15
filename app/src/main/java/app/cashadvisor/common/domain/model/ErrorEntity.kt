@@ -65,8 +65,8 @@ sealed class ErrorEntity(open val message: String) {
 
         data class WrongConfirmationCode(
             override val message: String,
-            val remainingAttempts:Int,
-            val lockDuration:Long
+            val remainingAttempts:Int? = null,
+            val lockDuration:Long? = null
         ) : ConfirmResetPasswordByEmailWithCode(message)
 
         data class FailedToConfirmPasswordReset(override val message: String) :

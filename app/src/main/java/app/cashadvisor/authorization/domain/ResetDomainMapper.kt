@@ -1,13 +1,13 @@
 package app.cashadvisor.authorization.domain
 
-import app.cashadvisor.authorization.data.models.ConfirmResetPasswordByEmailWithCodeInputDto
+import app.cashadvisor.authorization.data.models.ConfirmResetPasswordWithCodeInputDto
 import app.cashadvisor.authorization.data.models.ResetPasswordInputDto
-import app.cashadvisor.authorization.data.models.ConfirmResetPasswordByEmailWithCodeOutputDto
+import app.cashadvisor.authorization.data.models.ConfirmResetPasswordWithCodeOutputDto
 import app.cashadvisor.authorization.data.models.ResetPasswordOutputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordInputDto
 import app.cashadvisor.authorization.data.models.SaveNewPasswordOutputDto
 import app.cashadvisor.authorization.domain.models.ConfirmCode
-import app.cashadvisor.authorization.domain.models.ConfirmResetPasswordByEmailWithCodeData
+import app.cashadvisor.authorization.domain.models.ConfirmResetPasswordWithCode
 import app.cashadvisor.authorization.domain.models.Email
 import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.ResetPasswordData
@@ -22,8 +22,8 @@ class ResetDomainMapper @Inject constructor() {
         )
     }
 
-    fun toConfirmResetPasswordByEmailWithCodeInputDto(code: ConfirmCode, token: String): ConfirmResetPasswordByEmailWithCodeInputDto {
-        return ConfirmResetPasswordByEmailWithCodeInputDto(
+    fun toConfirmResetPasswordByEmailWithCodeInputDto(code: ConfirmCode, token: String): ConfirmResetPasswordWithCodeInputDto {
+        return ConfirmResetPasswordWithCodeInputDto(
             code = code.value,
             token = token
         )
@@ -40,8 +40,8 @@ class ResetDomainMapper @Inject constructor() {
             resetToken = resetToken
         )
     }
-    fun toConfirmResetPasswordByEmailWithCodeData(data:ConfirmResetPasswordByEmailWithCodeOutputDto):ConfirmResetPasswordByEmailWithCodeData{
-        return ConfirmResetPasswordByEmailWithCodeData(
+    fun toConfirmResetPasswordWithCode(data:ConfirmResetPasswordWithCodeOutputDto):ConfirmResetPasswordWithCode{
+        return ConfirmResetPasswordWithCode(
             message = data.message,
         )
     }

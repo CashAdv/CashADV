@@ -30,7 +30,11 @@ class ResetPasswordInteractorImpl @Inject constructor(
         val result = resetPasswordRepository.resetPasswordConfirmWithCode(code)
         return when(result){
             is Resource.Success -> {
-                Resource.Success(data = result.data.message)
+                if(result.data.message!=null){
+                    Resource.Success(data = result.data.message)
+                }else{
+                    Resource.Success(data = "null")
+                }
             }
             is Resource.Error -> {
                 Resource.Error(error = result.error)

@@ -10,7 +10,7 @@ class ResetPasswordExceptionToErrorMapper @Inject constructor():BaseExceptionToE
         return when (exception){
             is  ResetPasswordException.ConfirmEmailToResetPassword ->handleConfirmEmailToResetPasswordException(exception)
             is ResetPasswordException.SaveNewPassword -> handleSaveNewPasswordException(exception)
-            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode -> handleConfirmResetPasswordByEmailWithCode(exception)
+            is ResetPasswordException.ConfirmResetPasswordWithCode -> handleConfirmResetPasswordWithCode(exception)
             else -> handleUnknownError(exception)
         }
     }
@@ -48,21 +48,21 @@ class ResetPasswordExceptionToErrorMapper @Inject constructor():BaseExceptionToE
         }
 
     }
-    private fun handleConfirmResetPasswordByEmailWithCode(exception: ResetPasswordException.ConfirmResetPasswordByEmailWithCode):ErrorEntity{
+    private fun handleConfirmResetPasswordWithCode(exception: ResetPasswordException.ConfirmResetPasswordWithCode):ErrorEntity{
         return when(exception){
-            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode.BadRequestInvalidCodeOrMissingContentTypeHeader -> {
+            is ResetPasswordException.ConfirmResetPasswordWithCode.BadRequestInvalidCodeOrMissingContentTypeHeader -> {
                 ErrorEntity.ConfirmResetPasswordByEmailWithCode.InvalidInput(
                     exception.message
                 )
             }
-            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode.UnauthorizedWrongConfirmationCode -> {
+            is ResetPasswordException.ConfirmResetPasswordWithCode.UnauthorizedWrongConfirmationCode -> {
                 ErrorEntity.ConfirmResetPasswordByEmailWithCode.WrongConfirmationCode(
                     exception.message,
                     exception.remainingAttempts,
                     exception.lockDuration
                 )
             }
-            is ResetPasswordException.ConfirmResetPasswordByEmailWithCode.InternalServerErrorFailedToConfirmResetPassword -> {
+            is ResetPasswordException.ConfirmResetPasswordWithCode.InternalServerErrorFailedToConfirmResetPassword -> {
                 ErrorEntity.ConfirmResetPasswordByEmailWithCode.FailedToConfirmPasswordReset(
                     exception.message
                 )

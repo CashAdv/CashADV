@@ -209,13 +209,20 @@ private fun sendEmailConfirmCode(context:Context) {
 
                         logDebugMessage("InvalidToken ${result.error.message}")
                         viewModelScope.launch {
-                            attemptsToSendConfirmationCode = result.error.remainingAttempts
+                            val remainingAttempts = result.error.remainingAttempts
+                            if(remainingAttempts!=null){
+                                attemptsToSendConfirmationCode = remainingAttempts
+                            }else{
+                                attemptsToSendConfirmationCode -= 1
+                            }
                             if(attemptsToSendConfirmationCode>0){
                                 _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
                                 context.getString(R.string.invalid_confirmation_code)))
                             }else{
                                 _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
                                 context.getString(R.string.user_is_locked)))
+                                attemptsToSendConfirmationCode = 3
+
                                 navigateBackToEmailState()
                             }
 

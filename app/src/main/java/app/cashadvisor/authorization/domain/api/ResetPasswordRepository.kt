@@ -1,7 +1,7 @@
 package app.cashadvisor.authorization.domain.api
 
 import app.cashadvisor.authorization.domain.models.ConfirmCode
-import app.cashadvisor.authorization.domain.models.ConfirmResetPasswordByEmailWithCodeData
+import app.cashadvisor.authorization.domain.models.ConfirmResetPasswordWithCode
 import app.cashadvisor.authorization.domain.models.Email
 import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.ResetPasswordData
@@ -16,7 +16,7 @@ interface ResetPasswordRepository {
 
     suspend fun resetPasswordConfirmWithCode(
         code: ConfirmCode,
-    ):Resource<ConfirmResetPasswordByEmailWithCodeData>
+    ):Resource<ConfirmResetPasswordWithCode>
 
     suspend fun saveNewPassword(
         email: Email,
