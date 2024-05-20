@@ -26,7 +26,7 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                     handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
                 ResetPasswordException.ConfirmResetPasswordWithCode.UnauthorizedWrongConfirmationCode(
                     remainingAttempts = errorResponse.remainingAttempts,
-                    lockDuration = errorResponse.lockDuration,
+                    lockDuration = errorResponse.lockDurationNanoseconds,
                     message = errorResponse.error,
                     statusCode = errorResponse.statusCode
                 )

@@ -15,6 +15,8 @@ import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryScreen
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
 import app.cashadvisor.authorization.presentation.ui.models.RecoveryScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryEmailValidationState
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordValidationState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
 import app.cashadvisor.common.ui.BaseViewModel
@@ -49,7 +51,7 @@ class PasswordRecoveryViewModel @Inject constructor(
 
     private val _uiState: MutableStateFlow<PasswordRecoveryScreenState> = MutableStateFlow(
         PasswordRecoveryScreenState.EmailInput(
-            emailState = EmailValidationState.Default,
+            emailState = RecoveryEmailValidationState.Default,
             isBtnLoginEnabled = false
         )
     )
@@ -70,7 +72,7 @@ class PasswordRecoveryViewModel @Inject constructor(
             when (result) {
                 is EmailValidationState.Success -> {
                     _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                        emailState = result,
+                        emailState = RecoveryEmailValidationState.Success(result.email),
                         isBtnLoginEnabled = true
                     )
                     emailInput = email
@@ -81,18 +83,10 @@ class PasswordRecoveryViewModel @Inject constructor(
 
                 is EmailValidationState.Error -> {
                     _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                        emailState = result,
+                        emailState = RecoveryEmailValidationState.Error(result.email, result.emailValidationError),
                         isBtnLoginEnabled = false
                     )
                     emailValidationErrorMessage(result)
-                }
-
-                EmailValidationState.Default -> {
-                    _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                        emailState = result,
-                        isBtnLoginEnabled = false
-                    )
-
                 }
             }
         }
@@ -184,7 +178,7 @@ private fun sendEmailConfirmCode(context:Context) {
                     logDebugMessage(result.data)
                     resendCountDownJob!!.cancel()
                    _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-                       passwordState = PasswordValidationState.Default,
+                       passwordState = RecoveryPasswordValidationState.Default,
                        isBtnResetPasswordEnabled = false,
                    )
                 }
@@ -266,7 +260,7 @@ fun setPassword(password: String, context: Context) {
         when (result) {
             is PasswordValidationState.Success -> {
                 _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-                    passwordState = result,
+                    passwordState = RecoveryPasswordValidationState.Success(result.password),
                     isBtnResetPasswordEnabled = true
                 )
                 sendNewPassword(context)
@@ -274,18 +268,10 @@ fun setPassword(password: String, context: Context) {
 
             is PasswordValidationState.Error -> {
                 _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-                    passwordState = result,
+                    passwordState = RecoveryPasswordValidationState.Error(result.passwordValidationError),
                     isBtnResetPasswordEnabled = false
                 )
                 passwordValidationErrorMessage(result)
-            }
-
-            PasswordValidationState.Default -> {
-                _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-                    passwordState = result,
-                    isBtnResetPasswordEnabled = false
-                )
-
             }
         }
     }
@@ -387,7 +373,7 @@ private fun sendNewPassword(context: Context) {
         viewModelScope.launch {
             resendCountDownJob?.cancel()
             _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                emailState = EmailValidationState.Default,
+                emailState = RecoveryEmailValidationState.Default,
                 isLoginSuccessful = null,
                 isBtnLoginEnabled = true
             )
@@ -408,7 +394,7 @@ private fun sendNewPassword(context: Context) {
                 this@PasswordRecoveryViewModel.emailInput.isNotBlank()
 
             _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                emailState = EmailValidationState.Default,
+                emailState = RecoveryEmailValidationState.Default,
                 isBtnLoginEnabled = isBtnLoginEnabled
             )
         }
@@ -426,7 +412,7 @@ private fun sendNewPassword(context: Context) {
                this@PasswordRecoveryViewModel.passwordInput.isNotBlank()
 
            _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-               passwordState = PasswordValidationState.Default,
+               passwordState = RecoveryPasswordValidationState.Default,
                isBtnResetPasswordEnabled = isBtnResetPasswordEnabled
            )
 

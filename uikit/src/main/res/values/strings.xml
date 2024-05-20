@@ -114,7 +114,6 @@
     <string name="confirm">Подтверждение</string>
     <string name="enter_your_email">Введите свой email</string>
     <string name="example_email">example@gmail.com</string>
-    <string name="come_up_with_a_password">Придумайте пароль</string>
     <string name="example_password">********</string>
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="allowed_characters_for_the_password">Используйте цифры, буквы A-z и знак «_»</string>

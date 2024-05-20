@@ -20,9 +20,6 @@ abstract class BaseExceptionToErrorMapper {
 
             is ConnectException, is NetworkException, is LoginException.NoConnection, 
           is RegisterException.NoConnection, is ResetPasswordException.NoConnection, is UserProfileException.NoConnection -> {
-
-            is ConnectException, is NetworkException, is LoginException.NoConnection, is RegisterException.NoConnection, is UserProfileException.NoConnection -> {
- dev
                 logNetworkError(exception.message)
                 handleNetworkError(exception)
             }

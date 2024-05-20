@@ -12,12 +12,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordRecoveryScreenState
-import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
 import app.cashadvisor.authorization.presentation.ui.models.RecoveryScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.RecoverySideEffect
 import app.cashadvisor.authorization.presentation.viewmodel.PasswordRecoveryViewModel
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryEmailValidationState
+import app.cashadvisor.authorization.presentation.viewmodel.models.RecoveryPasswordValidationState
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentPasswordRecoveryBinding
 import app.cashadvisor.uikit.R
@@ -202,17 +202,17 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
             }
         }
     }
-    private fun manageEmailValidation(state: EmailValidationState?) {
+    private fun manageEmailValidation(state: RecoveryEmailValidationState?) {
         state?.let {
             with(binding){
                 when(state){
-                    is EmailValidationState.Error -> {
+                    is RecoveryEmailValidationState.Error -> {
                         showErrorEditText(etEmailInput)
                     }
-                    is  EmailValidationState.Success -> {
+                    is  RecoveryEmailValidationState.Success -> {
                         showSuccessEditText(etEmailInput)
                     }
-                    is EmailValidationState.Default -> {
+                    is RecoveryEmailValidationState.Default -> {
                         showNeutralEditText(etEmailInput)
                     }
                 }
@@ -220,21 +220,21 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
         }
 
     }
-    private fun managePasswordValidation(state: PasswordValidationState?){
+    private fun managePasswordValidation(state: RecoveryPasswordValidationState?){
         state?.let {
             with(binding){
                 when(state){
-                    is PasswordValidationState.Error -> {
+                    is RecoveryPasswordValidationState.Error -> {
                         showErrorEditText(binding.etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = true
                         tiPasswordInput.helperText=
                             getString(R.string.password_text_input_helper_text)
                     }
-                    is PasswordValidationState.Default -> {
+                    is RecoveryPasswordValidationState.Default -> {
                         showNeutralEditText(binding.etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = false
                     }
-                    is PasswordValidationState.Success -> {
+                    is RecoveryPasswordValidationState.Success -> {
                         showSuccessEditText(binding.etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled= false
                     }
