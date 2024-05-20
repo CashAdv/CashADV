@@ -58,7 +58,11 @@
         <item name="android:textColor">?attr/colour1</item>
     </style>
 
-    <!-- Start Screen Text Styles -->
+    <!-- Screen Title Text Style -->
+    <style name="Widget.CashAdvisor.Text.ScreenTitle" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
     <style name="Widget.CashAdvisor.Text.HeaderStart">
         <item name="fontFamily">@font/montserratbold</item>
         <item name="android:textSize">40sp</item>
@@ -166,7 +170,21 @@
 
     <!-- Profile Text Styles -->
     <style name="Widget.CashAdvisor.Text.ProfileName" parent="Widget.CashAdvisor.Text.Text_info">
-        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textColor">@color/colour1</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.ProfileName.Settings" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">@color/colour1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AccountBalance" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:textColor">@color/subcolour2</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Subscription" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textColor">@color/subcolour2</item>
         <item name="android:textAlignment">2</item>
     </style>
 
@@ -205,6 +223,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">30dp</item>
         <item name="android:background">@drawable/gray_button_background</item>
+    </style>
+
+    <!--  Profile settings  -->
+    <style name="Widget.CashAdvisor.TextInputEditText.EditTextProfileSettings" parent="Widget.CashAdvisor.TextInputEditText">
+        <item name="android:inputType">text</item>
     </style>
 
     <!--Login screen textInput styles-->

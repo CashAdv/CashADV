@@ -33,6 +33,10 @@ class FeaturesAndSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.profileHeader.setOnClickListener {
+            findNavController().navigate(R.id.action_featuresAndSettingsFragment_to_profileSettingsFragment)
+        }
+
         binding.btnAccounts.setOnClickListener {
             findNavController().navigate(R.id.action_featuresAndSettingsFragment_to_bankAccountsFragment)
         }

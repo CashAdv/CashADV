@@ -1,10 +1,10 @@
 package app.cashadvisor.analytics.presentation.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.R
 import app.cashadvisor.databinding.FragmentAnalyticsBinding
@@ -33,6 +33,10 @@ class AnalyticsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.profileHeader.setOnClickListener {
+            findNavController().navigate(R.id.action_analyticsFragment_to_profileSettingsFragment)
+        }
+
         binding.btnAddBank.setOnClickListener {
             findNavController().navigate(R.id.action_analyticsFragment_to_addBankSelectionFragment)
         }
@@ -59,7 +63,7 @@ class AnalyticsFragment : Fragment() {
                     }
 
                     rbIncome.isChecked && rbFact.isChecked -> {
-                     findNavController().navigate(addIncome)
+                        findNavController().navigate(addIncome)
                     }
 
                     rbExpense.isChecked && rbPlan.isChecked -> {
@@ -71,7 +75,7 @@ class AnalyticsFragment : Fragment() {
                     }
 
                     rbSaving.isChecked && rbPlan.isChecked -> {
-                      findNavController().navigate(planSaving)
+                        findNavController().navigate(planSaving)
                     }
 
                     rbSaving.isChecked && rbFact.isChecked -> {
@@ -81,8 +85,6 @@ class AnalyticsFragment : Fragment() {
                 }
             }
         }
-
-
 
 
     }

@@ -11,6 +11,7 @@
     <color name="subcolour1">#D9D9D9</color>
     <color name="subcolour2">#999999</color>
     <color name="colour2">#000000</color>
+    <color name="light_gray">#C4C4C4</color>
 
 
     // Semantic

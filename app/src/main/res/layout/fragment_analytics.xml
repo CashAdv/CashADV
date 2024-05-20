@@ -6,13 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".analytics.presentation.ui.AnalyticsFragment">
 
+    <app.cashadvisor.customView.ProfileHeaderMain
+        android:id="@+id/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/header_margin_horizontal"
+        android:layout_marginTop="@dimen/header_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <RadioGroup
         android:id="@+id/title"
-        android:checkedButton="@id/rb_income"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:checkedButton="@id/rb_income"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
 
@@ -38,12 +48,12 @@
 
 
     <RadioGroup
-        android:checkedButton="@id/rb_fact"
         android:id="@+id/fact_or_plan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
+        android:checkedButton="@id/rb_fact"
         app:layout_constraintStart_toEndOf="@id/title"
         app:layout_constraintTop_toBottomOf="@id/tv_screen_title">
 
@@ -65,11 +75,11 @@
         android:id="@+id/tv_screen_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
+        android:layout_marginTop="@dimen/header_margin_bottom"
         android:text="Экран Аналитика. Левый из главных экранов"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/profile_header" />
 
     <Button
         android:id="@+id/btn_add_bank"

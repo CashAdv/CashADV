@@ -67,6 +67,27 @@
     <string name="close">Закрыть</string>
     <string name="description_sleep_image">Это изображение спящего смайлика</string>
 
+    <!--  Settings screen string  -->
+    <string name="change_profile_pic">Сменить изображение</string>
+    <string name="profile_settings_title">Настройка профиля</string>
+    <string name="save">Сохранить</string>
+    <string name="hint_name">Имя</string>
+    <string name="hint_surname">Фамилия</string>
+    <string name="setup_profile">Настроить профиль</string>
+    <string name="empty_balance">₽ 0,00</string>
+    <string name="no_subscription">Нет подписки</string>
+    <string name="name_cant_be_empty">Поле "Имя" обязательно для заполнения</string>
+    <string name="error_surname_format">Фамилия может содержать от 1 до 50 латинского или русского алфавита</string>
+    <string name="error_name_format">Имя может содержать от 1 до 50 латинского или русского алфавита</string>
+    <string name="error_name_surname_format">Фамилия и имя может содержать от 1 до 50 латинского или русского алфавита</string>
+    <string name="success_save_data">Данные успешно обновлены</string>
+    <string name="failed_to_save_data">Не удалось обновить данные профиля</string>
+    <string name="failed_to_get_data">Не удалось получить данные профиля</string>
+    <string name="undefined_error">Что-то пошло не так, попробуйте позже или обратитесь в поддержку</string>
+    <string name="failed_to_update_name">Не удалось обновить имя пользователя</string>
+    <string name="failed_to_update_profile_pic">Не удалось обновить изображение пользователя</string>
+    <string name="no_internet_connection_edit">Вы не сможете редактировать и удалять информацию в приложении, пока не возобновится соединение </string>
+
     <!-- Signup screen string-->
     <string name="registration">Регистрация</string>
     <string name="entering_account_data">Ввод данных аккаунта</string>
