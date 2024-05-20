@@ -33,6 +33,9 @@ class TrackerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.profileHeader.setOnClickListener {
+            findNavController().navigate(R.id.action_trackerFragment_to_profileSettingsFragment)
+        }
 
         binding.btnAddManually.setOnClickListener {
             findNavController().navigate(R.id.action_trackerFragment_to_addTrackerExpenseFragment)

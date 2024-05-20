@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ProfileHeaderSettings">
+        <attr name="userNameTextSettings"
+            format="string" />
+        <attr name="subscriptionInfoText"
+            format="string" />
+        <attr name="profilePicResIdSettings"
+            format="reference" />
+    </declare-styleable>
+
+    <attr name="profileHeaderSettingsStyle"
+        format="reference" />
+
+    <style name="DefaultProfileHeaderSettingsStyle">
+        <item name="userNameTextSettings">@string/setup_profile</item>
+        <item name="subscriptionInfoText">@string/no_subscription</item>
+        <item name="profilePicResIdSettings">@drawable/placeholder_profile_picture</item>
+    </style>
+</resources>

@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".tracker.presentation.ui.TrackerFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <app.cashadvisor.customView.ProfileHeaderMain
+        android:id="@+id/profile_header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
-        android:text="Экран трекера."
+        android:layout_marginHorizontal="@dimen/header_margin_horizontal"
+        android:layout_marginTop="@dimen/header_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_margin_bottom"
+        android:text="Экран трекера."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_header" />
 
     <Button
         android:id="@+id/btn_add_bank"

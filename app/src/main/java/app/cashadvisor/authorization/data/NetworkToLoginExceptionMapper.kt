@@ -6,6 +6,7 @@ import app.cashadvisor.common.utill.exceptions.LoginException
 import app.cashadvisor.common.utill.exceptions.NetworkException
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.nanoseconds
 
 class NetworkToLoginExceptionMapper @Inject constructor(
     private val json: Json
@@ -57,7 +58,7 @@ class NetworkToLoginExceptionMapper @Inject constructor(
                     handleErrorResponse<ErrorWrongConfirmationCodeResponse>(exception.errorBody)
                 LoginException.LoginCodeConfirmation.UnauthorizedWrongConfirmationCode(
                     remainingAttempts = errorResponse.remainingAttempts,
-                    lockDuration = errorResponse.lockDuration,
+                    lockDuration = errorResponse.lockDurationNanoseconds.nanoseconds.inWholeMinutes,
                     message = errorResponse.error,
                     statusCode = errorResponse.statusCode
                 )
