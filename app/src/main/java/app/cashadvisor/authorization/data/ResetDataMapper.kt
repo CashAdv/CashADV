@@ -23,14 +23,16 @@ class ResetDataMapper @Inject constructor() {
         )
     }
 
-    fun toConfirmResetPasswordWithCodeOutputDto(response: ConfirmResetPasswordResponse): ConfirmResetPasswordWithCodeOutputDto {
+    fun toConfirmResetPasswordWithCodeOutputDto(response: ConfirmResetPasswordResponse):
+            ConfirmResetPasswordWithCodeOutputDto {
         return ConfirmResetPasswordWithCodeOutputDto(
             message = response.message,
             statusCode = response.statusCode
         )
     }
 
-    fun toResetPasswordWithCodeRequest(inputDto: ConfirmResetPasswordWithCodeInputDto): ResetPasswordWithCodeRequest {
+    fun toResetPasswordWithCodeRequest(inputDto: ConfirmResetPasswordWithCodeInputDto):
+            ResetPasswordWithCodeRequest {
         return ResetPasswordWithCodeRequest(
             code = inputDto.code,
             token = inputDto.token

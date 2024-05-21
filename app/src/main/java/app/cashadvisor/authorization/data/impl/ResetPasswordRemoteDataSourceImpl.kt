@@ -17,7 +17,9 @@ import javax.inject.Inject
 class ResetPasswordRemoteDataSourceImpl @Inject constructor(
     private val resetDataMapper: ResetDataMapper,
     private val resetPasswordApiService: ResetPasswordApiService,
-    private val networkToResetPasswordExceptionMapper: NetworkToResetPasswordExceptionMapper):ResetPasswordRemoteDataSource {
+    private val networkToResetPasswordExceptionMapper:
+    NetworkToResetPasswordExceptionMapper
+) : ResetPasswordRemoteDataSource {
 
     override suspend fun confirmEmail(inputDto: ResetPasswordInputDto): ResetPasswordOutputDto {
         return try {
@@ -26,18 +28,19 @@ class ResetPasswordRemoteDataSourceImpl @Inject constructor(
             )
             logDebugMessage(resetDataMapper.toResetPasswordRequest(inputDto).toString())
             resetDataMapper.toResetPasswordOutputDto(response)
-        }catch (exception: NetworkException){
+        } catch (exception: NetworkException) {
             throw networkToResetPasswordExceptionMapper.handleConfirmEmailToResetPassword(exception)
         }
     }
 
-    override suspend fun confirmResetPasswordByEmailWithCode(inputDto: ConfirmResetPasswordWithCodeInputDto): ConfirmResetPasswordWithCodeOutputDto {
+    override suspend fun confirmResetPasswordByEmailWithCode(inputDto: ConfirmResetPasswordWithCodeInputDto):
+            ConfirmResetPasswordWithCodeOutputDto {
         return try {
             val response = resetPasswordApiService.resetPasswordConfirm(
                 resetPasswordRequest = resetDataMapper.toResetPasswordWithCodeRequest(inputDto)
             )
             resetDataMapper.toConfirmResetPasswordWithCodeOutputDto(response)
-        }catch (exception: NetworkException){
+        } catch (exception: NetworkException) {
             throw networkToResetPasswordExceptionMapper.handleConfirmResetPasswordWithCode(exception)
         }
     }
@@ -48,7 +51,7 @@ class ResetPasswordRemoteDataSourceImpl @Inject constructor(
                 saveNewPasswordRequest = resetDataMapper.toSaveNewPasswordRequest(inputDto)
             )
             resetDataMapper.toSaveNewPasswordOutputDto(response)
-        }catch (exception: NetworkException){
+        } catch (exception: NetworkException) {
             throw networkToResetPasswordExceptionMapper.handleSaveNewPassword(exception)
         }
     }

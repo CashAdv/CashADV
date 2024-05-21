@@ -157,7 +157,8 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
     private fun handleSideEffects(sideEffect: RecoverySideEffect){
         when(sideEffect){
             is RecoverySideEffect.PasswordSuccessfullyConfirmed -> {
-                findNavController().navigate(app.cashadvisor.R.id.action_passwordRecoveryFragment_to_entryVerificationFragment)
+                findNavController().navigate(
+                    app.cashadvisor.R.id.action_passwordRecoveryFragment_to_entryVerificationFragment)
             }
             is RecoverySideEffect.HideKeyboard-> {
                 hideKeyboard()

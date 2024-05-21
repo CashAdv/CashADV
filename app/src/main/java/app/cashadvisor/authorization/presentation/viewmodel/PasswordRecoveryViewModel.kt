@@ -83,7 +83,8 @@ class PasswordRecoveryViewModel @Inject constructor(
 
                 is EmailValidationState.Error -> {
                     _uiState.value = PasswordRecoveryScreenState.EmailInput(
-                        emailState = RecoveryEmailValidationState.Error(result.email, result.emailValidationError),
+                        emailState = RecoveryEmailValidationState
+                            .Error(result.email, result.emailValidationError),
                         isBtnLoginEnabled = false
                     )
                     emailValidationErrorMessage(result)
@@ -133,7 +134,8 @@ private fun recovery() {
 
                             is ErrorEntity.ConfirmEmailToResetPassword.InvalidInput -> {
                                 logDebugMessage("InvalidEmail ${result.error.message}")
-                                _messageEvent.emit(RecoveryScreenMessageContent.LoginError(message = result.error.message))
+                                _messageEvent.emit(RecoveryScreenMessageContent
+                                    .LoginError(message = result.error.message))
 
                             }
                         }
@@ -141,7 +143,8 @@ private fun recovery() {
 
                     else -> {
                         logDebugMessage("Something went wrong ${result.error.message}")
-                        _messageEvent.emit(RecoveryScreenMessageContent.LoginError(message = result.error.message))
+                        _messageEvent.emit(RecoveryScreenMessageContent.
+                        LoginError(message = result.error.message))
                     }
                 }
             }
@@ -194,7 +197,8 @@ private fun sendEmailConfirmCode(context:Context) {
                                 result.error.message
                             )
                         )
-                        _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                        _messageEvent.emit(RecoveryScreenMessageContent
+                            .ConfirmationCodeMessage(message =
                         context.getString(R.string.invalid_or_expired_token)))
                         navigateBackToEmailState()
                     }
@@ -210,7 +214,8 @@ private fun sendEmailConfirmCode(context:Context) {
                                 attemptsToSendConfirmationCode -= 1
                             }
                             if(attemptsToSendConfirmationCode>0){
-                                _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
+                                _messageEvent.emit(RecoveryScreenMessageContent
+                                    .ConfirmationCodeMessage(message =
                                 context.getString(R.string.invalid_confirmation_code)))
                             }else{
                                 _messageEvent.emit(RecoveryScreenMessageContent.ConfirmationCodeMessage(message =
@@ -268,7 +273,8 @@ fun setPassword(password: String, context: Context) {
 
             is PasswordValidationState.Error -> {
                 _uiState.value = PasswordRecoveryScreenState.PasswordInput(
-                    passwordState = RecoveryPasswordValidationState.Error(result.passwordValidationError),
+                    passwordState =
+                    RecoveryPasswordValidationState.Error(result.passwordValidationError),
                     isBtnResetPasswordEnabled = false
                 )
                 passwordValidationErrorMessage(result)
@@ -280,7 +286,9 @@ fun setPassword(password: String, context: Context) {
 private fun sendNewPassword(context: Context) {
     viewModelScope.launch {
         val result =
-            resetPasswordInteractor.saveNewPassword(email = Email(emailInput), password = Password(passwordInput))
+            resetPasswordInteractor.saveNewPassword(
+                email = Email(emailInput),
+                password = Password(passwordInput))
         when (result) {
             is Resource.Success -> {
                 viewModelScope.launch {
@@ -295,17 +303,20 @@ private fun sendNewPassword(context: Context) {
                 when (result.error) {
                     is ErrorEntity.SaveNewPassword.InvalidInput -> {
                         logDebugMessage("InvalidInput ${result.error.message}")
-                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                        _messageEvent.emit(
+                            RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
                     }
 
                     is ErrorEntity.SaveNewPassword.InvalidToken -> {
                         logDebugMessage("InvalidToken ${result.error.message}")
-                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                        _messageEvent.emit(RecoveryScreenMessageContent
+                            .ResetPasswordError(result.error.message))
                     }
 
                     is ErrorEntity.SaveNewPassword.FailedToResetPassword -> {
                         logDebugMessage("FailedToResetPassword ${result.error.message}")
-                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                        _messageEvent.emit(
+                            RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
                     }
 
                     is ErrorEntity.NetworksError.NoInternet -> {
@@ -315,7 +326,8 @@ private fun sendNewPassword(context: Context) {
 
                     else -> {
                         logDebugMessage("Something went wrong ${result.error.message}")
-                        _messageEvent.emit(RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
+                        _messageEvent.emit(
+                            RecoveryScreenMessageContent.ResetPasswordError(result.error.message))
                     }
 
                 }

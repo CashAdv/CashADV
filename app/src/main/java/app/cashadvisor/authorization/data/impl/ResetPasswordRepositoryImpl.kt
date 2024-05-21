@@ -43,17 +43,21 @@ class ResetPasswordRepositoryImpl @Inject constructor(
             _state.update {
                 it.copy(state = ResetPasswordState.State.InProcess(codeToken = data.token))
             }
-            return when(data.statusCode){
+            return when (data.statusCode) {
                 SUCCESS -> Resource.Success(
                     data = resetDomainMapper.toResetPasswordData(data)
                 )
+
                 BAD_REQUEST -> Resource.Error(
                     ErrorEntity.ConfirmEmailToResetPassword.InvalidInput(INVALID_INPUT)
                 )
+
                 INTERNAL_SERVER_ERROR -> Resource.Error(
                     ErrorEntity.ConfirmEmailToResetPassword.FailedToGenerateTokenOrSendEmail(
-                        FAILED_TO_GENERATE)
+                        FAILED_TO_GENERATE
+                    )
                 )
+
                 else -> Resource.Error(ErrorEntity.UnknownError())
             }
         } catch (exception: Exception) {
@@ -64,7 +68,8 @@ class ResetPasswordRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun resetPasswordConfirmWithCode(code: ConfirmCode): Resource<ConfirmResetPasswordWithCode> {
+    override suspend fun resetPasswordConfirmWithCode(code: ConfirmCode):
+            Resource<ConfirmResetPasswordWithCode> {
         return try {
             val token: String
             when (val state = currentState.state) {
@@ -86,25 +91,29 @@ class ResetPasswordRepositoryImpl @Inject constructor(
                     token
                 )
             )
-            return when(data.statusCode){
+            return when (data.statusCode) {
                 SUCCESS -> Resource.Success(
                     data = resetDomainMapper.toConfirmResetPasswordWithCode(data)
                 )
+
                 BAD_REQUEST -> Resource.Error(
                     ErrorEntity.ConfirmResetPasswordByEmailWithCode.InvalidInput(INVALID_INPUT)
                 )
+
                 UNAUTHORIZED -> Resource.Error(
                     ErrorEntity.ConfirmResetPasswordByEmailWithCode.WrongConfirmationCode(
                         WRONG_CONFIRMATION_CODE
                     )
                 )
+
                 INTERNAL_SERVER_ERROR -> Resource.Error(
                     ErrorEntity.ConfirmResetPasswordByEmailWithCode.FailedToConfirmPasswordReset(
-                        FAILED_TO_CONFIRM)
+                        FAILED_TO_CONFIRM
+                    )
                 )
+
                 else -> Resource.Error(ErrorEntity.UnknownError())
             }
-
 
 
         } catch (exception: Exception) {
@@ -141,19 +150,23 @@ class ResetPasswordRepositoryImpl @Inject constructor(
                 )
             )
             _state.update { it.copy(state = ResetPasswordState.State.Initial) }
-            return when(data.statusCode){
+            return when (data.statusCode) {
                 SUCCESS -> Resource.Success(
                     data = resetDomainMapper.toSaveNewPasswordData(data)
                 )
+
                 BAD_REQUEST -> Resource.Error(
                     ErrorEntity.SaveNewPassword.InvalidInput(INVALID_INPUT)
                 )
+
                 UNAUTHORIZED -> Resource.Error(
                     ErrorEntity.SaveNewPassword.InvalidToken(INVALID_TOKEN)
                 )
+
                 INTERNAL_SERVER_ERROR -> Resource.Error(
                     ErrorEntity.SaveNewPassword.FailedToResetPassword(FAILED_TO_RESET_PASSWORD)
                 )
+
                 else -> Resource.Error(ErrorEntity.UnknownError())
             }
 
@@ -178,8 +191,8 @@ class ResetPasswordRepositoryImpl @Inject constructor(
         const val FAILED_TO_RESET_PASSWORD = "Failed to reset password"
         const val SUCCESS = 200
         const val BAD_REQUEST = 400
-        const val UNAUTHORIZED  = 401
-        const val INTERNAL_SERVER_ERROR  = 500
+        const val UNAUTHORIZED = 401
+        const val INTERNAL_SERVER_ERROR = 500
 
     }
 }
