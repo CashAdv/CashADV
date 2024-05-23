@@ -3,6 +3,8 @@ package app.cashadvisor.profile.data.api
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdateNameResponse
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdatePicResponse
+import app.cashadvisor.profile.data.dto.response.ProfileAnalyticsResponse
+import app.cashadvisor.profile.data.dto.response.ProfileInfoMoreResponse
 import app.cashadvisor.profile.data.dto.response.ProfileInfoResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -31,5 +33,15 @@ interface ProfileInfoApiService {
         @Header("Authorization") accessToken: String,
         @Part part: MultipartBody.Part
     ): ConfirmUpdatePicResponse
+
+    @GET("profile/more/get")
+    suspend fun getUserInfoMore(
+        @Header("Profile") accessToken: String
+    ):ProfileInfoMoreResponse
+
+    @GET("profile/analytics/get")
+    suspend fun getUserAnalytics(
+        @Header("Profile") accessToken: String
+    ):ProfileAnalyticsResponse
 
 }
