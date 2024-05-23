@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import app.cashadvisor.db.Entities.CategoryEntity
+import app.cashadvisor.db.Entities.UserAnalyticsEntity
 
-@Database(entities = [Spend::class], version = 1)
+@Database(entities = [UserAnalyticsEntity::class, CategoryEntity::class], version = 1)
 abstract class MainDb : RoomDatabase() {
 
     abstract fun getDao(): Dao
