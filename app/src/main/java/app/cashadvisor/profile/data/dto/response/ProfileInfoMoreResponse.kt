@@ -31,7 +31,7 @@ data class SettingsDto(
 @Serializable
 data class CategorySettingsDto(
     @SerialName("expense_categories") val expenseCategoriesDto: List<ExpenseCategoryDto>,
-    @SerialName("income_categories") val incomeCategories: List<IncomeCategoryDto>,
+    @SerialName("income_categories") val incomeCategoriesDto: List<IncomeCategoryDto>,
     @SerialName("investment_categories") val investmentCategoriesDto: List<InvestmentCategoryDto>
 )
 

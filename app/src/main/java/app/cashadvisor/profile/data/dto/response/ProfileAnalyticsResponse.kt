@@ -4,11 +4,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ProfileAnalyticsResponse (
+data class ProfileAnalyticsResponse(
     @SerialName("status_code") val statusCode: Int,
     val message: String,
     @SerialName("response_currency") val responseCurrency: String,
     @SerialName("profile") val userAnalyticsDto: UserAnalyticsDto
+)
+data class ProfileAnalyticsDto(
+    val statusCode: Int,
+    val message: String,
+    val responseCurrency: String,
+    val userAnalyticsDto: UserAnalyticsDto
 )
 
 @Serializable
