@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.data.mapper
+package app.cashadvisor.profile.domain.mapper
 
 import app.cashadvisor.profile.data.dto.response.ExpenseDto
 import app.cashadvisor.profile.data.dto.response.IncomeDto
@@ -11,7 +11,7 @@ import app.cashadvisor.profile.domain.model.ProfileAnalytics
 import app.cashadvisor.profile.domain.model.UserAnalytics
 import app.cashadvisor.profile.domain.model.WealthFund
 
-class ProfileAnalyticsMapper {
+class ProfileAnalyticsDomainMapper {
     fun toProfileAnalytics(profileAnalyticsDto: ProfileAnalyticsDto) = ProfileAnalytics(
         statusCode = profileAnalyticsDto.statusCode,
         message = profileAnalyticsDto.message,

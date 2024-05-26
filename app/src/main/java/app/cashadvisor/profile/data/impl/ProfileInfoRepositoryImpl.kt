@@ -11,8 +11,13 @@ import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.dto.UserInfoDto
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDataMapper
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
+import app.cashadvisor.profile.domain.mapper.ProfileAnalyticsDomainMapper
+import app.cashadvisor.profile.domain.mapper.UserInfoMoreDomainMapper
+import app.cashadvisor.profile.domain.model.ProfileAnalytics
+import app.cashadvisor.profile.domain.model.UserInfoMore
 import app.cashadvisor.profile.domain.model.UserProfileInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -26,6 +31,9 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     private val remoteDataSource: ProfileInfoRemoteDataSource,
     private val credentialsRepository: CredentialsRepository,
     private val mapper: ProfileInfoMapper,
+    private val analyticsDataMapper: ProfileAnalyticsDataMapper,
+    private val userInfoMoreMapper:UserInfoMoreDomainMapper,
+    private val profileAnalyticsDomainMapper: ProfileAnalyticsDomainMapper,
     private val profileExceptionToErrorMapper: BaseExceptionToErrorMapper
 ) : ProfileInfoRepository {
 
@@ -93,6 +101,36 @@ class ProfileInfoRepositoryImpl @Inject constructor(
             }
             Resource.Success(Unit)
         } catch (exception: Exception) {
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
+        }
+    }
+
+    override suspend fun getUserInfoMore(): Resource<UserInfoMore> {
+
+
+        return try {
+            val response = userInfoMoreMapper.toUserInfoMore(
+                remoteDataSource.getUserInfoMore(getAccessToken()).userInfoMoreDto)
+            Resource.Success(response)
+        }catch (exception:Exception){
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
+        }
+    }
+
+    override suspend fun getUserAnalytics(): Resource<ProfileAnalytics> {
+
+
+        return try {
+            val response = profileAnalyticsDomainMapper.toProfileAnalytics(
+                analyticsDataMapper.toProfileAnalyticsDto(
+                remoteDataSource.getUserAnalytics(getAccessToken())
+            ))
+            Resource.Success(response)
+        }catch (exception:Exception){
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)
             )

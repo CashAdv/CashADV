@@ -7,9 +7,12 @@ import app.cashadvisor.profile.data.api.ProfileInfoRemoteDataSource
 import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.impl.ProfileInfoRepositoryImpl
 import app.cashadvisor.profile.data.impl.ProfileInfoStorageImpl
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDataMapper
 import app.cashadvisor.profile.data.mapper.ProfileExceptionToErrorMapper
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
+import app.cashadvisor.profile.domain.mapper.ProfileAnalyticsDomainMapper
+import app.cashadvisor.profile.domain.mapper.UserInfoMoreDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +32,9 @@ class ProfileDataModule {
         storage: ProfileInfoStorage,
         credentialsRepository: CredentialsRepository,
         mapper: ProfileInfoMapper,
+        analyticsDataMapper: ProfileAnalyticsDataMapper,
+        userInfoMoreDomainMapper: UserInfoMoreDomainMapper,
+        profileAnalyticsDomainMapper: ProfileAnalyticsDomainMapper,
         profileExceptionToErrorMapper: ProfileExceptionToErrorMapper
     ): ProfileInfoRepository = ProfileInfoRepositoryImpl(
         context = context,
@@ -36,6 +42,9 @@ class ProfileDataModule {
         credentialsRepository = credentialsRepository,
         storage = storage,
         mapper = mapper,
+        analyticsDataMapper = analyticsDataMapper,
+        userInfoMoreMapper = userInfoMoreDomainMapper,
+        profileAnalyticsDomainMapper = profileAnalyticsDomainMapper,
         profileExceptionToErrorMapper = profileExceptionToErrorMapper
     )
 

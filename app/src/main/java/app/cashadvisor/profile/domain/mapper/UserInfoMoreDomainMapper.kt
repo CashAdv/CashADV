@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.data.mapper
+package app.cashadvisor.profile.domain.mapper
 
 import app.cashadvisor.profile.data.dto.response.AppDto
 import app.cashadvisor.profile.data.dto.response.CategorySettingsDto
@@ -20,7 +20,7 @@ import app.cashadvisor.profile.domain.model.Subscriptions
 import app.cashadvisor.profile.domain.model.UserInfoMore
 import javax.inject.Inject
 
-class UserInfoMoreMapper @Inject constructor() {
+class UserInfoMoreDomainMapper @Inject constructor() {
     fun toUserInfoMore(userInfoMoreDto: UserInfoMoreDto) = UserInfoMore(
         appDto = toApp(userInfoMoreDto.appDto),
         settings = toSettings(userInfoMoreDto.settingsDto)

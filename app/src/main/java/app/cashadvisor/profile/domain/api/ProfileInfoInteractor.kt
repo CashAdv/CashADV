@@ -2,6 +2,8 @@ package app.cashadvisor.profile.domain.api
 
 import android.net.Uri
 import app.cashadvisor.common.domain.Resource
+import app.cashadvisor.profile.domain.model.ProfileAnalytics
+import app.cashadvisor.profile.domain.model.UserInfoMore
 import app.cashadvisor.profile.domain.model.UserProfileInfo
 
 interface ProfileInfoInteractor {
@@ -15,4 +17,8 @@ interface ProfileInfoInteractor {
     suspend fun updateProfilePic(
         profilePicUri: Uri,
     ): Resource<Unit>
+
+    suspend fun getUserInfoMore():Resource<UserInfoMore>
+
+    suspend fun getUserAnalytics():Resource<ProfileAnalytics>
 }
