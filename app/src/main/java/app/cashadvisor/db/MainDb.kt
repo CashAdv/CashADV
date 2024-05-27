@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import app.cashadvisor.db.Entities.CategoryEntity
-import app.cashadvisor.db.Entities.UserAnalyticsEntity
+import app.cashadvisor.db.entities.CategoryEntity
+import app.cashadvisor.db.entities.UserAnalyticsEntity
 
 @Database(entities = [UserAnalyticsEntity::class, CategoryEntity::class], version = 1)
 abstract class MainDb : RoomDatabase() {

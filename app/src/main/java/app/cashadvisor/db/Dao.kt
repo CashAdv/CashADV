@@ -3,7 +3,7 @@ package app.cashadvisor.db
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import app.cashadvisor.db.Entities.UserAnalyticsEntity
+import app.cashadvisor.db.entities.UserAnalyticsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
