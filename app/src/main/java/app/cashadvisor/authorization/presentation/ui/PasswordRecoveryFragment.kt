@@ -29,23 +29,26 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, PasswordRecoveryViewModel>(FragmentPasswordRecoveryBinding::inflate) {
+class PasswordRecoveryFragment :
+    BaseFragment<FragmentPasswordRecoveryBinding, PasswordRecoveryViewModel>(
+        FragmentPasswordRecoveryBinding::inflate
+    ) {
     override val viewModel: PasswordRecoveryViewModel by viewModels()
     override fun onConfigureViews() {
-        with(binding){
-            btnGetCode.setOnClickListener{
-                viewModel.setEmail(email = etEmailInput.text.toString())
+        with(binding) {
+            btnGetCode.setOnClickListener {
+                viewModel.requestRecovery()
             }
             btnSendNewPassword.setOnClickListener {
-                viewModel.setPassword(etPasswordInput.text.toString(), requireContext())
+                viewModel.setPassword(etPasswordInput.text.toString())
             }
             etEmailInput.addTextChangedListener {
-               viewModel.emailInputListener(it)
+                viewModel.emailInputListener(it)
             }
             etConfirmationCode.setCallback {
-                viewModel.setEmailConfirmCode(it, requireContext())
+                viewModel.setEmailConfirmCode(it)
             }
-            etPasswordInput.addTextChangedListener{
+            etPasswordInput.addTextChangedListener {
                 viewModel.passwordInputListener(it)
             }
             tvCantGetCode.setOnClickListener {
@@ -56,25 +59,25 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
 
     override fun onSubscribe() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.uiState.collect{ uiState ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { uiState ->
                     updateUi(uiState)
 
                 }
 
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch{
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.sideEffect.collect{ recoverySideEffect ->
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.sideEffect.collect { recoverySideEffect ->
                     handleSideEffects(recoverySideEffect)
 
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED){
-                viewModel.messageEvent.collect{ screenMessageState ->
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.messageEvent.collect { screenMessageState ->
                     showMessages(screenMessageState)
 
                 }
@@ -82,29 +85,31 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
         }
 
     }
-    private fun updateUi(state: PasswordRecoveryScreenState){
+
+    private fun updateUi(state: PasswordRecoveryScreenState) {
         navigateBack(state)
-        with(binding){
-            when(state){
+        with(binding) {
+            when (state) {
                 is PasswordRecoveryScreenState.EmailInput -> {
                     customSteps.changeSteps(maxSteps = 3, currentStep = 1)
                     tvSubtitle.text = getText(R.string.enter_account_data)
                     clEmailForms.visibility = View.VISIBLE
                     clConfirmationCode.visibility = View.GONE
                     clNewPassword.visibility = View.GONE
-                    etConfirmationCode.setCode("")
 
-                    btnGetCode.isEnabled= state.isBtnLoginEnabled
+
+                    btnGetCode.isEnabled = state.isBtnLoginEnabled
                     manageEmailValidation(state.emailState)
 
                     state.isLoginSuccessful?.let { isLoginSuccessful ->
-                        if(isLoginSuccessful){
+                        if (isLoginSuccessful) {
                             hideKeyboard()
-                        }else{
+                        } else {
                             showErrorEditText(etEmailInput)
                         }
                     }
                 }
+
                 is PasswordRecoveryScreenState.ConfirmationCode -> {
                     customSteps.changeSteps(maxSteps = 3, currentStep = 2)
                     tvSubtitle.text = getText(R.string.confirmation)
@@ -112,13 +117,13 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
                     clConfirmationCode.visibility = View.VISIBLE
                     clNewPassword.visibility = View.GONE
 
-                    if(state.resendingCoolDownSec.isNullOrBlank()){
+                    if (state.resendingCoolDownSec.isNullOrBlank()) {
                         tvSendAgain.apply {
                             text = getString(R.string.send_confirmation_code_again)
                             setTextColor(resources.getColor(R.color.black, null))
                             setOnClickListener { viewModel.sendConfirmationCodeByEmail() }
                         }
-                    }else{
+                    } else {
                         tvSendAgain.apply {
                             text = getString(
                                 R.string.send_confirmation_code_again_seconds,
@@ -141,9 +146,9 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
                     managePasswordValidation(state.passwordState)
 
                     state.resetPasswordSuccessful?.let { isResetPasswordSuccessful ->
-                        if(isResetPasswordSuccessful){
+                        if (isResetPasswordSuccessful) {
                             hideKeyboard()
-                        }else{
+                        } else {
                             showErrorEditText(etPasswordInput)
                         }
                     }
@@ -154,65 +159,78 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
         }
 
     }
-    private fun handleSideEffects(sideEffect: RecoverySideEffect){
-        when(sideEffect){
+
+    private fun handleSideEffects(sideEffect: RecoverySideEffect) {
+        when (sideEffect) {
             is RecoverySideEffect.PasswordSuccessfullyConfirmed -> {
                 findNavController().navigate(
-                    app.cashadvisor.R.id.action_passwordRecoveryFragment_to_entryVerificationFragment)
+                    app.cashadvisor.R.id.action_passwordRecoveryFragment_to_entryVerificationFragment
+                )
             }
-            is RecoverySideEffect.HideKeyboard-> {
+
+            is RecoverySideEffect.HideKeyboard -> {
                 hideKeyboard()
             }
+
             is RecoverySideEffect.NoInternetConnection -> {
                 hideKeyboard()
                 showNoInternetDialog()
             }
+            is RecoverySideEffect.ClearConfirmationCode -> {
+                binding.etConfirmationCode.setCode("")
+            }
 
         }
     }
-    private fun navigateBack(state: PasswordRecoveryScreenState){
-        with(binding){
-            when(state){
+
+    private fun navigateBack(state: PasswordRecoveryScreenState) {
+        with(binding) {
+            when (state) {
                 is PasswordRecoveryScreenState.ConfirmationCode -> {
                     btnBack.setOnClickListener {
                         viewModel.navigateBackToEmailState()
                     }
 
-                    requireActivity().onBackPressedDispatcher.addCallback{
+                    requireActivity().onBackPressedDispatcher.addCallback {
                         viewModel.navigateBackToEmailState()
                     }
 
                 }
+
                 is PasswordRecoveryScreenState.EmailInput -> {
                     binding.btnBack.setOnClickListener {
                         findNavController().navigateUp()
                     }
 
-                    requireActivity().onBackPressedDispatcher.addCallback{
+                    requireActivity().onBackPressedDispatcher.addCallback {
                         findNavController().navigateUp()
                     }
                 }
+
                 is PasswordRecoveryScreenState.PasswordInput -> {
-                    binding.btnBack.setOnClickListener{
+                    binding.btnBack.setOnClickListener {
                         viewModel.navigateBackToEmailState()
                     }
-                    requireActivity().onBackPressedDispatcher.addCallback{
+                    requireActivity().onBackPressedDispatcher.addCallback {
                         viewModel.navigateBackToEmailState()
                     }
                 }
             }
         }
     }
+
     private fun manageEmailValidation(state: RecoveryEmailValidationState?) {
         state?.let {
-            with(binding){
-                when(state){
+            with(binding) {
+                when (state) {
                     is RecoveryEmailValidationState.Error -> {
                         showErrorEditText(etEmailInput)
                     }
-                    is  RecoveryEmailValidationState.Success -> {
+
+                    is RecoveryEmailValidationState.Success -> {
                         showSuccessEditText(etEmailInput)
                     }
+
                     is RecoveryEmailValidationState.Default -> {
                         showNeutralEditText(etEmailInput)
                     }
@@ -221,61 +239,70 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
         }
 
     }
-    private fun managePasswordValidation(state: RecoveryPasswordValidationState?){
+
+    private fun managePasswordValidation(state: RecoveryPasswordValidationState?) {
         state?.let {
-            with(binding){
-                when(state){
+            with(binding) {
+                when (state) {
                     is RecoveryPasswordValidationState.Error -> {
                         showErrorEditText(binding.etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = true
-                        tiPasswordInput.helperText=
+                        tiPasswordInput.helperText =
                             getString(R.string.password_text_input_helper_text)
                     }
+
                     is RecoveryPasswordValidationState.Default -> {
                         showNeutralEditText(binding.etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = false
                     }
+
                     is RecoveryPasswordValidationState.Success -> {
                         showSuccessEditText(binding.etPasswordInput)
-                        tiPasswordInput.isHelperTextEnabled= false
+                        tiPasswordInput.isHelperTextEnabled = false
                     }
                 }
             }
         }
     }
-    private fun showMessages(content:RecoveryScreenMessageContent){
-        with(binding){
-            when(content){
+
+    private fun showMessages(content: RecoveryScreenMessageContent) {
+        with(binding) {
+            when (content) {
                 is RecoveryScreenMessageContent.EmailFormatError -> {
                     showSnackbar(
                         getString(R.string.wrong_email_format),
                         etEmailInput
                     )
                 }
+
                 is RecoveryScreenMessageContent.PasswordCountError -> {
                     showSnackbar(
                         getString(R.string.wrong_password_count),
                         etPasswordInput
                     )
                 }
+
                 is RecoveryScreenMessageContent.PasswordFormatError -> {
                     showSnackbar(
                         getString(R.string.wrong_password_format),
                         etPasswordInput
                     )
                 }
+
                 is RecoveryScreenMessageContent.LoginError -> {
                     showSnackbar(
                         content.message,
                         etEmailInput
                     )
                 }
+
                 is RecoveryScreenMessageContent.ConfirmationCodeMessage -> {
                     showSnackbar(
                         content.message,
                         etEmailInput
                     )
                 }
+
                 is RecoveryScreenMessageContent.ResetPasswordError -> {
                     showSnackbar(
                         content.message,
@@ -285,6 +312,7 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
             }
         }
     }
+
     private fun showErrorEditText(editText: TextInputEditText) {
         editText.background = ResourcesCompat.getDrawable(
             resources,
@@ -308,6 +336,7 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
             null
         )
     }
+
     private fun showSnackbar(message: String, viewToFocus: TextInputEditText) {
         hideKeyboard()
         Snackbar.make(binding.root, message, LoginFragment.SNACKBAR_DURATION)
@@ -320,16 +349,19 @@ class PasswordRecoveryFragment : BaseFragment<FragmentPasswordRecoveryBinding, P
             }
             .show()
     }
+
     private fun hideKeyboard() {
         val inputMethodManager =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(binding.root.windowToken, 0)
     }
+
     private fun showKeyboard(view: View) {
         val inputMethodManager =
             requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(view, 0)
     }
+
     private fun showNoInternetDialog() {
         val inflater = LayoutInflater.from(requireContext())
         val dialogBinding = ItemDialogNoInternetBinding.inflate(inflater)

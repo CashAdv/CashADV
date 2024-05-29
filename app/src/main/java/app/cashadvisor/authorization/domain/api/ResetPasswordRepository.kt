@@ -7,7 +7,6 @@ import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.ResetPasswordData
 import app.cashadvisor.authorization.domain.models.SaveNewPasswordData
 import app.cashadvisor.common.domain.Resource
-import kotlinx.coroutines.flow.Flow
 
 interface ResetPasswordRepository {
     suspend fun confirmEmailForPasswordReset(
@@ -23,5 +22,4 @@ interface ResetPasswordRepository {
         password:Password,
     ):Resource<SaveNewPasswordData>
 
-    fun isLoginInProgress(): Flow<Boolean>
 }

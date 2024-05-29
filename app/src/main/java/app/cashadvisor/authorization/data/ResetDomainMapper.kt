@@ -1,4 +1,4 @@
-package app.cashadvisor.authorization.domain
+package app.cashadvisor.authorization.data
 
 import app.cashadvisor.authorization.data.models.ConfirmResetPasswordWithCodeInputDto
 import app.cashadvisor.authorization.data.models.ResetPasswordInputDto
@@ -22,7 +22,10 @@ class ResetDomainMapper @Inject constructor() {
         )
     }
 
-    fun toConfirmResetPasswordByEmailWithCodeInputDto(code: ConfirmCode, token: String): ConfirmResetPasswordWithCodeInputDto {
+    fun toConfirmResetPasswordByEmailWithCodeInputDto(
+        code: ConfirmCode,
+        token: String
+    ): ConfirmResetPasswordWithCodeInputDto {
         return ConfirmResetPasswordWithCodeInputDto(
             code = code.value,
             token = token
@@ -40,18 +43,21 @@ class ResetDomainMapper @Inject constructor() {
             resetToken = resetToken
         )
     }
-    fun toConfirmResetPasswordWithCode(data:ConfirmResetPasswordWithCodeOutputDto):ConfirmResetPasswordWithCode{
+
+    fun toConfirmResetPasswordWithCode(data: ConfirmResetPasswordWithCodeOutputDto): ConfirmResetPasswordWithCode {
         return ConfirmResetPasswordWithCode(
             message = data.message,
         )
     }
-    fun toResetPasswordData(data:ResetPasswordOutputDto):ResetPasswordData{
+
+    fun toResetPasswordData(data: ResetPasswordOutputDto): ResetPasswordData {
         return ResetPasswordData(
             message = data.message,
             statusCode = data.statusCode
         )
     }
-    fun toSaveNewPasswordData(data:SaveNewPasswordOutputDto):SaveNewPasswordData{
+
+    fun toSaveNewPasswordData(data: SaveNewPasswordOutputDto): SaveNewPasswordData {
         return SaveNewPasswordData(
             message = data.message,
             statusCode = data.statusCode

@@ -2,6 +2,7 @@ package app.cashadvisor.authorization.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import app.cashadvisor.authorization.data.impl.CredentialsRepositoryImpl
@@ -46,6 +47,12 @@ class AuthorizationDataModule {
         key: String = CREDENTIALS_KEY,
         gson: Json
     ): CredentialsRepository = CredentialsRepositoryImpl(storage, key, gson)
+
+    @Provides
+    @Singleton
+    fun provideResources(@ApplicationContext context: Context): Resources {
+        return context.resources
+    }
     companion object {
         private const val SECRET_SETTINGS = "secret_shared_prefs"
         private const val CREDENTIALS_KEY = "secret_credentials"

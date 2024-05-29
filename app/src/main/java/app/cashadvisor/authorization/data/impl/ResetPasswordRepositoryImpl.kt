@@ -1,8 +1,8 @@
 package app.cashadvisor.authorization.data.impl
 
+import app.cashadvisor.authorization.data.ResetDomainMapper
 import app.cashadvisor.authorization.data.api.ResetPasswordRemoteDataSource
 import app.cashadvisor.authorization.di.ResetPasswordExceptionMapper
-import app.cashadvisor.authorization.domain.ResetDomainMapper
 import app.cashadvisor.authorization.domain.api.ResetPasswordRepository
 import app.cashadvisor.authorization.domain.models.ConfirmCode
 import app.cashadvisor.authorization.domain.models.ConfirmResetPasswordWithCode
@@ -14,12 +14,9 @@ import app.cashadvisor.authorization.domain.models.SaveNewPasswordData
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
-import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
 class ResetPasswordRepositoryImpl @Inject constructor(
     private val resetPasswordRemoteDataSource: ResetPasswordRemoteDataSource,
@@ -29,10 +26,9 @@ class ResetPasswordRepositoryImpl @Inject constructor(
 ) : ResetPasswordRepository {
     private val _state: MutableStateFlow<ResetPasswordState> =
         MutableStateFlow(ResetPasswordState())
-    private val state = _state.asStateFlow()
+
     private val currentState: ResetPasswordState
-        get() = state.replayCache.firstOrNull()
-            ?: ResetPasswordState(ResetPasswordState.State.Initial)
+        get() = _state.value
 
     override suspend fun confirmEmailForPasswordReset(email: Email): Resource<ResetPasswordData> {
         return try {
@@ -177,9 +173,7 @@ class ResetPasswordRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun isLoginInProgress(): Flow<Boolean> {
-        return state.map { it.state is ResetPasswordState.State.InProcess }
-    }
+
 
     companion object {
         const val WRONG_STATE_ERROR = "ResetPassword is not in progress"

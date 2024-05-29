@@ -8,18 +8,18 @@ import app.cashadvisor.authorization.domain.models.Password
 import app.cashadvisor.authorization.domain.models.ResetPasswordData
 import app.cashadvisor.authorization.domain.models.SaveNewPasswordData
 import app.cashadvisor.common.domain.Resource
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ResetPasswordInteractorImpl @Inject constructor(
     private val resetPasswordRepository: ResetPasswordRepository,
-):ResetPasswordInteractor {
+) : ResetPasswordInteractor {
     override suspend fun confirmEmailForPasswordReset(email: Email): Resource<ResetPasswordData> {
         val result = resetPasswordRepository.confirmEmailForPasswordReset(email)
-        return when(result){
+        return when (result) {
             is Resource.Success -> {
                 Resource.Success(data = result.data)
             }
+
             is Resource.Error -> {
                 Resource.Error(error = result.error)
             }
@@ -28,14 +28,15 @@ class ResetPasswordInteractorImpl @Inject constructor(
 
     override suspend fun resetPasswordConfirmWithCode(code: ConfirmCode): Resource<String> {
         val result = resetPasswordRepository.resetPasswordConfirmWithCode(code)
-        return when(result){
+        return when (result) {
             is Resource.Success -> {
-                if(result.data.message!=null){
+                if (result.data.message != null) {
                     Resource.Success(data = result.data.message)
-                }else{
+                } else {
                     Resource.Success(data = "null")
                 }
             }
+
             is Resource.Error -> {
                 Resource.Error(error = result.error)
             }
@@ -47,18 +48,15 @@ class ResetPasswordInteractorImpl @Inject constructor(
         email: Email,
         password: Password
     ): Resource<SaveNewPasswordData> {
-       val result = resetPasswordRepository.saveNewPassword(email, password)
-        return when(result){
+        val result = resetPasswordRepository.saveNewPassword(email, password)
+        return when (result) {
             is Resource.Success -> {
                 Resource.Success(data = result.data)
             }
+
             is Resource.Error -> {
                 Resource.Error(error = result.error)
             }
         }
-    }
-
-    override fun isResetPasswordInProgress(): Flow<Boolean> {
-        return resetPasswordRepository.isLoginInProgress()
     }
 }

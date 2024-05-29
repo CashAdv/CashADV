@@ -36,9 +36,9 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.ConfirmResetPasswordWithCode
                     .InternalServerErrorFailedToConfirmResetPassword(
-                    message = errorResponse.message,
-                    statusCode = errorResponse.statusCode
-                )
+                        message = errorResponse.message,
+                        statusCode = errorResponse.statusCode
+                    )
             }
 
             else -> handleCommonException(exception)
@@ -75,9 +75,9 @@ class NetworkToResetPasswordExceptionMapper @Inject constructor(
                 val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
                 ResetPasswordException.SaveNewPassword
                     .BadRequestInvalidPasswordOrMissingContentTypeHeader(
-                    message = errorResponse.message,
-                    statusCode = errorResponse.statusCode
-                )
+                        message = errorResponse.message,
+                        statusCode = errorResponse.statusCode
+                    )
             }
 
             is NetworkException.Unauthorized -> {
