@@ -63,19 +63,19 @@ fun WealthFundDto.asWealthEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
 )
 
 fun CategorySettingsDto.asCategoryEntity(): List<CategoryEntity> =
-    this.expenseCategoriesDto.asCategoryList().plus(this.incomeCategories.asCategoryList())
-        .plus(this.investmentCategoriesDto.asCategoryList())
+    this.expenseCategoriesDto.asExpenseCategoryList().plus(this.incomeCategories.asIncomeCategoryList())
+        .plus(this.investmentCategoriesDto.asInvestmentCategoryList())
 
-fun List<ExpenseCategoryDto>.asCategoryList(): List<CategoryEntity> =
-    this.map { it.asCategoryEntity() }
+fun List<ExpenseCategoryDto>.asExpenseCategoryList(): List<CategoryEntity> =
+    this.map { it.asExpenseCategoryEntity() }
 
-fun List<IncomeCategoryDto>.asCategoryList(): List<CategoryEntity> =
-    this.map { it.asCategoryEntity() }
+fun List<IncomeCategoryDto>.asIncomeCategoryList(): List<CategoryEntity> =
+    this.map { it.asIncomeCategoryEntity() }
 
-fun List<InvestmentCategoryDto>.asCategoryList(): List<CategoryEntity> =
-    this.map { it.asCategoryEntity() }
+fun List<InvestmentCategoryDto>.asInvestmentCategoryList(): List<CategoryEntity> =
+    this.map { it.asInvestmentCategoryEntity() }
 
-fun ExpenseCategoryDto.asCategoryEntity(): CategoryEntity = CategoryEntity(
+fun ExpenseCategoryDto.asExpenseCategoryEntity(): CategoryEntity = CategoryEntity(
     id = this.id.plus(Category.EXPENSE.name),
     name = this.name,
     icon = this.icon,
@@ -83,7 +83,7 @@ fun ExpenseCategoryDto.asCategoryEntity(): CategoryEntity = CategoryEntity(
     userId = this.userId
 )
 
-fun IncomeCategoryDto.asCategoryEntity(): CategoryEntity = CategoryEntity(
+fun IncomeCategoryDto.asIncomeCategoryEntity(): CategoryEntity = CategoryEntity(
     id = this.id.plus(Category.INCOME.name),
     name = this.name,
     icon = this.icon,
@@ -91,7 +91,7 @@ fun IncomeCategoryDto.asCategoryEntity(): CategoryEntity = CategoryEntity(
     userId = this.userId
 )
 
-fun InvestmentCategoryDto.asCategoryEntity(): CategoryEntity = CategoryEntity(
+fun InvestmentCategoryDto.asInvestmentCategoryEntity(): CategoryEntity = CategoryEntity(
     id = this.id.plus(Category.WEALTH.name),
     name = this.name,
     icon = this.icon,
