@@ -3,12 +3,12 @@ package app.cashadvisor.analytics.presentation.data.db.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import app.cashadvisor.analytics.presentation.data.db.Category
 
 
 @Entity(tableName = "categoryTable")
 data class CategoryEntity(
     @PrimaryKey
+    @ColumnInfo(name = "id")
     var id: String,
     @ColumnInfo(name = "name")
     var name: String,
@@ -17,7 +17,5 @@ data class CategoryEntity(
     @ColumnInfo(name = "isConstant")
     var isConstant: Boolean,
     @ColumnInfo(name = "userId")
-    var userId: String,
-    @ColumnInfo(name = "category")
-    var category: Category
+    var userId: String
 )
