@@ -5,10 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import app.cashadvisor.analytics.data.db.entities.CategoryAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 
-@Database(entities = [UserAnalyticsEntity::class, CategoryEntity::class], version = 1)
+@Database(
+    entities = [
+        UserAnalyticsEntity::class,
+        CategoryEntity::class,
+        CategoryAnalyticsEntity::class],
+    version = 1
+)
 @TypeConverters(Converter::class)
 abstract class MainDb : RoomDatabase() {
 
