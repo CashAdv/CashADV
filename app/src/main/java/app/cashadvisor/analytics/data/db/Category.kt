@@ -1,4 +1,4 @@
-package app.cashadvisor.analytics.presentation.data.db
+package app.cashadvisor.analytics.data.db
 
 enum class Category {
     EXPENSE,

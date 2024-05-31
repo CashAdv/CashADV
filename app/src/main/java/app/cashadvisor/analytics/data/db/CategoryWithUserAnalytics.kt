@@ -1,9 +1,9 @@
-package app.cashadvisor.analytics.presentation.data.db
+package app.cashadvisor.analytics.data.db
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import app.cashadvisor.analytics.presentation.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.presentation.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.CategoryEntity
+import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 
 data class CategoryWithUserAnalytics(
     @Embedded

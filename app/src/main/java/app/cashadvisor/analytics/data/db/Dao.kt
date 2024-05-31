@@ -1,10 +1,10 @@
-package app.cashadvisor.analytics.presentation.data.db
+package app.cashadvisor.analytics.data.db
 
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import app.cashadvisor.analytics.presentation.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.presentation.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.CategoryEntity
+import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

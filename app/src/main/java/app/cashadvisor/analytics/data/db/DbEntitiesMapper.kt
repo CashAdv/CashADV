@@ -1,7 +1,7 @@
-package app.cashadvisor.analytics.presentation.data.db
+package app.cashadvisor.analytics.data.db
 
-import app.cashadvisor.analytics.presentation.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.presentation.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.CategoryEntity
+import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 import app.cashadvisor.profile.data.dto.response.CategorySettingsDto
 import app.cashadvisor.profile.data.dto.response.ExpenseCategoryDto
 import app.cashadvisor.profile.data.dto.response.ExpenseDto

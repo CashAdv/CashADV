@@ -1,4 +1,4 @@
-package app.cashadvisor.analytics.presentation.data.db.entities
+package app.cashadvisor.analytics.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
