@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class ProfileInfoMoreResponse(
     @SerialName("status_code") val statusCode: Int,
     val message: String,
-    @SerialName("profile") val userInfoMoreDto: UserInfoMoreDto,
+    @SerialName("more") val userInfoMoreDto: UserInfoMoreDto,
 
     )
 

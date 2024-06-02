@@ -36,12 +36,12 @@ interface ProfileInfoApiService {
 
     @GET("profile/more/get")
     suspend fun getUserInfoMore(
-        @Header("Profile") accessToken: String
+        @Header("Authorization") accessToken: String
     ):ProfileInfoMoreResponse
 
     @GET("profile/analytics/get")
     suspend fun getUserAnalytics(
-        @Header("Profile") accessToken: String
+        @Header("Authorization") accessToken: String
     ):ProfileAnalyticsResponse
 
 }

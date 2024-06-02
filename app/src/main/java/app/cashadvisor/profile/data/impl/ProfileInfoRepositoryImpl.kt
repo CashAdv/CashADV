@@ -37,8 +37,12 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     private val profileExceptionToErrorMapper: BaseExceptionToErrorMapper
 ) : ProfileInfoRepository {
 
+
+    private var userAnalytics:ProfileAnalytics? = null
+    private var userInfoMore:UserInfoMore? = null
+
     private suspend fun getAccessToken(): String {
-        return credentialsRepository.getCredentials()?.accessToken ?: ""
+        return credentialsRepository.getCredentials()?.accessToken ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJhZWI5NGRkNi0wYTc2LTRjZmUtOWUyMC0xMTI1ODI1N2MzYzAiLCJleHAiOjE3MTcwOTM0NDUsInN1YiI6Ijc2In0.qWawbOvljWwaklSlDsgiNm8dLD_VvwcpYmTp38hIsQ4"
     }
 
     override suspend fun getUserInfo(): Resource<UserProfileInfo> {
@@ -113,6 +117,7 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         return try {
             val response = userInfoMoreMapper.toUserInfoMore(
                 remoteDataSource.getUserInfoMore(getAccessToken()).userInfoMoreDto)
+            writeUserInfoMoreInStorage(response)
             Resource.Success(response)
         }catch (exception:Exception){
             Resource.Error(
@@ -129,7 +134,9 @@ class ProfileInfoRepositoryImpl @Inject constructor(
                 analyticsDataMapper.toProfileAnalyticsDto(
                 remoteDataSource.getUserAnalytics(getAccessToken())
             ))
+            writeUserAnalyticsInStorage(response)
             Resource.Success(response)
+
         }catch (exception:Exception){
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)
@@ -149,6 +156,12 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         }
 
         return file
+    }
+    private fun writeUserInfoMoreInStorage(userInfoMore: UserInfoMore){
+        this.userInfoMore = userInfoMore
+    }
+    private fun writeUserAnalyticsInStorage(userAnalytics: ProfileAnalytics){
+        this.userAnalytics = userAnalytics
     }
 
     companion object {

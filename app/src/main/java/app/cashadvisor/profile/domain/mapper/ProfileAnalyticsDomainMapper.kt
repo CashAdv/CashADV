@@ -10,8 +10,9 @@ import app.cashadvisor.profile.domain.model.Income
 import app.cashadvisor.profile.domain.model.ProfileAnalytics
 import app.cashadvisor.profile.domain.model.UserAnalytics
 import app.cashadvisor.profile.domain.model.WealthFund
+import javax.inject.Inject
 
-class ProfileAnalyticsDomainMapper {
+class ProfileAnalyticsDomainMapper @Inject constructor(){
     fun toProfileAnalytics(profileAnalyticsDto: ProfileAnalyticsDto) = ProfileAnalytics(
         statusCode = profileAnalyticsDto.statusCode,
         message = profileAnalyticsDto.message,

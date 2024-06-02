@@ -8,7 +8,7 @@ data class ProfileAnalyticsResponse(
     @SerialName("status_code") val statusCode: Int,
     val message: String,
     @SerialName("response_currency") val responseCurrency: String,
-    @SerialName("profile") val userAnalyticsDto: UserAnalyticsDto
+    @SerialName("analytics") val userAnalyticsDto: UserAnalyticsDto
 )
 data class ProfileAnalyticsDto(
     val statusCode: Int,
