@@ -8,13 +8,13 @@ data class ProfileAnalytics(
 )
 
 data class UserAnalytics(
-    val income: List<Income>,
-    val expense: List<Expense>,
-    val wealthFund: List<WealthFund>
+    val income: List<Income>?,
+    val expense: List<Expense>?,
+    val wealthFund: List<WealthFund>?
 )
 
 data class Income(
-    val amount: Int,
+    val amount: Double,
     val categoryId: String,
     val date: String,
     val id: String,
@@ -26,7 +26,7 @@ data class Income(
 )
 
 data class Expense(
-    val amount: Int,
+    val amount: Double,
     val categoryId: String,
     val date: String,
     val id: String,
@@ -38,7 +38,7 @@ data class Expense(
 )
 
 data class WealthFund(
-    val amount: Int,
+    val amount: Double,
     val date: String,
     val id: String,
     val planned: Boolean,

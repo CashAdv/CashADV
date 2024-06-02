@@ -42,7 +42,7 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     private var userInfoMore:UserInfoMore? = null
 
     private suspend fun getAccessToken(): String {
-        return credentialsRepository.getCredentials()?.accessToken ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiJhZWI5NGRkNi0wYTc2LTRjZmUtOWUyMC0xMTI1ODI1N2MzYzAiLCJleHAiOjE3MTcwOTM0NDUsInN1YiI6Ijc2In0.qWawbOvljWwaklSlDsgiNm8dLD_VvwcpYmTp38hIsQ4"
+        return credentialsRepository.getCredentials()?.accessToken ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiI2MjFjOTc1OS05ZmY5LTRhNjUtYjI4Mi1hMmEwYmRkYjUxM2IiLCJleHAiOjE3MTczMTA0NjgsInN1YiI6Ijc2In0.enVexw46lCNoIHdu-wkaIbAUjuY4pdd-QszTDCBheGE"
     }
 
     override suspend fun getUserInfo(): Resource<UserProfileInfo> {

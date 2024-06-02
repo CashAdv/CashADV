@@ -20,7 +20,7 @@ data class UserInfoMoreDto(
 @Serializable
 data class AppDto(
     @SerialName("category_settings") val categorySettingsDto: CategorySettingsDto,
-    @SerialName("connected_accounts") val connectedAccountsDto: List<ConnectedAccountDto>
+    @SerialName("connected_accounts") val connectedAccountsDto: List<ConnectedAccountDto>?
 )
 
 @Serializable
@@ -30,9 +30,9 @@ data class SettingsDto(
 
 @Serializable
 data class CategorySettingsDto(
-    @SerialName("expense_categories") val expenseCategoriesDto: List<ExpenseCategoryDto>,
-    @SerialName("income_categories") val incomeCategoriesDto: List<IncomeCategoryDto>,
-    @SerialName("investment_categories") val investmentCategoriesDto: List<InvestmentCategoryDto>
+    @SerialName("expense_categories") val expenseCategoriesDto: List<ExpenseCategoryDto>?,
+    @SerialName("income_categories") val incomeCategoriesDto: List<IncomeCategoryDto>?,
+    @SerialName("investment_category") val investmentCategoriesDto: List<InvestmentCategoryDto>?
 )
 
 @Serializable

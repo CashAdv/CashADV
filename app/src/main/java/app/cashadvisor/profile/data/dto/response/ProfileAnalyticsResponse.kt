@@ -19,14 +19,14 @@ data class ProfileAnalyticsDto(
 
 @Serializable
 data class UserAnalyticsDto(
-    @SerialName("income") val incomeDto: List<IncomeDto>,
-    @SerialName("expense") val expenseDto: List<ExpenseDto>,
-    @SerialName("wealth_fund") val wealthFundDto: List<WealthFundDto>
+    @SerialName("income") val incomeDto: List<IncomeDto>?,
+    @SerialName("expense") val expenseDto: List<ExpenseDto>?,
+    @SerialName("wealth_fund") val wealthFundDto: List<WealthFundDto>?
 )
 
 @Serializable
 data class IncomeDto(
-    val amount: Int,
+    val amount: Double,
     @SerialName("category_id") val categoryId: String,
     val date: String,
     val id: String,
@@ -39,7 +39,7 @@ data class IncomeDto(
 
 @Serializable
 data class ExpenseDto(
-    val amount: Int,
+    val amount: Double,
     @SerialName("category_id") val categoryId: String,
     val date: String,
     val id: String,
@@ -52,7 +52,7 @@ data class ExpenseDto(
 
 @Serializable
 data class WealthFundDto(
-    val amount: Int,
+    val amount: Double,
     val date: String,
     val id: String,
     val planned: Boolean,

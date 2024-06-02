@@ -20,9 +20,9 @@ class ProfileAnalyticsDomainMapper @Inject constructor(){
         userAnalytics = toUserAnalytics(profileAnalyticsDto.userAnalyticsDto)
     )
     private fun toUserAnalytics(userAnalyticsDto: UserAnalyticsDto) = UserAnalytics(
-        income = userAnalyticsDto.incomeDto.map { toIncome(it) },
-        expense = userAnalyticsDto.expenseDto.map { toExpense(it) },
-        wealthFund = userAnalyticsDto.wealthFundDto.map { toWealthFund(it) }
+        income = userAnalyticsDto.incomeDto?.map { toIncome(it) },
+        expense = userAnalyticsDto.expenseDto?.map { toExpense(it) },
+        wealthFund = userAnalyticsDto.wealthFundDto?.map { toWealthFund(it) }
     )
     private fun toIncome(incomeDto: IncomeDto) = Income(
         amount = incomeDto.amount,

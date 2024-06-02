@@ -28,16 +28,16 @@ class UserInfoMoreDomainMapper @Inject constructor() {
 
     private fun toApp(appDto: AppDto) = App(
         categorySettings = toCategorySettings(appDto.categorySettingsDto),
-        connectedAccounts = appDto.connectedAccountsDto.map { toConnectedAccounts(it) }
+        connectedAccounts = appDto.connectedAccountsDto?.map { toConnectedAccounts(it) }
     )
 
     private fun toSettings(settingsDto: SettingsDto) = Settings(
         subscriptions = toSubscription(settingsDto.subscriptionsDto)
     )
     private fun toCategorySettings(categorySettingsDto: CategorySettingsDto) = CategorySettings(
-        expenseCategories = categorySettingsDto.expenseCategoriesDto.map { toExpenseCategories(it) },
-        incomeCategories = categorySettingsDto.incomeCategoriesDto.map { toIncomeCategories(it) },
-        investmentCategories = categorySettingsDto.investmentCategoriesDto.map { toInvestmentCategories(it) }
+        expenseCategories = categorySettingsDto.expenseCategoriesDto?.map { toExpenseCategories(it) },
+        incomeCategories = categorySettingsDto.incomeCategoriesDto?.map { toIncomeCategories(it) },
+        investmentCategories = categorySettingsDto.investmentCategoriesDto?.map { toInvestmentCategories(it) }
     )
     private fun toConnectedAccounts(connectedAccountDto: ConnectedAccountDto) = ConnectedAccount(
         id = connectedAccountDto.id,

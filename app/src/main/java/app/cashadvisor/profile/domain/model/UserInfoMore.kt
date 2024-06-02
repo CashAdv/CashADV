@@ -8,7 +8,7 @@ data class UserInfoMore(
 
 data class App(
     val categorySettings: CategorySettings,
-    val connectedAccounts: List<ConnectedAccount>
+    val connectedAccounts: List<ConnectedAccount>?
 )
 
 data class Settings(
@@ -16,9 +16,9 @@ data class Settings(
 )
 
 data class CategorySettings(
-    val expenseCategories: List<ExpenseCategory>,
-    val incomeCategories: List<IncomeCategory>,
-    val investmentCategories: List<InvestmentCategory>
+    val expenseCategories: List<ExpenseCategory>?,
+    val incomeCategories: List<IncomeCategory>?,
+    val investmentCategories: List<InvestmentCategory>?
 )
 
 data class ConnectedAccount(
