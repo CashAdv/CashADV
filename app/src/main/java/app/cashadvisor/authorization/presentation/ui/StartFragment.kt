@@ -20,11 +20,8 @@ import app.cashadvisor.authorization.presentation.viewmodel.StartViewModel
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentStartBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class StartFragment :

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "categoryAnalyticsTable",
+@Entity(primaryKeys = ["userAnalyticsId", "categoryId"], tableName = "categoryAnalyticsTable",
     foreignKeys = [
         ForeignKey(
             entity = CategoryEntity::class,
@@ -20,18 +20,9 @@ import androidx.room.PrimaryKey
     ]
 )
 data class CategoryAnalyticsEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     @ColumnInfo(name = "categoryId")
     val categoryId: String,
     @ColumnInfo(name = "userAnalyticsId")
-    val userAnalyticsId: String,
-    @ColumnInfo(name = "categoryName")
-    var name: String,
-    @ColumnInfo(name = "categoryIcon")
-    var icon: String,
-    @ColumnInfo(name = "userAnalyticsDate")
-    var date: String,
-    @ColumnInfo(name = "userAnalyticsAmount")
-    var amount: Int
+    val userAnalyticsId: String
+
 )

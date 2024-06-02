@@ -18,6 +18,8 @@ interface Dao {
     @Query("SELECT * FROM categoryTable")
     fun getCategoryWithUserAnalytics(): Flow<List<CategoryWithUserAnalytics>>
 
+
+
     @Query("DELETE FROM userAnalyticsTable")
     fun deleteAllUserAnalyticsEntity()
 }
