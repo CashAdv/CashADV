@@ -55,7 +55,7 @@ class AnalyticsFragment : Fragment() {
         val addSaving = R.id.action_analyticsFragment_to_addSavingSelectionFragment
 
 
-        binding.btnAddManually.setOnClickListener {
+        binding.btnAddManually.setOnClickListener {/*
             with(binding) {
                 when {
                     rbIncome.isChecked && rbPlan.isChecked -> {
@@ -83,7 +83,7 @@ class AnalyticsFragment : Fragment() {
                     }
 
                 }
-            }
+            }*/
         }
 
 

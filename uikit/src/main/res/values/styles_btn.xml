@@ -28,9 +28,11 @@
         <item name="android:background">@drawable/button_r_10</item>
     </style>
 
-    <style name="Widget.CashAdvisor.Button.GrayBlackButtonR100">
+    <style name="Widget.CashAdvisor.Button.GrayBlackButtonR100" parent = "Widget.CashAdvisor.Button">
         <item name="android:textColor">@color/colour2_colour1_color_selector</item>
         <item name="android:background">@drawable/button_r_100</item>
+        <item name="android:textSize">14sp</item>
+        <item name="backgroundTint">@null</item>
     </style>
 
     <style name="Widget.CashAdvisor.Button.WhiteBlackButtonR15">
@@ -101,5 +103,55 @@
     <style name="Widget.CashAdvisor.Button.CreateAccountInactive" parent="Widget.CashAdvisor.Button.SigninButton">
         <item name="android:textColor">?attr/bg2</item>
         <item name="android:background">@drawable/button_r10_gray_stroke</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Button.AnalyticButton" parent = "Widget.Material3.Chip.Assist">
+        <item name="android:textColor">@color/colour2_reversed_color_selector</item>
+        <item name="chipBackgroundColor">@color/bg1_colour2_checked_color_selector</item>
+        <item name="chipStrokeColor">@android:color/transparent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="chipStartPadding">12dp</item>
+        <item name="chipEndPadding">12dp</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="fontFamily">@font/gilroysemibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:checkable">true</item>
+        <item name="maxLines">1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Button.AnalyticFilterButton" parent = "Widget.Material3.Chip.Assist">
+        <item name="android:textColor">@color/colour1</item>
+        <item name="chipBackgroundColor">?attr/whitecolour</item>
+        <item name="chipStrokeColor">@color/bg_colour2_checked_color_selector</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="chipStartPadding">12dp</item>
+        <item name="chipEndPadding">12dp</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="fontFamily">@font/gilroysemibold</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:checkable">true</item>
+        <item name="maxLines">1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Button.Colour2FilledButton">
+        <item name="android:textColor">?attr/whitecolour</item>
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/black_button_r_10_no_stroke</item>
+        <item name="cornerRadius">@dimen/button_radius_10</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Button.Bg2FilledButton">
+        <item name="android:textColor">?attr/colour2</item>
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="backgroundTint">@color/bg2</item>
+        <item name="android:background">@drawable/black_button_r_10_no_stroke</item>
+        <item name="cornerRadius">@dimen/button_radius_10</item>
     </style>
 </resources>

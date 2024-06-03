@@ -104,4 +104,37 @@
     <string name="invalid_password_length">Пароль должен содержать не менее 8 знаков</string>
     <string name="invalid_confirm_password">Введенные пароли не совпадают</string>
     <string name="email_already_exist">Учетная запись с такой электронной почтой уже существует</string>
+
+    <!--Main page screen-->
+    <string name="mp_income_analytics">Доходы</string>
+    <string name="mp_expense_analytics">Расходы</string>
+    <string name="mp_saving_analytics">Фонд благосостояния</string>
+    <string name="mp_zero_balance_amount">0,00</string>
+    <string name="mp_fact_filter">Факт</string>
+    <string name="mp_plan_filter">План</string>
+    <string name="mp_fact_analytic_info_header">Резюме:</string>
+    <string name="mp_plan_income_analytic_info_header">План доходов:</string>
+    <string name="mp_plan_expense_analytic_info_header">План расходов:</string>
+    <string name="mp_plan_saving_analytic_info_header">План формирования:</string>
+    <string name="mp_fact_income_analytic_info_zero">Войдите через приложение банка, чтобы
+        увидеть информацию о доходах, или внесите их вручную</string>
+    <string name="mp_fact_expense_analytic_info_zero">Войдите через приложение банка, чтобы
+        увидеть информацию о расходах, или внесите их вручную</string>
+    <string name="mp_fact_saving_analytic_info_zero">Войдите через приложение банка, чтобы
+        увидеть информацию о накоплениях, или внесите их вручную</string>
+    <string name="mp_plan_income_analytic_info_zero">Организованное планирование доходов -
+        ключевой шаг к финансовой устойчивости и достижению желаемых целей в будущем\n\n
+        Добавьте план о доходах на этот месяц</string>
+    <string name="mp_plan_expense_analytic_info_zero">Четкий план расходов помогает избежать финансовых
+        проблем, достичь финансовых целей и обеспечить себе спокойствие и уверенность в будущем\n\n
+        Добавьте план о расходах на этот месяц</string>
+    <string name="mp_plan_saving_analytic_info_zero">Необходимость постоянного отчисления
+        определенной части дохода на сбережения и инвестиции может стать ключевым фактором для
+        создания финансовой устойчивости и обеспечения благополучного будущего\n\n
+        Добавьте план отчислений на этот месяц</string>
+    <string name="mp_add_bank_button">Добавить банк</string>
+    <string name="mp_add_fact_manually_button">Внести вручную</string>
+    <string name="mp_add_income_button">Добавить доход в план</string>
+    <string name="mp_add_expense_button">Добавить расход в план</string>
+    <string name="mp_add_saving_button">Запланировать отчисления</string>
 </resources>

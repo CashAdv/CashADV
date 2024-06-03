@@ -9,6 +9,7 @@
     <attr name="subcolour2" format="color" />
     <attr name="colour2" format="color" />
     <attr name="whitecolour" format="color"/>
+    <attr name="reversedColour2" format="color"/>
 
     // Semantic
     <attr name="m1" format="color" />

@@ -295,4 +295,26 @@
         <item name="android:layout_marginBottom">@dimen/signup_edittext_margin</item>
         <item name="android:layout_marginTop">@dimen/signup_edittext_margin_top</item>
     </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticAmount" parent="Widget.CashAdvisor.Text.num_big">
+        <item name="android:textColor">?attr/colour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticAmountCurrency" parent="Widget.CashAdvisor.Text.num_big">
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">?attr/subcolour1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticInfoHeader" parent="Widget.CashAdvisor.Text.Header3">
+        <item name="android:textColor">@color/colour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticCategoryHeader" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">@color/colour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticCategoryItem" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
 </resources>

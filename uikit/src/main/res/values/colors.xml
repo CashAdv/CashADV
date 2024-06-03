@@ -12,6 +12,7 @@
     <color name="subcolour2">#999999</color>
     <color name="colour2">#000000</color>
     <color name="light_gray">#C4C4C4</color>
+    <color name="reversedColour2">#FFFFFF</color>
 
 
     // Semantic

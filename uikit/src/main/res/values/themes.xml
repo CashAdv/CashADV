@@ -16,6 +16,7 @@
         <item name="subcolour2">@color/subcolour2</item>
         <item name="colour2">@color/colour2</item>
         <item name="whitecolour">@color/white</item>
+        <item name="reversedColour2">@color/reversedColour2</item>
 
         <item name="m1">@color/m1</item>
         <item name="m2">@color/m2</item>
