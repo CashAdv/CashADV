@@ -8,6 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.R
+import app.cashadvisor.analytics.data.db.DbRepository
 import app.cashadvisor.analytics.data.db.MainDb
 import app.cashadvisor.analytics.data.db.asCategoryEntity
 import app.cashadvisor.analytics.data.db.asUserAnalyticsEntity
@@ -39,9 +40,11 @@ class StartFragment :
         val db = MainDb.getDb(requireContext())
         val dao = db.getDao()
 
+        val dbRepository = DbRepository(dao)
+
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
-            dao.upsertCategoryEntity(categoryEntityList)
-            dao.upsertUserAnalyticsEntity(userAnalyticsEntityList)
+            dbRepository.upsertCategory(categoryEntityList)
+            dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
         }
 
         /////////////////////////////////

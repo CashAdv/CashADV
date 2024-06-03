@@ -24,5 +24,4 @@ data class CategoryAnalyticsEntity(
     val categoryId: String,
     @ColumnInfo(name = "userAnalyticsId")
     val userAnalyticsId: String
-
 )
