@@ -62,7 +62,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
         return try {
             val response = profileInfoApiService.getUserInfoMore(accessToken = accessToken)
             response
-        }catch (exception:NetworkException){
+        } catch (exception: NetworkException) {
             throw networkToProfileExceptionMapper.handleExceptionGetMoreProfile(exception)
         }
     }
@@ -71,7 +71,7 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
         return try {
             val response = profileInfoApiService.getUserAnalytics(accessToken)
             response
-        }catch (exception:NetworkException){
+        } catch (exception: NetworkException) {
             throw networkToProfileExceptionMapper.handleExceptionAnalyticsProfile(exception)
         }
     }

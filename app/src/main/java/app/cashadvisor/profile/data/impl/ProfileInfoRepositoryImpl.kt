@@ -12,10 +12,10 @@ import app.cashadvisor.profile.data.dto.UserInfoDto
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDataMapper
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDomainMapper
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
+import app.cashadvisor.profile.data.mapper.UserInfoMoreDomainMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
-import app.cashadvisor.profile.domain.mapper.ProfileAnalyticsDomainMapper
-import app.cashadvisor.profile.domain.mapper.UserInfoMoreDomainMapper
 import app.cashadvisor.profile.domain.model.ProfileAnalytics
 import app.cashadvisor.profile.domain.model.UserInfoMore
 import app.cashadvisor.profile.domain.model.UserProfileInfo
@@ -32,17 +32,17 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     private val credentialsRepository: CredentialsRepository,
     private val mapper: ProfileInfoMapper,
     private val analyticsDataMapper: ProfileAnalyticsDataMapper,
-    private val userInfoMoreMapper:UserInfoMoreDomainMapper,
+    private val userInfoMoreMapper: UserInfoMoreDomainMapper,
     private val profileAnalyticsDomainMapper: ProfileAnalyticsDomainMapper,
     private val profileExceptionToErrorMapper: BaseExceptionToErrorMapper
 ) : ProfileInfoRepository {
 
 
-    private var userAnalytics:ProfileAnalytics? = null
-    private var userInfoMore:UserInfoMore? = null
+    private var userAnalytics: ProfileAnalytics? = null
+    private var userInfoMore: UserInfoMore? = null
 
     private suspend fun getAccessToken(): String {
-        return credentialsRepository.getCredentials()?.accessToken ?: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXZpY2VfaWQiOiI2MjFjOTc1OS05ZmY5LTRhNjUtYjI4Mi1hMmEwYmRkYjUxM2IiLCJleHAiOjE3MTczMTA0NjgsInN1YiI6Ijc2In0.enVexw46lCNoIHdu-wkaIbAUjuY4pdd-QszTDCBheGE"
+        return credentialsRepository.getCredentials()?.accessToken ?: ""
     }
 
     override suspend fun getUserInfo(): Resource<UserProfileInfo> {
@@ -116,10 +116,11 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
         return try {
             val response = userInfoMoreMapper.toUserInfoMore(
-                remoteDataSource.getUserInfoMore(getAccessToken()).userInfoMoreDto)
+                remoteDataSource.getUserInfoMore(getAccessToken()).userInfoMoreDto
+            )
             writeUserInfoMoreInStorage(response)
             Resource.Success(response)
-        }catch (exception:Exception){
+        } catch (exception: Exception) {
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)
             )
@@ -132,12 +133,13 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         return try {
             val response = profileAnalyticsDomainMapper.toProfileAnalytics(
                 analyticsDataMapper.toProfileAnalyticsDto(
-                remoteDataSource.getUserAnalytics(getAccessToken())
-            ))
+                    remoteDataSource.getUserAnalytics(getAccessToken())
+                )
+            )
             writeUserAnalyticsInStorage(response)
             Resource.Success(response)
 
-        }catch (exception:Exception){
+        } catch (exception: Exception) {
             Resource.Error(
                 profileExceptionToErrorMapper.handleException(exception)
             )
@@ -157,10 +159,12 @@ class ProfileInfoRepositoryImpl @Inject constructor(
 
         return file
     }
-    private fun writeUserInfoMoreInStorage(userInfoMore: UserInfoMore){
+
+    private fun writeUserInfoMoreInStorage(userInfoMore: UserInfoMore) {
         this.userInfoMore = userInfoMore
     }
-    private fun writeUserAnalyticsInStorage(userAnalytics: ProfileAnalytics){
+
+    private fun writeUserAnalyticsInStorage(userAnalytics: ProfileAnalytics) {
         this.userAnalytics = userAnalytics
     }
 

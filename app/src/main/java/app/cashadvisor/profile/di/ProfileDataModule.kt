@@ -8,11 +8,11 @@ import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.impl.ProfileInfoRepositoryImpl
 import app.cashadvisor.profile.data.impl.ProfileInfoStorageImpl
 import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDataMapper
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDomainMapper
 import app.cashadvisor.profile.data.mapper.ProfileExceptionToErrorMapper
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
+import app.cashadvisor.profile.data.mapper.UserInfoMoreDomainMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
-import app.cashadvisor.profile.domain.mapper.ProfileAnalyticsDomainMapper
-import app.cashadvisor.profile.domain.mapper.UserInfoMoreDomainMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

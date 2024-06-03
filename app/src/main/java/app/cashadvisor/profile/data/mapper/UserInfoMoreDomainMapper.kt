@@ -1,4 +1,4 @@
-package app.cashadvisor.profile.domain.mapper
+package app.cashadvisor.profile.data.mapper
 
 import app.cashadvisor.profile.data.dto.response.AppDto
 import app.cashadvisor.profile.data.dto.response.CategorySettingsDto
@@ -34,11 +34,17 @@ class UserInfoMoreDomainMapper @Inject constructor() {
     private fun toSettings(settingsDto: SettingsDto) = Settings(
         subscriptions = toSubscription(settingsDto.subscriptionsDto)
     )
+
     private fun toCategorySettings(categorySettingsDto: CategorySettingsDto) = CategorySettings(
         expenseCategories = categorySettingsDto.expenseCategoriesDto?.map { toExpenseCategories(it) },
         incomeCategories = categorySettingsDto.incomeCategoriesDto?.map { toIncomeCategories(it) },
-        investmentCategories = categorySettingsDto.investmentCategoriesDto?.map { toInvestmentCategories(it) }
+        investmentCategories = categorySettingsDto.investmentCategoriesDto?.map {
+            toInvestmentCategories(
+                it
+            )
+        }
     )
+
     private fun toConnectedAccounts(connectedAccountDto: ConnectedAccountDto) = ConnectedAccount(
         id = connectedAccountDto.id,
         userId = connectedAccountDto.userId,
@@ -46,6 +52,7 @@ class UserInfoMoreDomainMapper @Inject constructor() {
         accountNumber = connectedAccountDto.accountNumber,
         accountType = connectedAccountDto.accountType
     )
+
     private fun toSubscription(subscriptionsDto: SubscriptionsDto) = Subscriptions(
         id = subscriptionsDto.id,
         userId = subscriptionsDto.userId,
@@ -53,6 +60,7 @@ class UserInfoMoreDomainMapper @Inject constructor() {
         endDate = subscriptionsDto.endDate,
         isActive = subscriptionsDto.isActive
     )
+
     private fun toExpenseCategories(expenseCategoryDto: ExpenseCategoryDto) = ExpenseCategory(
         id = expenseCategoryDto.id,
         name = expenseCategoryDto.name,
@@ -60,6 +68,7 @@ class UserInfoMoreDomainMapper @Inject constructor() {
         isConstant = expenseCategoryDto.isConstant,
         userId = expenseCategoryDto.userId
     )
+
     private fun toIncomeCategories(incomeCategoryDto: IncomeCategoryDto) = IncomeCategory(
         id = incomeCategoryDto.id,
         name = incomeCategoryDto.name,
@@ -67,13 +76,15 @@ class UserInfoMoreDomainMapper @Inject constructor() {
         isConstant = incomeCategoryDto.isConstant,
         userId = incomeCategoryDto.userId
     )
-    private fun toInvestmentCategories(investmentCategoryDto: InvestmentCategoryDto) = InvestmentCategory(
-        id = investmentCategoryDto.id,
-        name = investmentCategoryDto.name,
-        icon = investmentCategoryDto.icon,
-        isConstant = investmentCategoryDto.isConstant,
-        userId = investmentCategoryDto.userId
-    )
+
+    private fun toInvestmentCategories(investmentCategoryDto: InvestmentCategoryDto) =
+        InvestmentCategory(
+            id = investmentCategoryDto.id,
+            name = investmentCategoryDto.name,
+            icon = investmentCategoryDto.icon,
+            isConstant = investmentCategoryDto.isConstant,
+            userId = investmentCategoryDto.userId
+        )
 
 
 }

@@ -10,6 +10,7 @@ data class ProfileAnalyticsResponse(
     @SerialName("response_currency") val responseCurrency: String,
     @SerialName("analytics") val userAnalyticsDto: UserAnalyticsDto
 )
+
 data class ProfileAnalyticsDto(
     val statusCode: Int,
     val message: String,

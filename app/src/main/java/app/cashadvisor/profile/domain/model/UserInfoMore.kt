@@ -28,6 +28,7 @@ data class ConnectedAccount(
     val accountNumber: String,
     val accountType: String
 )
+
 data class ExpenseCategory(
     val id: String,
     val name: String,
@@ -35,6 +36,7 @@ data class ExpenseCategory(
     val isConstant: Boolean,
     val userId: String
 )
+
 data class IncomeCategory(
     val id: String,
     val icon: String,
@@ -42,6 +44,7 @@ data class IncomeCategory(
     val isConstant: Boolean,
     val userId: String
 )
+
 data class InvestmentCategory(
     val id: String,
     val name: String,
@@ -49,6 +52,7 @@ data class InvestmentCategory(
     val isConstant: Boolean,
     val userId: String
 )
+
 data class Subscriptions(
     val id: String,
     val userId: String,
