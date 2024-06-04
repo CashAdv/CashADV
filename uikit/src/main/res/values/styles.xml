@@ -38,7 +38,7 @@
 
     <style name="Widget.CashAdvisor.Text.num_reg">
         <item name="fontFamily">@font/intersemibold</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Widget.CashAdvisor.Text.Text_cont">
@@ -316,5 +316,9 @@
 
     <style name="Widget.CashAdvisor.Text.AnalyticCategoryItem" parent="Widget.CashAdvisor.Text.Text_cont">
         <item name="android:textColor">?attr/subcolour2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AnalyticCategoryNumHeader" parent="Widget.CashAdvisor.Text.num_reg">
+        <item name="android:textColor">@color/colour2</item>
     </style>
 </resources>

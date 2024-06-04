@@ -137,4 +137,8 @@
     <string name="mp_add_income_button">Добавить доход в план</string>
     <string name="mp_add_expense_button">Добавить расход в план</string>
     <string name="mp_add_saving_button">Запланировать отчисления</string>
+    <string name="mp_progress_label">Прогресс:</string>
+    <string name="mp_progress_info_income_label">До выполнения цели осталось:</string>
+    <string name="mp_progress_info_expense_label">До исчерпания лимита осталось:</string>
+    <string name="mp_progress_info_saving_label">До выполнения цели осталось:</string>
 </resources>

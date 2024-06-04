@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/mp_4dp"
+    app:cardCornerRadius="@dimen/mp_planned_card_radius"
+    app:cardElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/mp_4dp"
+        android:background="@color/bg1">
+
+        <ImageView
+            android:id="@+id/ivCategory"
+            android:layout_width="@dimen/mp_category_icon_size"
+            android:layout_height="@dimen/mp_category_icon_size"
+            android:padding="@dimen/mp_4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/ic_bank"
+            android:contentDescription="category icon" />
+
+        <TextView
+            android:id="@+id/tvCategoryName"
+            style="@style/Widget.CashAdvisor.Text.AnalyticCategoryHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/mp_4dp"
+            app:layout_constraintStart_toEndOf="@id/ivCategory"
+            app:layout_constraintEnd_toStartOf="@id/tvCategoryCurrency"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Инвестиции"/>
+
+        <TextView
+            android:id="@+id/tvCategoryCurrency"
+            style="@style/Widget.CashAdvisor.Text.AnalyticCategoryNumHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/tvCategoryName"
+            app:layout_constraintEnd_toStartOf="@id/tvCategoryAmount"
+            app:layout_constraintTop_toTopOf="@id/tvCategoryName"
+            app:layout_constraintBottom_toBottomOf="@id/tvCategoryName"
+            android:text="₽"/>
+
+        <TextView
+            android:id="@+id/tvCategoryAmount"
+            style="@style/Widget.CashAdvisor.Text.AnalyticCategoryNumHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/mp_4dp"
+            app:layout_constraintStart_toEndOf="@id/tvCategoryCurrency"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvCategoryCurrency"
+            app:layout_constraintBottom_toBottomOf="@id/tvCategoryCurrency"
+            android:text="15 000,00"/>
+
+        <ProgressBar
+            android:id="@+id/piAnalyticProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/mp_progressbar_height"
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryCurrency"
+            app:layout_constraintStart_toStartOf="@id/tvCategoryCurrency"
+            app:layout_constraintEnd_toEndOf="@id/tvCategoryAmount"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:progressDrawable="@drawable/linear_progress_bar"
+            android:max="100"
+            android:progress="40"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>

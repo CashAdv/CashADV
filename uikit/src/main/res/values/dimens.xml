@@ -75,4 +75,17 @@
     <dimen name="header_margin_bottom">20dp</dimen>
     <dimen name="header_padding">16dp</dimen>
 
+    <!--  Main page dimens  -->
+    <dimen name="mp_category_icon_size">40dp</dimen>
+    <dimen name="mp_guideline_size">36dp</dimen>
+    <dimen name="mp_filter_group_height">60dp</dimen>
+    <dimen name="mp_analytics_filter_spacing">12dp</dimen>
+    <dimen name="mp_planned_filter_spacing">24dp</dimen>
+    <dimen name="mp_4dp">4dp</dimen>
+    <dimen name="mp_8dp">8dp</dimen>
+    <dimen name="mp_12dp">12dp</dimen>
+    <dimen name="mp_20dp">20dp</dimen>
+    <dimen name="mp_24dp">24dp</dimen>
+    <dimen name="mp_planned_card_radius">12dp</dimen>
+    <dimen name="mp_progressbar_height">3dp</dimen>
 </resources>

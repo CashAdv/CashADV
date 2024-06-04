@@ -12,14 +12,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="36dp" />
+        app:layout_constraintGuide_begin="@dimen/mp_guideline_size" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/playerRightGuideLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="36dp" />
+        app:layout_constraintGuide_end="@dimen/mp_guideline_size" />
 
     <app.cashadvisor.customView.ProfileHeaderMain
         android:id="@+id/profile_header"
@@ -27,24 +27,25 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/header_margin_horizontal"
         android:layout_marginTop="@dimen/header_margin_top"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        app:layout_constraintStart_toStartOf="@id/playerLeftGuideLine"
         app:layout_constraintTop_toTopOf="parent" />
 
     <HorizontalScrollView
         android:id="@+id/svMainBarAnalytics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/mp_20dp"
         android:scrollIndicators="none"
         android:scrollbars="none"
-        android:paddingHorizontal="8dp"
+        android:paddingHorizontal="@dimen/mp_8dp"
         app:layout_constraintTop_toBottomOf="@id/profile_header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <com.google.android.material.chip.ChipGroup
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="@dimen/mp_filter_group_height"
+            app:chipSpacingHorizontal="@dimen/mp_analytics_filter_spacing"
             app:singleSelection="true"
             app:selectionRequired="true">
 
@@ -52,7 +53,7 @@
                 android:id="@+id/btnIncome"
                 style="@style/Widget.CashAdvisor.Button.AnalyticButton"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="@dimen/mp_12dp"
                 android:checked="true"
                 android:text="@string/mp_income_analytics"/>
 
@@ -60,14 +61,12 @@
                 android:id="@+id/btnExpense"
                 style="@style/Widget.CashAdvisor.Button.AnalyticButton"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="12dp"
                 android:text="@string/mp_expense_analytics"/>
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/btnSaving"
                 style="@style/Widget.CashAdvisor.Button.AnalyticButton"
                 android:layout_width="wrap_content"
-                android:layout_marginStart="12dp"
                 android:text="@string/mp_saving_analytics"/>
         </com.google.android.material.chip.ChipGroup>
 
@@ -78,9 +77,9 @@
         style="@style/Widget.CashAdvisor.Text.AnalyticAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="24dp"
+        android:layout_marginVertical="@dimen/mp_24dp"
         android:gravity="center_horizontal"
-        android:paddingVertical="8dp"
+        android:paddingVertical="@dimen/mp_8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/svMainBarAnalytics"
@@ -98,9 +97,9 @@
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/cgFilter"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:layout_marginTop="24dp"
-        app:chipSpacingHorizontal="24dp"
+        android:layout_height="@dimen/mp_filter_group_height"
+        android:layout_marginTop="@dimen/mp_24dp"
+        app:chipSpacingHorizontal="@dimen/mp_planned_filter_spacing"
         app:singleSelection="true"
         app:selectionRequired="true"
         app:layout_constraintTop_toBottomOf="@id/tvAnalyticAmount"
@@ -126,7 +125,7 @@
         style="@style/Widget.CashAdvisor.Text.AnalyticInfoHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/mp_24dp"
 
         app:layout_constraintTop_toBottomOf="@id/cgFilter"
         app:layout_constraintStart_toStartOf="@id/playerLeftGuideLine"
@@ -145,7 +144,7 @@
             style="@style/Widget.CashAdvisor.Text.Subtext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/mp_24dp"
 
             android:text="@string/mp_fact_income_analytic_info_zero"
             android:gravity="center_horizontal"/>
@@ -154,23 +153,85 @@
             android:id="@+id/rvAnalyticInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            tools:listitem="@layout/item_analytics_fact"
+            android:layout_marginTop="@dimen/mp_12dp"
+            android:visibility="visible"
             tools:itemCount="2"
-            android:visibility="visible"/>
+            tools:listitem="@layout/item_analytics_plan" />
     </FrameLayout>
+
+    <ProgressBar
+        android:id="@+id/piAnalyticProgress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="@dimen/mp_20dp"
+        app:layout_constraintTop_toBottomOf="@id/flAnalyticInfo"
+        app:layout_constraintStart_toStartOf="@id/playerLeftGuideLine"
+        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        android:progressDrawable="@drawable/linear_progress_bar"
+        android:max="100"
+        android:progress="10"/>
+    
+    <TextView
+        android:id="@+id/tvProgressLabel"
+        style="@style/Widget.CashAdvisor.Text.Subtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/piAnalyticProgress"
+        app:layout_constraintStart_toStartOf="@id/playerLeftGuideLine"
+        android:layout_marginTop="@dimen/mp_4dp"
+        android:text="@string/mp_progress_label"/>
+
+    <TextView
+        android:id="@+id/tvProgressInfoLabel"
+        style="@style/Widget.CashAdvisor.Text.Subtext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/piAnalyticProgress"
+        app:layout_constraintStart_toEndOf="@id/tvProgressLabel"
+        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        android:layout_marginTop="@dimen/mp_4dp"
+        android:textAlignment="textEnd"
+        android:text="@string/mp_progress_info_income_label"/>
+
+    <TextView
+        android:id="@+id/tvProgressPercent"
+        style="@style/Widget.CashAdvisor.Text.num_reg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvProgressLabel"
+        app:layout_constraintStart_toStartOf="@id/playerLeftGuideLine"
+        android:text="14,55 %"/>
+
+    <TextView
+        android:id="@+id/tvProgressInfoAmount"
+        style="@style/Widget.CashAdvisor.Text.num_reg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvProgressInfoLabel"
+        app:layout_constraintStart_toEndOf="@id/tvProgressLabel"
+        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        android:textAlignment="textEnd"
+        android:text="₽ 5 000,00"/>
+    
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/grProgress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="piAnalyticProgress,tvProgressLabel,tvProgressPercent,tvProgressInfoLabel,tvProgressInfoAmount"/>
 
     <Button
         android:id="@+id/btn_add_bank"
         style="@style/Widget.CashAdvisor.Button.Colour2FilledButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/mp_24dp"
         app:layout_constraintEnd_toStartOf="@+id/btn_add_manually"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_add_manually"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flAnalyticInfo"
+        app:layout_constraintTop_toBottomOf="@id/tvProgressPercent"
         android:text="@string/mp_add_bank_button"
         android:visibility="visible"/>
 
