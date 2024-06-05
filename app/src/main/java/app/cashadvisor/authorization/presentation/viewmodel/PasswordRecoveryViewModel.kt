@@ -2,6 +2,8 @@ package app.cashadvisor.authorization.presentation.viewmodel
 
 import android.content.res.Resources
 import android.text.Editable
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.authorization.domain.api.InputValidationInteractor
 import app.cashadvisor.authorization.domain.api.ResetPasswordInteractor
@@ -407,6 +409,11 @@ class PasswordRecoveryViewModel @Inject constructor(
             )
         }
     }
+    private fun navigateBackToLoginFragment(){
+        viewModelScope.launch {
+            _sideEffects.emit(RecoverySideEffect.NavigateBackToLoginFragment)
+        }
+    }
 
     fun emailInputListener(
         emailInput: Editable? = null,
@@ -446,6 +453,15 @@ class PasswordRecoveryViewModel @Inject constructor(
                 isBtnResetPasswordEnabled = isBtnResetPasswordEnabled
             )
 
+        }
+    }
+
+    fun initOnBackPressedDispatcher(onBackPressedDispatcher:OnBackPressedDispatcher){
+        onBackPressedDispatcher.addCallback {
+            when(_uiState.value){
+                is PasswordRecoveryScreenState.EmailInput -> navigateBackToLoginFragment()
+                else -> navigateBackToEmailState()
+            }
         }
     }
 

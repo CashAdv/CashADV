@@ -5,6 +5,7 @@ sealed interface RecoverySideEffect {
     data object PasswordSuccessfullyConfirmed: RecoverySideEffect
     data object HideKeyboard: RecoverySideEffect
     data object ClearConfirmationCode:RecoverySideEffect
+    data object NavigateBackToLoginFragment:RecoverySideEffect
 
 
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.addCallback
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
@@ -120,7 +119,7 @@ class PasswordRecoveryFragment :
                     if (state.resendingCoolDownSec.isNullOrBlank()) {
                         tvSendAgain.apply {
                             text = getString(R.string.send_confirmation_code_again)
-                            setTextColor(resources.getColor(R.color.black, null))
+                            setTextColor(resources.getColor(R.color.black, requireActivity().theme))
                             setOnClickListener { viewModel.sendConfirmationCodeByEmail() }
                         }
                     } else {
@@ -129,7 +128,7 @@ class PasswordRecoveryFragment :
                                 R.string.send_confirmation_code_again_seconds,
                                 state.resendingCoolDownSec
                             )
-                            setTextColor(resources.getColor(R.color.subcolour2, null))
+                            setTextColor(resources.getColor(R.color.subcolour2, requireActivity().theme))
                             setOnClickListener(null)
                         }
                     }
@@ -179,19 +178,17 @@ class PasswordRecoveryFragment :
             is RecoverySideEffect.ClearConfirmationCode -> {
                 binding.etConfirmationCode.setCode("")
             }
+            else -> findNavController().navigateUp()
 
         }
     }
 
     private fun navigateBack(state: PasswordRecoveryScreenState) {
+        viewModel.initOnBackPressedDispatcher(requireActivity().onBackPressedDispatcher)
         with(binding) {
             when (state) {
                 is PasswordRecoveryScreenState.ConfirmationCode -> {
                     btnBack.setOnClickListener {
-                        viewModel.navigateBackToEmailState()
-                    }
-
-                    requireActivity().onBackPressedDispatcher.addCallback {
                         viewModel.navigateBackToEmailState()
                     }
 
@@ -202,18 +199,13 @@ class PasswordRecoveryFragment :
                         findNavController().navigateUp()
                     }
 
-                    requireActivity().onBackPressedDispatcher.addCallback {
-                        findNavController().navigateUp()
-                    }
                 }
 
                 is PasswordRecoveryScreenState.PasswordInput -> {
                     binding.btnBack.setOnClickListener {
                         viewModel.navigateBackToEmailState()
                     }
-                    requireActivity().onBackPressedDispatcher.addCallback {
-                        viewModel.navigateBackToEmailState()
-                    }
+
                 }
             }
         }
@@ -317,7 +309,7 @@ class PasswordRecoveryFragment :
         editText.background = ResourcesCompat.getDrawable(
             resources,
             R.drawable.text_input_background_error,
-            null
+            requireActivity().theme
         )
     }
 
@@ -325,7 +317,7 @@ class PasswordRecoveryFragment :
         editText.background = ResourcesCompat.getDrawable(
             resources,
             R.drawable.text_input_background_success,
-            null
+            requireActivity().theme
         )
     }
 
@@ -333,16 +325,16 @@ class PasswordRecoveryFragment :
         editText.background = ResourcesCompat.getDrawable(
             resources,
             R.drawable.text_input_background_neutral,
-            null
+            requireActivity().theme
         )
     }
 
     private fun showSnackbar(message: String, viewToFocus: TextInputEditText) {
         hideKeyboard()
         Snackbar.make(binding.root, message, LoginFragment.SNACKBAR_DURATION)
-            .setBackgroundTint(resources.getColor(R.color.black, null))
-            .setTextColor(resources.getColor(R.color.white, null))
-            .setActionTextColor(resources.getColor(R.color.white, null))
+            .setBackgroundTint(resources.getColor(R.color.black, requireActivity().theme))
+            .setTextColor(resources.getColor(R.color.white, requireActivity().theme))
+            .setActionTextColor(resources.getColor(R.color.white, requireActivity().theme))
             .setAction(getString(R.string.ok)) {
                 viewToFocus.requestFocus()
                 showKeyboard(viewToFocus)
@@ -372,7 +364,7 @@ class PasswordRecoveryFragment :
                 ResourcesCompat.getDrawable(
                     resources,
                     R.drawable.dialog_no_internet_background,
-                    null
+                    requireActivity().theme
                 )
             )
             .show()
