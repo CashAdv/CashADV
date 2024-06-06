@@ -16,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import app.cashadvisor.R
 import app.cashadvisor.authorization.domain.api.CredentialsRepository
 import app.cashadvisor.databinding.ActivityMainBinding
+import com.google.firebase.appdistribution.FirebaseAppDistribution
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -73,6 +74,13 @@ class MainActivity : AppCompatActivity() {
                 Timber.tag("MainActivity").d("AccountInformation: $it")
             }
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val firebaseAppDistribution = FirebaseAppDistribution.getInstance()
+        firebaseAppDistribution.updateIfNewReleaseAvailable()
 
     }
 

@@ -23,12 +23,14 @@ android {
         applicationId = "app.cashadvisor"
         minSdk = 23
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = getReleaseVersionCode()
+        versionName = "$versionCode"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         initVKID()
+
     }
+
 
     signingConfigs {
         create("release") {
@@ -130,6 +132,7 @@ task("appDistributionToQaProdQa") {
     dependsOn("appDistributionUploadProdQa")
 }
 
+
 dependencies {
 
     // Core
@@ -183,6 +186,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-appdistribution-api:16.0.0-beta13")
 
     // Auth vk
     implementation(libs.vk.auth)
@@ -218,4 +222,9 @@ fun ApplicationDefaultConfig.initVKID() {
             "VKIDClientSecret" to clientSecret
         )
     )
+}
+fun getReleaseVersionCode(): Int {
+    val process = Runtime.getRuntime().exec("git rev-list --count HEAD")
+    val commitCount = process.inputStream.bufferedReader().use { it.readLine()?.toInt() ?: 0 }
+    return commitCount + 1
 }
