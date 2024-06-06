@@ -13,11 +13,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import app.cashadvisor.authorization.domain.models.states.EmailValidationState
-import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
-import app.cashadvisor.authorization.presentation.ui.models.LoginScreenSideEffects
 import app.cashadvisor.authorization.presentation.ui.models.LoginScreenMessageContent
+import app.cashadvisor.authorization.presentation.ui.models.LoginScreenSideEffects
 import app.cashadvisor.authorization.presentation.viewmodel.LoginViewModel
+import app.cashadvisor.authorization.presentation.viewmodel.models.LoginEmailValidationState
+import app.cashadvisor.authorization.presentation.viewmodel.models.LoginPasswordValidationState
 import app.cashadvisor.authorization.presentation.viewmodel.models.LoginScreenState
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentLoginBinding
@@ -171,19 +171,19 @@ class LoginFragment :
         }
     }
 
-    private fun manageEmailValidation(state: EmailValidationState?) {
+    private fun manageEmailValidation(state: LoginEmailValidationState?) {
         state?.let {
             with(binding) {
                 when (state) {
-                    is EmailValidationState.Error -> {
+                    is LoginEmailValidationState.Error -> {
                         showErrorEditText(etEmailInput)
                     }
 
-                    is EmailValidationState.Success -> {
+                    is LoginEmailValidationState.Success -> {
                         showSuccessEditText(etEmailInput)
                     }
 
-                    EmailValidationState.Default -> {
+                    LoginEmailValidationState.Default -> {
                         showNeutralEditText(etEmailInput)
                     }
                 }
@@ -191,23 +191,23 @@ class LoginFragment :
         }
     }
 
-    private fun managePasswordValidation(state: PasswordValidationState?) {
+    private fun managePasswordValidation(state: LoginPasswordValidationState?) {
         state?.let {
             with(binding) {
                 when (state) {
-                    is PasswordValidationState.Error -> {
+                    is LoginPasswordValidationState.Error -> {
                         showErrorEditText(etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = true
                         tiPasswordInput.helperText =
                             getString(R.string.password_text_input_helper_text)
                     }
 
-                    is PasswordValidationState.Success -> {
+                    is LoginPasswordValidationState.Success -> {
                         showSuccessEditText(etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = false
                     }
 
-                    PasswordValidationState.Default -> {
+                    LoginPasswordValidationState.Default -> {
                         showNeutralEditText(etPasswordInput)
                         tiPasswordInput.isHelperTextEnabled = false
                     }

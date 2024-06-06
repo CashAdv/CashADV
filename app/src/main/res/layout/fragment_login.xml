@@ -170,13 +170,13 @@
             android:id="@+id/code_confirmation_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:symbolHeight="40dp"
-            app:symbolWidth="75dp"
+            app:symbolHeight="@dimen/login_screen_pin_code_symbol_height"
+            app:symbolWidth="@dimen/login_screen_pin_code_symbol_width"
             app:symbolsSpacing="0dp"
             app:backgroundColour="@color/bg1"
             app:backgroundCornerRadius="12dp"
             app:borderColor="@color/subcolour2"
-            app:borderWidth="2dp"
+            app:borderWidth="@dimen/login_screen_pin_code_border_width"
             app:codeLength="4"
             android:layout_marginTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -186,12 +186,11 @@
             app:symbolTextColor="@color/black"
            />
 
-
         <TextView
             android:id="@+id/tv_send_again"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="@dimen/login_screen_send_again_margin_top"
             android:paddingVertical="@dimen/login_screen_text_input_vertical_padding"
             android:text="@string/send_confirmation_code_again"
             android:textAlignment="center"

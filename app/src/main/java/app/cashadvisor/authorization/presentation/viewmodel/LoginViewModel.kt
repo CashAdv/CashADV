@@ -13,6 +13,8 @@ import app.cashadvisor.authorization.domain.models.states.EmailValidationState
 import app.cashadvisor.authorization.domain.models.states.PasswordValidationState
 import app.cashadvisor.authorization.presentation.ui.models.LoginScreenMessageContent
 import app.cashadvisor.authorization.presentation.ui.models.LoginScreenSideEffects
+import app.cashadvisor.authorization.presentation.viewmodel.models.LoginEmailValidationState
+import app.cashadvisor.authorization.presentation.viewmodel.models.LoginPasswordValidationState
 import app.cashadvisor.authorization.presentation.viewmodel.models.LoginScreenState
 import app.cashadvisor.common.domain.Resource
 import app.cashadvisor.common.domain.model.ErrorEntity
@@ -37,8 +39,8 @@ class LoginViewModel @Inject constructor(
     private val loginInteractor: LoginInteractor
 ) : BaseViewModel() {
 
-    private var emailState: EmailValidationState = EmailValidationState.Default
-    private var passwordState: PasswordValidationState = PasswordValidationState.Default
+    private var emailState: LoginEmailValidationState = LoginEmailValidationState.Default
+    private var passwordState: LoginPasswordValidationState = LoginPasswordValidationState.Default
 
     private var emailInput = ""
     private var passwordInput = ""
@@ -70,10 +72,42 @@ class LoginViewModel @Inject constructor(
     ) {
         showLoginLoading()
         viewModelScope.launch(Dispatchers.IO) {
-            emailState = inputValidationInteractor.validateEmail(emailInput.toString())
-            passwordState = inputValidationInteractor.validatePassword(passwordInput.toString())
+            val resultEmailState =
+                inputValidationInteractor.validateEmail(emailInput.toString())
+            val resultPasswordState =
+                inputValidationInteractor.validatePassword(passwordInput.toString())
 
-            if (emailState is EmailValidationState.Error || passwordState is PasswordValidationState.Error) {
+            emailState = when (resultEmailState){
+                is EmailValidationState.Success -> {
+                    LoginEmailValidationState.Success(
+                        email = resultEmailState.email)
+                }
+
+                is EmailValidationState.Error -> {
+                    LoginEmailValidationState.Error(
+                        email = resultEmailState.email,
+                        emailValidationError =  resultEmailState.emailValidationError
+                    )
+                }
+            }
+
+            passwordState = when (resultPasswordState){
+                is PasswordValidationState.Success -> {
+                        LoginPasswordValidationState.Success(
+                        password = resultPasswordState.password)
+                }
+
+                is PasswordValidationState.Error -> {
+                    LoginPasswordValidationState.Error(
+                        //password = resultPasswordState.password,
+                        passwordValidationError = resultPasswordState.passwordValidationError
+                    )
+                }
+            }
+
+            if (emailState is LoginEmailValidationState.Error
+                || passwordState is LoginPasswordValidationState.Error) {
+
                 _loginScreenState.value = LoginScreenState.CredentialsInput(
                     emailState = this@LoginViewModel.emailState,
                     passwordState = this@LoginViewModel.passwordState,
@@ -104,8 +138,8 @@ class LoginViewModel @Inject constructor(
 
             when (result) {
                 is Resource.Error -> {
-                    emailState = EmailValidationState.Default
-                    passwordState = PasswordValidationState.Default
+                    emailState = LoginEmailValidationState.Default
+                    passwordState = LoginPasswordValidationState.Default
                     _loginScreenState.value = LoginScreenState.CredentialsInput(
                         isLoginSuccessful = false,
                         isBtnLoginEnabled = true
@@ -188,11 +222,11 @@ class LoginViewModel @Inject constructor(
         if (passwordInput.toString() == this@LoginViewModel.passwordInput) return
         viewModelScope.launch {
             emailInput?.let {
-                emailState = EmailValidationState.Default
+                emailState = LoginEmailValidationState.Default
                 this@LoginViewModel.emailInput = it.toString()
             }
             passwordInput?.let {
-                passwordState = PasswordValidationState.Default
+                passwordState = LoginPasswordValidationState.Default
                 this@LoginViewModel.passwordInput = it.toString()
             }
 
@@ -230,11 +264,11 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun emitValidationErrorMessage(
-        emailValidationState: EmailValidationState,
-        passwordValidationState: PasswordValidationState
+        emailValidationState: LoginEmailValidationState,
+        passwordValidationState: LoginPasswordValidationState
     ) {
         viewModelScope.launch {
-            if (emailValidationState is EmailValidationState.Error && passwordValidationState is PasswordValidationState.Error) {
+            if (emailValidationState is LoginEmailValidationState.Error && passwordValidationState is LoginPasswordValidationState.Error) {
                 when (passwordValidationState.passwordValidationError) {
                     PasswordValidationError.PASSWORD_NOT_VALID -> {
                         _messageEvent.emit(LoginScreenMessageContent.EmailAndPasswordFormatErrors)
@@ -244,7 +278,7 @@ class LoginViewModel @Inject constructor(
                         _messageEvent.emit(LoginScreenMessageContent.EmailFormatAndPasswordCountErrors)
                     }
                 }
-            } else if (passwordValidationState is PasswordValidationState.Error) {
+            } else if (passwordValidationState is LoginPasswordValidationState.Error) {
                 when (passwordValidationState.passwordValidationError) {
                     PasswordValidationError.PASSWORD_NOT_VALID -> {
                         _messageEvent.emit(LoginScreenMessageContent.PasswordFormatError)
@@ -263,8 +297,8 @@ class LoginViewModel @Inject constructor(
     fun navigateBackToCredentialsState() {
         viewModelScope.launch {
             resendCountDownJob?.cancel()
-            emailState = EmailValidationState.Default
-            passwordState = PasswordValidationState.Default
+            emailState = LoginEmailValidationState.Default
+            passwordState = LoginPasswordValidationState.Default
             _loginScreenState.value = LoginScreenState.CredentialsInput(
                 emailState = emailState,
                 passwordState = passwordState,
@@ -277,8 +311,8 @@ class LoginViewModel @Inject constructor(
     private fun showLoginLoading(){
         viewModelScope.launch {
             _loginScreenState.value = LoginScreenState.CredentialsInput(
-                emailState = EmailValidationState.Default,
-                passwordState = PasswordValidationState.Default,
+                emailState = LoginEmailValidationState.Default,
+                passwordState = LoginPasswordValidationState.Default,
                 isLoginSuccessful = null,
                 isBtnLoginEnabled = true,
                 isLoading = true
@@ -343,14 +377,14 @@ class LoginViewModel @Inject constructor(
                             logDebugMessage(
                                 context.getString(
                                     R.string.debug_message_wrong_code_lock_duration,
-                                    (result.error.lockDuration / DURATION_CONVERTING_CONST)
+                                    (result.error.lockDuration)
                                 )
                             )
 
                             viewModelScope.launch {
                                 attemptsToSendConfirmationCode = result.error.remainingAttempts
                                 val minutesLeft =
-                                    result.error.lockDuration / DURATION_CONVERTING_CONST
+                                    result.error.lockDuration
 
                                 if (result.error.lockDuration > 0) {
                                     _sideEffects.emit(LoginScreenSideEffects.FailedToConfirmLogin(getRightEndingMinutes(minutesLeft.toInt())))
@@ -438,7 +472,5 @@ class LoginViewModel @Inject constructor(
     companion object {
         const val RESENDING_COOL_DOWN = 30000L
         const val COUNT_DOWN_INTERVAL = 1000L
-        const val DURATION_CONVERTING_CONST = 60000000000
     }
-
 }

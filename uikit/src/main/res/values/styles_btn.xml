@@ -78,4 +78,28 @@
         <item name="cornerRadius">@dimen/button_radius_10</item>
     </style>
 
+    <style name="Widget.CashAdvisor.Button.PeriodButton" >
+        <item name="android:textColor">?attr/colour1</item>
+        <item name="fontFamily">@font/intersemibold</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:letterSpacing">0.0</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:background">@drawable/button_r10_black_stroke</item>
+        <item name="cornerRadius">@dimen/button_radius_10</item>
+    </style>
+
+
+    <style name="Widget.CashAdvisor.Button.CreateAccountInactive" parent="Widget.CashAdvisor.Button.SigninButton">
+        <item name="android:textColor">?attr/bg2</item>
+        <item name="android:background">@drawable/button_r10_gray_stroke</item>
+    </style>
 </resources>

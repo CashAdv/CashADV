@@ -50,6 +50,18 @@ sealed class ErrorEntity(open val message: String) {
             RegisterConfirmationWithCode(message)
     }
 
+    sealed class Profile(override val message: String) : ErrorEntity(message) {
+        data class InvalidContent(override val message: String) : Profile(message)
+        data class UserNotAuthorized(override val message: String) : Profile(message)
+        data class FailedToGetData(override val message: String) :
+            Profile(message)
+
+        data class FailedToSaveData(override val message: String) :
+            Profile(message)
+
+        data class EmptyProfile(override val message: String = BLANC_ERROR) : Profile(message)
+    }
+
     companion object {
         const val BLANC_ERROR = ""
     }

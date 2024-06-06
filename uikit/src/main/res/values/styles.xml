@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Widget.CashAdvisor.Text" parent="TextAppearance.AppCompat">
         <item name="android:textColor">?attr/colour1</item>
@@ -58,7 +58,11 @@
         <item name="android:textColor">?attr/colour1</item>
     </style>
 
-    <!-- Start Screen Text Styles -->
+    <!-- Screen Title Text Style -->
+    <style name="Widget.CashAdvisor.Text.ScreenTitle" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">?attr/colour1</item>
+    </style>
+
     <style name="Widget.CashAdvisor.Text.HeaderStart">
         <item name="fontFamily">@font/montserratbold</item>
         <item name="android:textSize">40sp</item>
@@ -166,7 +170,21 @@
 
     <!-- Profile Text Styles -->
     <style name="Widget.CashAdvisor.Text.ProfileName" parent="Widget.CashAdvisor.Text.Text_info">
-        <item name="android:textColor">?attr/colour1</item>
+        <item name="android:textColor">@color/colour1</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.ProfileName.Settings" parent="Widget.CashAdvisor.Text.Main_Text">
+        <item name="android:textColor">@color/colour1</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.AccountBalance" parent="Widget.CashAdvisor.Text.Text_info">
+        <item name="android:textColor">@color/subcolour2</item>
+        <item name="android:textAlignment">2</item>
+    </style>
+
+    <style name="Widget.CashAdvisor.Text.Subscription" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textColor">@color/subcolour2</item>
         <item name="android:textAlignment">2</item>
     </style>
 
@@ -207,6 +225,11 @@
         <item name="android:background">@drawable/gray_button_background</item>
     </style>
 
+    <!--  Profile settings  -->
+    <style name="Widget.CashAdvisor.TextInputEditText.EditTextProfileSettings" parent="Widget.CashAdvisor.TextInputEditText">
+        <item name="android:inputType">text</item>
+    </style>
+
     <!--Login screen textInput styles-->
     <style name="EditText">
         <item name="android:background">@drawable/text_input_background_neutral</item>
@@ -241,5 +264,35 @@
     <style name="EditText.PasswordField">
         <item name="android:hint">@string/enter_password_hint</item>
         <item name="android:inputType">textPassword</item>
+    </style>
+
+    <!-- Signup styles-->
+    <style name="Widget.CashAdvisor.TextInputEditText" parent="Widget.CashAdvisor.Text.Text_cont">
+        <item name="android:textColorHint">?attr/subcolour2</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:background">@drawable/corner_rectangle_bottomsheet</item>
+        <item name="android:textCursorDrawable">@null</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+
+    </style>
+
+    <style name="Widget.CashAdvisor.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="passwordToggleContentDescription">description</item>
+        <item name="passwordToggleEnabled">true</item>
+        <item name="passwordToggleDrawable">@drawable/ic_switch_visible_password</item>
+        <item name="passwordToggleTint">@color/colour1</item>
+        <item name="hintEnabled">false</item>
+        <item name="hintAnimationEnabled">false</item>
+        <item name="expandedHintEnabled">true</item>
+        <item name="android:layout_height">@dimen/signup_height_edittext</item>
+    </style>
+
+    <style name="TextView">
+        <item name="android:layout_marginBottom">@dimen/signup_edittext_margin</item>
+        <item name="android:layout_marginTop">@dimen/signup_edittext_margin_top</item>
     </style>
 </resources>

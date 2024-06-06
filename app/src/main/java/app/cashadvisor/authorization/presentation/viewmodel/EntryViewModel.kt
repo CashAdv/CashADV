@@ -15,6 +15,7 @@ class EntryViewModel @Inject constructor() : BaseViewModel() {
     private var _state = MutableStateFlow<EntryScreenState>(EntryScreenState.Default)
     val state: StateFlow<EntryScreenState>
         get() = _state
+
     private var coolDownDebounce: ((Unit) -> Unit) = debounce(
         COOL_DOWN_DELAY,
         viewModelScope

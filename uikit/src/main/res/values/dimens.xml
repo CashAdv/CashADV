@@ -39,12 +39,44 @@
     <dimen name="login_screen_btn_send_again_top_margin">52dp</dimen>
     <dimen name="login_screen_edit_text_stroke_width">1dp</dimen>
     <dimen name="login_screen_login_btn_top_margin">80dp</dimen>
+    <dimen name="login_screen_pin_code_symbol_height">40dp</dimen>
+    <dimen name="login_screen_pin_code_symbol_width">75dp</dimen>
+    <dimen name="login_screen_pin_code_border_width">2dp</dimen>
     <dimen name="login_screen_progress_bar_size">24dp</dimen>
+    <dimen name="login_screen_send_again_margin_top">85dp</dimen>
+
+    <!-- Signup screen-->
+    <dimen name="signup_screen_basic_horizontal_margin">38dp</dimen>
+    <dimen name="signup_screen_title_top_margin">11dp</dimen>
+    <dimen name="signup_account_data_between_margin">5dp</dimen>
+    <dimen name="signup_edittext_margin">5dp</dimen>
+    <dimen name="signup_edittext_margin_top">10dp</dimen>
+    <dimen name="signup_steps_block_data_between_margin">30dp</dimen>
+    <dimen name="signup_text_field_input_field_between_margin">0dp</dimen>
+    <dimen name="signup_height_edittext">40dp</dimen>
+    <dimen name="signup_input_field_text_field_between_margin">5dp</dimen>
+    <dimen name="signup_height_btn_back">40dp</dimen>
+    <dimen name="signup_width_btn_back">140dp</dimen>
+    <dimen name="signup_btn_back_top_margin">40dp</dimen>
+    <dimen name="signup_screen_btn_send_again_top_margin">40dp</dimen>
+    <dimen name="signup_padding_text_view_5">5dp</dimen>
+    <dimen name="signup_padding_text_view_10">10dp</dimen>
+    <dimen name="signup_padding_text_view_12">12dp</dimen>
+    <dimen name="signup_padding_text_view_14">14dp</dimen>
+    <dimen name="signup_margin_text_view">20dp</dimen>
 
     <dimen name="symbol_view_text_size">16sp</dimen>
 
+    <!--  Profile settings  -->
+    <dimen name="root_layout_horizontal_padding">36dp</dimen>
+    <dimen name="views_margin">20dp</dimen>
+    <dimen name="profile_pic_size">45dp</dimen>
 
 
-
+    <!--  Profile header dimens  -->
+    <dimen name="header_margin_horizontal">36dp</dimen>
+    <dimen name="header_margin_top">12dp</dimen>
+    <dimen name="header_margin_bottom">20dp</dimen>
+    <dimen name="header_padding">16dp</dimen>
 
 </resources>

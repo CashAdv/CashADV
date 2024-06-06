@@ -6,16 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".settings.presentation.ui.FeaturesAndSettingsFragment">
 
+    <app.cashadvisor.customView.ProfileHeaderSettings
+        android:id="@+id/profile_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/header_margin_horizontal"
+        android:layout_marginTop="@dimen/header_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/bottom_navigation_height"
+        android:layout_marginTop="@dimen/header_margin_bottom"
         android:text="ПРИЛОЖЕНИЕ            НАСТРОЙКИ"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/profile_header" />
 
     <Button
         android:id="@+id/btn_accounts"
