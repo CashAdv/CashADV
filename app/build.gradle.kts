@@ -23,8 +23,8 @@ android {
         applicationId = "app.cashadvisor"
         minSdk = 23
         targetSdk = 34
-        versionCode = getReleaseVersionCode()
-        versionName = "$versionCode"
+        versionCode = 1
+        versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
         initVKID()
@@ -223,8 +223,4 @@ fun ApplicationDefaultConfig.initVKID() {
         )
     )
 }
-fun getReleaseVersionCode(): Int {
-    val process = Runtime.getRuntime().exec("git rev-list --count HEAD")
-    val commitCount = process.inputStream.bufferedReader().use { it.readLine()?.toInt() ?: 0 }
-    return commitCount + 1
-}
+

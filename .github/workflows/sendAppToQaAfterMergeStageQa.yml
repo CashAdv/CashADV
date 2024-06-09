@@ -1,11 +1,11 @@
 name: Build and sent to QA stageQa
 
 on:
-  # Triggers the workflow when pull request closed events but only for the "dev" branch
+  # Triggers the workflow when pull request closed
   pull_request:
     types:
       - closed
-    branches: [ "dev" ]
+
 
   workflow_dispatch:
 
@@ -29,7 +29,7 @@ jobs:
         run: |
           echo "$CREDENTIAL_FILE_CONTENT" > ./app/serviceCredentialsFile.json
           echo "App type: stageQa" >> ./app/src/releaseNotes.txt
-          echo "buildNumber=${GITHUB_RUN_NUMBER}" >> ./app/src/releaseNotes.txt
+          echo "buildNumber==${GITHUB_SHA::7}">> ./app/src/releaseNotes.txt
           ./gradlew appDistributionToQaStageQa
 
       - name: Check status
