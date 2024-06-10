@@ -2,12 +2,13 @@ package app.cashadvisor.authorization.di
 
 import app.cashadvisor.authorization.data.api.LoginApiService
 import app.cashadvisor.authorization.data.api.RegisterApiService
+import app.cashadvisor.authorization.data.api.ResetPasswordApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Retrofit
 import javax.inject.Singleton
+import retrofit2.Retrofit
 
 
 @Module
@@ -23,5 +24,11 @@ class AuthenticationNetworkModule {
     @Singleton
     fun provideLoginApiService(retrofit: Retrofit): LoginApiService {
         return retrofit.create(LoginApiService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideResetPasswordApiService(retrofit: Retrofit):ResetPasswordApiService{
+        return retrofit.create(ResetPasswordApiService::class.java)
     }
 }
