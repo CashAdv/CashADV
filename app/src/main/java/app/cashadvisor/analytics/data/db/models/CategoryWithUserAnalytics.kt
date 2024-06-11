@@ -1,4 +1,4 @@
-package app.cashadvisor.analytics.data.db
+package app.cashadvisor.analytics.data.db.models
 
 import androidx.room.Embedded
 import androidx.room.Relation

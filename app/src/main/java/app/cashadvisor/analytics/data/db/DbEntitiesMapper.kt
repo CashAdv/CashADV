@@ -1,7 +1,10 @@
 package app.cashadvisor.analytics.data.db
 
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
+import app.cashadvisor.analytics.data.db.entities.TotalAmountByCategoryIdEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.models.Category
+import app.cashadvisor.analytics.data.db.models.TotalAmountByCategoryId
 import app.cashadvisor.profile.data.dto.response.CategorySettingsDto
 import app.cashadvisor.profile.data.dto.response.ExpenseCategoryDto
 import app.cashadvisor.profile.data.dto.response.ExpenseDto
@@ -25,6 +28,15 @@ fun List<ExpenseDto>.asExpenseEntityList(): List<UserAnalyticsEntity> =
 
 fun List<WealthFundDto>.asWealthEntityList(): List<UserAnalyticsEntity> =
     this.map { it.asWealthEntity() }
+
+fun List<TotalAmountByCategoryIdEntity>.asTotalAmountByCategoryIdList(): List<TotalAmountByCategoryId> =
+    this.map { it.asTotalAmountByCategoryId() }
+
+fun TotalAmountByCategoryIdEntity.asTotalAmountByCategoryId(): TotalAmountByCategoryId =
+    TotalAmountByCategoryId(
+        categoryId = this.categoryId,
+        amount = this.amount
+    )
 
 fun IncomeDto.asIncomeEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     id = this.id,
@@ -63,7 +75,8 @@ fun WealthFundDto.asWealthEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
 )
 
 fun CategorySettingsDto.asCategoryEntity(): List<CategoryEntity> =
-    this.expenseCategoriesDto.asExpenseCategoryList().plus(this.incomeCategories.asIncomeCategoryList())
+    this.expenseCategoriesDto.asExpenseCategoryList()
+        .plus(this.incomeCategories.asIncomeCategoryList())
         .plus(this.investmentCategoriesDto.asInvestmentCategoryList())
 
 fun List<ExpenseCategoryDto>.asExpenseCategoryList(): List<CategoryEntity> =

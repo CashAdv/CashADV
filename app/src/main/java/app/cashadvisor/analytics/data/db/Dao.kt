@@ -4,7 +4,9 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
+import app.cashadvisor.analytics.data.db.entities.TotalAmountByCategoryIdEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.models.CategoryWithUserAnalytics
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -15,7 +17,7 @@ interface Dao {
     @Upsert
     fun upsertCategoryEntity(categoryEntity: List<CategoryEntity>)
 
-    @Query("SELECT * FROM categoryTable")
+    @Query("SELECT * FROM categoryAnalyticsTable")
     fun getCategoryWithUserAnalytics(): Flow<List<CategoryWithUserAnalytics>>
 
     @Query("DELETE FROM userAnalyticsTable")
@@ -26,4 +28,7 @@ interface Dao {
 
     @Query("DELETE FROM categoryAnalyticsTable")
     fun removeAllCategoryAnalyticsTable()
+
+    @Query("SELECT amount, categoryId FROM categoryAnalyticsTable GROUP BY categoryId")
+    fun getTotalAmountsGroupByCategoryId(): Flow<List<TotalAmountByCategoryIdEntity>>
 }
