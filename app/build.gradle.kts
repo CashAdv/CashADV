@@ -1,6 +1,6 @@
+import com.android.build.api.dsl.ApplicationDefaultConfig
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.google.firebase.appdistribution.gradle.firebaseAppDistribution
-import com.android.build.api.dsl.ApplicationDefaultConfig
 
 plugins {
     alias(libs.plugins.android.application)
@@ -183,6 +183,7 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
     implementation(platform(libs.firebase.bom))
+    implementation("com.google.firebase:firebase-appdistribution-api:16.0.0-beta13")
 
     // Auth vk
     implementation(libs.vk.auth)
