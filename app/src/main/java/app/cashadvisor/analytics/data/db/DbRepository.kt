@@ -19,11 +19,6 @@ class DbRepository(private val dao: Dao) {
 
     //localDatasorce
 
-    suspend fun getTotalAmountsGroupByCategoryId(): Flow<List<TotalAmountByCategoryIdEntity>>{
-        return withContext(Dispatchers.IO){
-            dao.getTotalAmountsGroupByCategoryId()
-        }
-    }
     suspend fun upsertUserAnalytics(userAnalyticsEntity: List<UserAnalyticsEntity>){
         withContext(Dispatchers.IO){
             dao.upsertUserAnalyticsEntity(userAnalyticsEntity)
@@ -33,30 +28,6 @@ class DbRepository(private val dao: Dao) {
     suspend fun upsertCategory(categoryEntity: List<CategoryEntity>){
         withContext(Dispatchers.IO){
             dao.upsertCategoryEntity(categoryEntity)
-        }
-    }
-
-    suspend fun getCategoryWithUserAnalytics(): Flow<List<CategoryWithUserAnalytics>> {
-        return withContext(Dispatchers.IO){
-            dao.getCategoryWithUserAnalytics()
-        }
-    }
-
-    suspend fun removeAllUserAnalyticsTable(){
-        withContext(Dispatchers.IO){
-            dao.removeAllUserAnalyticsTable()
-        }
-    }
-
-    suspend fun removeAllCategoryTable(){
-        withContext(Dispatchers.IO){
-            dao.removeAllCategoryTable()
-        }
-    }
-
-    suspend fun removeAllCategoryAnalyticsTable(){
-        withContext(Dispatchers.IO){
-            dao.removeAllCategoryAnalyticsTable()
         }
     }
 }

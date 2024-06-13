@@ -17,18 +17,10 @@ interface Dao {
     @Upsert
     fun upsertCategoryEntity(categoryEntity: List<CategoryEntity>)
 
-    @Query("SELECT * FROM categoryAnalyticsTable")
-    fun getCategoryWithUserAnalytics(): Flow<List<CategoryWithUserAnalytics>>
-
     @Query("DELETE FROM userAnalyticsTable")
     fun removeAllUserAnalyticsTable()
 
     @Query("DELETE FROM categoryTable")
     fun removeAllCategoryTable()
 
-    @Query("DELETE FROM categoryAnalyticsTable")
-    fun removeAllCategoryAnalyticsTable()
-
-    @Query("SELECT amount, categoryId FROM categoryAnalyticsTable GROUP BY categoryId")
-    fun getTotalAmountsGroupByCategoryId(): Flow<List<TotalAmountByCategoryIdEntity>>
 }

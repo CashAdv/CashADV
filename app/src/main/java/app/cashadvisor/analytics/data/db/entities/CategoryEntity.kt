@@ -2,10 +2,16 @@ package app.cashadvisor.analytics.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = "categoryTable")
+@Entity(tableName = "categoryTable",
+    foreignKeys = [ForeignKey(
+        entity = UserAnalyticsEntity::class,
+        parentColumns = arrayOf("categoryId"),
+        childColumns = arrayOf("id")
+    )])
 data class CategoryEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")

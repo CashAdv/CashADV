@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import app.cashadvisor.analytics.data.db.entities.CategoryAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.TotalAmountByCategoryIdEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
@@ -13,7 +12,6 @@ import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
     entities = [
         UserAnalyticsEntity::class,
         CategoryEntity::class,
-        CategoryAnalyticsEntity::class,
         TotalAmountByCategoryIdEntity::class],
     version = 1
 )
