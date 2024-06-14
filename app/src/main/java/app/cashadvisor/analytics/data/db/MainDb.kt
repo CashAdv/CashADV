@@ -5,14 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.data.db.entities.TotalAmountByCategoryIdEntity
+import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 
 @Database(
     entities = [
         UserAnalyticsEntity::class,
         CategoryEntity::class,
-        TotalAmountByCategoryIdEntity::class],
+        CategoryWithUserAnalyticsEntity::class],
     version = 1
 )
 abstract class MainDb : RoomDatabase() {

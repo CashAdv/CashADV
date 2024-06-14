@@ -5,27 +5,30 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "userAnalyticsTable"
-)
+@Entity(tableName = "userAnalyticsTable",
+    foreignKeys = [ForeignKey(
+        entity = CategoryEntity::class,
+        parentColumns = arrayOf("id"),
+        childColumns = arrayOf("categoryId")
+    )])
 data class UserAnalyticsEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: String,
+    val id: String,
     @ColumnInfo(name = "amount")
-    var amount: Int,
+    val amount: Int,
     @ColumnInfo(name = "categoryId")
-    var categoryId: String,
+    val categoryId: String,
     @ColumnInfo(name = "date")
-    var date: String,
+    val date: String,
     @ColumnInfo(name = "planned")
-    var planned: Boolean,
+    val planned: Boolean,
     @ColumnInfo(name = "userId")
-    var userId: String,
+    val userId: String,
     @ColumnInfo(name = "bankAccount")
-    var bankAccount: String,
+    val bankAccount: String,
     @ColumnInfo(name = "currency")
-    var currency: String,
+    val currency: String,
     @ColumnInfo(name = "comment")
-    var comment: String
+    val comment: String
 )

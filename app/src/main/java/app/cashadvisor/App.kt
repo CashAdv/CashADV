@@ -31,13 +31,14 @@ class App : Application() {
         val categoryEntityList = testCategoryResponse.asCategoryEntity()
         val userAnalyticsEntityList = testUserAnalyticsResponse.asUserAnalyticsEntity()
 
-        val db = MainDb.getDb(this)
-        val dao = db.getDao()
 
-        val dbRepository = DbRepository(dao)
 
         runBlocking {
             launch(Dispatchers.IO){
+                val db = MainDb.getDb(this@App)
+                val dao = db.getDao()
+
+                val dbRepository = DbRepository(dao)
                 dbRepository.upsertCategory(categoryEntityList)
                 dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
             }
