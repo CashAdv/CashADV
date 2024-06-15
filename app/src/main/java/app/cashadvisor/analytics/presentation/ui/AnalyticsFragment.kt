@@ -1,18 +1,20 @@
 package app.cashadvisor.analytics.presentation.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.annotation.IdRes
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.R
+import app.cashadvisor.analytics.presentation.model.AnalyticType
+import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentAnalyticsBinding
+import java.util.Date
 
-class AnalyticsFragment : Fragment() {
+class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>(FragmentAnalyticsBinding::inflate) {
 
-    private var _binding: FragmentAnalyticsBinding? = null
-    private val binding get() = _binding!!
+    override val viewModel: AnalyticsViewModel by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,14 +22,6 @@ class AnalyticsFragment : Fragment() {
         arguments?.let {
 
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAnalyticsBinding.inflate(layoutInflater, container, false)
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,8 +83,39 @@ class AnalyticsFragment : Fragment() {
 
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onConfigureViews() {
+        with (binding) {
+            cgAnalyticType.setOnCheckedStateChangeListener { chipGroup, _ ->
+                Log.e("rrr", "chipGroup.checkedChipId = " + chipGroup.checkedChipId)
+                setAnalyticType(chipGroup.checkedChipId)
+            }
+            cgPlanned.setOnCheckedStateChangeListener { chipGroup, _ ->
+                setPlanned(chipGroup.checkedChipId)
+            }
+            // добавить выбор периода setPeriod
+        }
+    }
+
+    override fun onSubscribe() {
+
+    }
+
+    private fun setAnalyticType(@IdRes checkedChipId: Int) {
+        val type = when (checkedChipId) {
+            binding.btnIncome.id -> AnalyticType.INCOME
+            binding.btnExpense.id -> AnalyticType.EXPENSE
+            binding.btnSaving.id -> AnalyticType.SAVING
+            else -> AnalyticType.INCOME
+        }
+        viewModel.setAnalyticType(type)
+    }
+
+    private fun setPlanned(@IdRes checkedChipId: Int) {
+        val planned = checkedChipId == binding.btnPlanFilter.id
+        viewModel.setPlanned(planned)
+    }
+
+    private fun setPeriod(beginDate: Date, endDate: Date) {
+        viewModel.setPeriod(beginDate, endDate)
     }
 }
