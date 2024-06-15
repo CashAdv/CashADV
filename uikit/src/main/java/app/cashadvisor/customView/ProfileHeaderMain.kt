@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.AttrRes
@@ -21,20 +22,22 @@ class ProfileHeaderMain @JvmOverloads constructor(
     @StyleRes defStyleRes: Int = R.style.DefaultProfileHeaderStyle,
 ) : ConstraintLayout(context, attrs, defStyleAttr, defStyleRes) {
 
-    private val tvUserName: TextView
-    private val tvAccountBalance: TextView
-    private val ivProfilePic: ImageView
+    private val userNameTextView: TextView
+    private val accountBalanceTextView: TextView
+    private val profilePicImageView: ImageView
+    private val periodButton: Button
+
 
     var userName: String = ""
         set(value) {
             field = value
-            tvUserName.text = value
+            userNameTextView.text = value
         }
 
     var accountBalance: String = ""
         set(value) {
             field = value
-            tvAccountBalance.text = value
+            accountBalanceTextView.text = value
         }
 
     var profilePicUri: Uri = Uri.EMPTY
@@ -49,16 +52,24 @@ class ProfileHeaderMain @JvmOverloads constructor(
                     )
                 )
                 .apply(RequestOptions.circleCropTransform())
-                .into(ivProfilePic)
+                .into(profilePicImageView)
+        }
+
+    var period: String = ""
+        set(value) {
+            field = value
+            periodButton.text = value
         }
 
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.layout_profile_header_main, this, true)
+        LayoutInflater.from(context)
+            .inflate(R.layout.layout_profile_header_main, this, true)
 
-        tvUserName = findViewById(R.id.tv_name)
-        tvAccountBalance = findViewById(R.id.tv_account_balance)
-        ivProfilePic = findViewById(R.id.iv_profile_pic)
+        userNameTextView = findViewById(R.id.tv_name)
+        accountBalanceTextView = findViewById(R.id.tv_account_balance)
+        profilePicImageView = findViewById(R.id.iv_profile_pic)
+        periodButton = findViewById(R.id.btn_period)
 
         context.theme.obtainStyledAttributes(
             attrs,
@@ -71,10 +82,12 @@ class ProfileHeaderMain @JvmOverloads constructor(
                 val userName = getString(R.styleable.ProfileHeaderMain_userNameText)
                 val balance = getString(R.styleable.ProfileHeaderMain_balanceAccountText)
                 val profilePic = getDrawable(R.styleable.ProfileHeaderMain_profilePicResId)
+                val period = getString(R.styleable.ProfileHeaderMain_btnPeriodText)
 
-                tvUserName.text = userName
-                tvAccountBalance.text = balance
-                ivProfilePic.setImageDrawable(profilePic)
+                userNameTextView.text = userName
+                accountBalanceTextView.text = balance
+                profilePicImageView.setImageDrawable(profilePic)
+                periodButton.text = period
 
 
             } finally {

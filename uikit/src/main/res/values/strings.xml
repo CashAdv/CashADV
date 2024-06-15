@@ -73,8 +73,6 @@
     <string name="save">Сохранить</string>
     <string name="hint_name">Имя</string>
     <string name="hint_surname">Фамилия</string>
-    <string name="setup_profile">Настроить профиль</string>
-    <string name="empty_balance">₽ 0,00</string>
     <string name="no_subscription">Нет подписки</string>
     <string name="name_cant_be_empty">Поле "Имя" обязательно для заполнения</string>
     <string name="error_surname_format">Фамилия может содержать от 1 до 50 латинского или русского алфавита</string>
@@ -104,4 +102,10 @@
     <string name="invalid_password_length">Пароль должен содержать не менее 8 знаков</string>
     <string name="invalid_confirm_password">Введенные пароли не совпадают</string>
     <string name="email_already_exist">Учетная запись с такой электронной почтой уже существует</string>
+
+    <!--Header custom view-->
+    <string name="profile_picture">Картинка профиля</string>
+    <string name="setup_profile">Настроить профиль</string>
+    <string name="empty_balance">₽ 0,00</string>
+    <string name="period">Май 2024</string>
 </resources>
