@@ -223,21 +223,21 @@
         app:constraint_referenced_ids="piAnalyticProgress,tvProgressLabel,tvProgressPercent,tvProgressInfoLabel,tvProgressInfoAmount"/>
 
     <Button
-        android:id="@+id/btn_add_bank"
+        android:id="@+id/btnAdd"
         style="@style/Widget.CashAdvisor.Button.Colour2FilledButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/mp_24dp"
-        app:layout_constraintEnd_toStartOf="@+id/btn_add_manually"
+        app:layout_constraintEnd_toStartOf="@+id/btnExAdd"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_add_manually"
+        app:layout_constraintStart_toEndOf="@+id/btnExAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvProgressPercent"
         android:text="@string/mp_add_bank_button"
         android:visibility="visible"/>
 
     <Button
-        android:id="@+id/btn_add_manually"
+        android:id="@+id/btnExAdd"
         style="@style/Widget.CashAdvisor.Button.Bg2FilledButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -245,6 +245,6 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btn_add_bank"
-        app:layout_constraintTop_toTopOf="@id/btn_add_bank"/>
+        app:layout_constraintStart_toEndOf="@+id/btnAdd"
+        app:layout_constraintTop_toTopOf="@id/btnAdd"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
