@@ -148,6 +148,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.INCOME,
         planned = true,
         amount = BigDecimal.valueOf(75000.00),
+        completePercent = 100.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     CategorySummary(
@@ -156,16 +157,18 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.INCOME,
         planned = true,
         amount = BigDecimal.valueOf(25000.00),
+        completePercent = 80.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
 
-    // Расходы факт
+    // Расходы план
     CategorySummary(
         id = 22,
         name = "Еда",
         analyticType = AnalyticType.EXPENSE,
         planned = true,
         amount = BigDecimal.valueOf(20000.00),
+        completePercent = 80.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     CategorySummary(
@@ -174,6 +177,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.EXPENSE,
         planned = true,
         amount = BigDecimal.valueOf(10000.00),
+        completePercent = 00.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     CategorySummary(
@@ -182,6 +186,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.EXPENSE,
         planned = true,
         amount = BigDecimal.valueOf(10000.00),
+        completePercent = 10.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     CategorySummary(
@@ -190,6 +195,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.EXPENSE,
         planned = true,
         amount = BigDecimal.valueOf(5000.00),
+        completePercent = 0.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     CategorySummary(
@@ -198,6 +204,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         analyticType = AnalyticType.EXPENSE,
         planned = true,
         amount = BigDecimal.valueOf(5000.00),
+        completePercent = 0.0,
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
     // Фонд благосостояния план

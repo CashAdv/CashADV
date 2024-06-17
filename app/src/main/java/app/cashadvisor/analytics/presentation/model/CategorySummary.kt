@@ -8,5 +8,6 @@ data class CategorySummary(
     val analyticType: AnalyticType,
     val planned: Boolean,
     val amount: BigDecimal,
+    val completePercent: Double? = null,
     val subcategoryList: List<SubcategorySummary>?,
 )

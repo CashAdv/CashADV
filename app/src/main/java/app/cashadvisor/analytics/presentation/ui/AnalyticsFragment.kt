@@ -1,7 +1,6 @@
 package app.cashadvisor.analytics.presentation.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
@@ -82,7 +81,6 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
     }
 
     private fun renderState(state: AnalyticsUiState) {
-        Log.e("rrr", "render state = " + state.javaClass.name)
         binding.ltProgressView.root.isVisible = state is AnalyticsUiState.Loading
         binding.svAnalyticInfo.isVisible = state is AnalyticsUiState.Content
         binding.tvAnalyticInfoHeader.isVisible = state is AnalyticsUiState.Content

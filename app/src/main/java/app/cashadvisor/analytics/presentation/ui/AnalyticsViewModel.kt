@@ -64,8 +64,8 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
                                 categorySummary ->  categorySummary.analyticType == params.analyticType &&
                                 categorySummary.planned == params.planned
                         },
-                        completePercent = getCategoryProgress(true),
-                        remainAmount = getCategoryProgress(false)
+                        completePercent = getTotalCategoryProgress(true),
+                        remainAmount = getTotalCategoryProgress(false)
                     )
                 } else {
                     loadData(params)
@@ -103,8 +103,8 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
                 categorySummary.analyticType == filterParams.value.analyticType &&
                         categorySummary.planned == filterParams.value.planned
             },
-            completePercent = getCategoryProgress(true),
-            remainAmount = getCategoryProgress(false)
+            completePercent = getTotalCategoryProgress(true),
+            remainAmount = getTotalCategoryProgress(false)
         )
     }
 
@@ -127,7 +127,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         )
     }
 
-    private fun getCategoryProgress(asPercentage: Boolean): BigDecimal {
+    private fun getTotalCategoryProgress(asPercentage: Boolean): BigDecimal {
         var progress = BigDecimal.valueOf(0)
         if (!filterParams.value.planned) {
             return progress
