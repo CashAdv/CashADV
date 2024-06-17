@@ -3,7 +3,9 @@ package app.cashadvisor.analytics.presentation.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -77,11 +79,27 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         if (state.filterParams.planned) {
             with (binding) {
                 tvProgressInfoLabel.text = getProgressInfoLabelText(state.filterParams.analyticType)
-                tvProgressPercent.text = String.format("%s %%", state.getCategoryProgress(true).formatAmount())
+                val percent = state.getCategoryProgress(true)
+                val defaultDrawable = state.getTotalAmountByFilter().compareTo(BigDecimal.ZERO) == 0
+                piAnalyticProgress.progressDrawable = AppCompatResources.getDrawable(
+                    requireContext(),
+                    getProgressDrawable(defaultDrawable)
+                )
+                piAnalyticProgress.progress = percent.toInt()
+                tvProgressPercent.text = String.format("%s %%", percent.formatAmount())
                 tvProgressInfoAmount.text = state.getCategoryProgress(false).formatAmount()
                 grProgress.isVisible = true
             }
 
+        }
+    }
+
+    @DrawableRes
+    private fun getProgressDrawable(defaultDrawable: Boolean): Int {
+        return if (defaultDrawable) {
+            app.cashadvisor.uikit.R.drawable.gradient_linear_progress_bar
+        } else {
+            app.cashadvisor.uikit.R.drawable.linear_progress_bar
         }
     }
 

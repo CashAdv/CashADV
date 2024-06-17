@@ -132,8 +132,8 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         amount = BigDecimal.valueOf(5000.00),
         subcategoryList = listOf() // List<SubcategorySummary>
     ),
-    // Фонд благосостояния факт
-    CategorySummary(
+    // Фонд благосостояния план
+ /*   CategorySummary(
         id = 25,
         name = "Инвестиции",
         analyticType = AnalyticType.SAVING,
@@ -156,7 +156,7 @@ val categorySummaryList :List<CategorySummary>  = listOf (
         planned = true,
         amount = BigDecimal.valueOf(0.00),
         subcategoryList = listOf() // List<SubcategorySummary>
-    ),
+    ),*/
 )
 
 val account = Account(
