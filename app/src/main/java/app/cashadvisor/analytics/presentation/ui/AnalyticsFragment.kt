@@ -12,10 +12,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import app.cashadvisor.R
 import app.cashadvisor.analytics.presentation.formatAmount
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.FilterParams
+import app.cashadvisor.analytics.presentation.ui.adapter.AnalyticInfoAdapter
 import app.cashadvisor.analytics.presentation.ui.state.AnalyticsUiState
 import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentAnalyticsBinding
@@ -27,7 +29,7 @@ import java.util.Date
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>(FragmentAnalyticsBinding::inflate) {
 
     override val viewModel: AnalyticsViewModel by viewModels()
-
+    private val analyticInfoAdapter by lazy { AnalyticInfoAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,12 +44,13 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         binding.profileHeader.setOnClickListener {
             findNavController().navigate(R.id.action_analyticsFragment_to_profileSettingsFragment)
         }
+
+        initRecyclerView()
     }
 
     override fun onConfigureViews() {
         with (binding) {
             cgAnalyticType.setOnCheckedStateChangeListener { chipGroup, _ ->
-                Log.e("rrr", "chipGroup.checkedChipId = " + chipGroup.checkedChipId)
                 setAnalyticType(chipGroup.checkedChipId)
             }
             cgPlanned.setOnCheckedStateChangeListener { chipGroup, _ ->
@@ -67,11 +70,30 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         }
     }
 
+    private fun initRecyclerView() {
+        with(binding.rvAnalyticInfo) {
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.VERTICAL,
+                false
+            )
+            adapter = analyticInfoAdapter
+        }
+    }
+
     private fun renderState(state: AnalyticsUiState) {
-        val content = state as AnalyticsUiState.Content
-        setTotalAnalyticAmount(content.getTotalAmountByFilter())
-        tuneCategoryProgressBar(state)
-        tuneNavigationForState(content.filterParams)
+        Log.e("rrr", "render state = " + state.javaClass.name)
+        binding.ltProgressView.root.isVisible = state is AnalyticsUiState.Loading
+        binding.svAnalyticInfo.isVisible = state is AnalyticsUiState.Content
+
+        if (state is AnalyticsUiState.Content) {
+            val content = state as AnalyticsUiState.Content
+            binding.tvAnalyticInfoPlaceHolder.isVisible = state.data.isNullOrEmpty()
+            analyticInfoAdapter.submitList(state.data)
+            setTotalAnalyticAmount(content.getTotalAmountByFilter())
+            tuneCategoryProgressBar(state)
+            tuneNavigationForState(content.filterParams)
+        }
     }
 
     private fun tuneCategoryProgressBar(state: AnalyticsUiState.Content) {
@@ -79,7 +101,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         if (state.filterParams.planned) {
             with (binding) {
                 tvProgressInfoLabel.text = getProgressInfoLabelText(state.filterParams.analyticType)
-                val percent = state.getCategoryProgress(true)
+                val percent = state.completePercent
                 val defaultDrawable = state.getTotalAmountByFilter().compareTo(BigDecimal.ZERO) == 0
                 piAnalyticProgress.progressDrawable = AppCompatResources.getDrawable(
                     requireContext(),
@@ -87,7 +109,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
                 )
                 piAnalyticProgress.progress = percent.toInt()
                 tvProgressPercent.text = String.format("%s %%", percent.formatAmount())
-                tvProgressInfoAmount.text = state.getCategoryProgress(false).formatAmount()
+                tvProgressInfoAmount.text = state.remainAmount.formatAmount()
                 grProgress.isVisible = true
             }
 
