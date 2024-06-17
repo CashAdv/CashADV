@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import app.cashadvisor.R
+import app.cashadvisor.analytics.presentation.formatAmount
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.FilterParams
 import app.cashadvisor.analytics.presentation.ui.state.AnalyticsUiState
@@ -18,6 +19,7 @@ import app.cashadvisor.common.ui.BaseFragment
 import app.cashadvisor.databinding.FragmentAnalyticsBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.util.Date
 
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>(FragmentAnalyticsBinding::inflate) {
@@ -65,7 +67,34 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
 
     private fun renderState(state: AnalyticsUiState) {
         val content = state as AnalyticsUiState.Content
+        setTotalAnalyticAmount(content.getTotalAmountByFilter())
+        tuneCategoryProgressBar(state)
         tuneNavigationForState(content.filterParams)
+    }
+
+    private fun tuneCategoryProgressBar(state: AnalyticsUiState.Content) {
+        binding.grProgress.isVisible = false
+        if (state.filterParams.planned) {
+            with (binding) {
+                tvProgressInfoLabel.text = getProgressInfoLabelText(state.filterParams.analyticType)
+                tvProgressPercent.text = String.format("%s %%", state.getCategoryProgress(true).formatAmount())
+                tvProgressInfoAmount.text = state.getCategoryProgress(false).formatAmount()
+                grProgress.isVisible = true
+            }
+
+        }
+    }
+
+    private fun getProgressInfoLabelText(type: AnalyticType): String {
+        return when (type) {
+            AnalyticType.INCOME -> getString(app.cashadvisor.uikit.R.string.mp_progress_info_income_label)
+            AnalyticType.EXPENSE -> getString(app.cashadvisor.uikit.R.string.mp_progress_info_expense_label)
+            else -> getString(app.cashadvisor.uikit.R.string.mp_progress_info_saving_label)
+        }
+    }
+
+    private fun setTotalAnalyticAmount(amount: BigDecimal) {
+        binding.tvAnalyticAmount.text = amount.formatAmount()
     }
 
     private fun tuneNavigationForState(params: FilterParams) {

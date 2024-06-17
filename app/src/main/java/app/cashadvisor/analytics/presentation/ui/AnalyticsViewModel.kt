@@ -2,6 +2,7 @@ package app.cashadvisor.analytics.presentation.ui
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import app.cashadvisor.analytics.presentation.MockData
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.FilterParams
 import app.cashadvisor.analytics.presentation.ui.state.AnalyticsUiState
@@ -29,6 +30,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
 
     private fun observeFilterParams() {
         viewModelScope.launch {
+            Log.e("rrr", "observeFilterParams")
             filterParams.collectLatest{ params -> applyFilter(params) }
         }
     }
@@ -39,8 +41,10 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         Log.e("rrr", "params.analyticType = " + params.analyticType.toString())
         Log.e("rrr", "params.planned = " + params.planned.toString())
         _analyticsUiState.value = _analyticsUiState.value.copy(
-            filterParams = params.copy()
+            filterParams = params.copy(),
+            data = MockData.getCategorySummaryList(params.beginDate, params.endDate)
         )
+        Log.e("rrr", _analyticsUiState.value.data.toString())
     }
 
     fun setAnalyticType(analyticType: AnalyticType) {
@@ -59,6 +63,14 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         _filterParams.value = _filterParams.value.copy(
             beginDate = beginDate,
             endDate = endDate
+        )
+    }
+
+    fun refreshData() {
+        _analyticsUiState.value = _analyticsUiState.value.copy(
+            data = MockData.getCategorySummaryList(
+                _analyticsUiState.value.filterParams.beginDate,
+                _analyticsUiState.value.filterParams.endDate)
         )
     }
 }

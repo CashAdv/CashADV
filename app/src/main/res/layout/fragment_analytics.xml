@@ -205,22 +205,33 @@
         android:text="14,55 %"/>
 
     <TextView
-        android:id="@+id/tvProgressInfoAmount"
+        android:id="@+id/tvProgressInfoAmountCurrency"
         style="@style/Widget.CashAdvisor.Text.num_reg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tvProgressInfoLabel"
         app:layout_constraintStart_toEndOf="@id/tvProgressLabel"
-        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        app:layout_constraintEnd_toStartOf="@id/tvProgressInfoAmount"
         android:textAlignment="textEnd"
-        android:text="₽ 5 000,00"/>
+        android:text="@string/mp_currency_symbol"/>
+
+    <TextView
+        android:id="@+id/tvProgressInfoAmount"
+        style="@style/Widget.CashAdvisor.Text.num_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/mp_8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvProgressInfoLabel"
+        app:layout_constraintStart_toEndOf="@id/tvProgressInfoAmountCurrency"
+        app:layout_constraintEnd_toEndOf="@id/playerRightGuideLine"
+        android:text="5 000,00"/>
     
     <androidx.constraintlayout.widget.Group
         android:id="@+id/grProgress"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:visibility="visible"
-        app:constraint_referenced_ids="piAnalyticProgress,tvProgressLabel,tvProgressPercent,tvProgressInfoLabel,tvProgressInfoAmount"/>
+        app:constraint_referenced_ids="piAnalyticProgress,tvProgressLabel, tvProgressPercent, tvProgressInfoLabel, tvProgressInfoAmount, tvProgressInfoAmountCurrency" />
 
     <Button
         android:id="@+id/btnAdd"

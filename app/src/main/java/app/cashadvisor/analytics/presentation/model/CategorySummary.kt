@@ -5,6 +5,8 @@ import java.math.BigDecimal
 data class CategorySummary(
     val id: Long,
     val name: String,
+    val analyticType: AnalyticType,
+    val planned: Boolean,
     val amount: BigDecimal,
-    val subcategoryList: List<SubcategorySummary>,
+    val subcategoryList: List<SubcategorySummary>?,
 )

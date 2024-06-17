@@ -141,4 +141,5 @@
     <string name="mp_progress_info_income_label">До выполнения цели осталось:</string>
     <string name="mp_progress_info_expense_label">До исчерпания лимита осталось:</string>
     <string name="mp_progress_info_saving_label">До выполнения цели осталось:</string>
+    <string name="mp_currency_symbol">₽</string>
 </resources>
