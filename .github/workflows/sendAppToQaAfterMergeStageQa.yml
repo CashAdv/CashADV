@@ -29,7 +29,8 @@ jobs:
         run: |
           echo "$CREDENTIAL_FILE_CONTENT" > ./app/serviceCredentialsFile.json
           echo "App type: stageQa" >> ./app/src/releaseNotes.txt
-          echo "buildNumber=${GITHUB_SHA::7}" >> ./app/src/releaseNotes.txt
+          echo "buildNumber=${GITHUB_RUN_NUMBER}" >> ./app/src/releaseNotes.txt
+          echo "versionCode=${GITHUB_SHA::7}" >> ./app/src/releaseNotes.txt
           ./gradlew appDistributionToQaStageQa
 
       - name: Check status
