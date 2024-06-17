@@ -85,14 +85,52 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
         Log.e("rrr", "render state = " + state.javaClass.name)
         binding.ltProgressView.root.isVisible = state is AnalyticsUiState.Loading
         binding.svAnalyticInfo.isVisible = state is AnalyticsUiState.Content
+        binding.tvAnalyticInfoHeader.isVisible = state is AnalyticsUiState.Content
 
         if (state is AnalyticsUiState.Content) {
             val content = state as AnalyticsUiState.Content
-            binding.tvAnalyticInfoPlaceHolder.isVisible = state.data.isNullOrEmpty()
-            analyticInfoAdapter.submitList(state.data)
+            setAnalyticInfoHeader(content.filterParams)
+            tuneAnalyticInfoPlaceHolder(content.data.isNullOrEmpty(), content.filterParams)
+            analyticInfoAdapter.submitList(content.data)
             setTotalAnalyticAmount(content.getTotalAmountByFilter())
-            tuneCategoryProgressBar(state)
+            tuneCategoryProgressBar(content)
             tuneNavigationForState(content.filterParams)
+        }
+    }
+
+    private fun setAnalyticInfoHeader(filterParams: FilterParams) {
+        binding.tvAnalyticInfoHeader.text = if (!filterParams.planned) {
+            getString(app.cashadvisor.uikit.R.string.mp_fact_analytic_info_header)
+        } else {
+            when (filterParams.analyticType) {
+                AnalyticType.INCOME -> getString(app.cashadvisor.uikit.R.string.mp_plan_income_analytic_info_header)
+                AnalyticType.EXPENSE -> getString(app.cashadvisor.uikit.R.string.mp_plan_expense_analytic_info_header)
+                else -> getString(app.cashadvisor.uikit.R.string.mp_plan_saving_analytic_info_header)
+            }
+        }
+    }
+
+    private fun tuneAnalyticInfoPlaceHolder(isVisible: Boolean, filterParams: FilterParams) {
+        binding.tvAnalyticInfoPlaceHolder.text = getAnalyticInfoPlaceHolderText(
+            filterParams.analyticType,
+            filterParams.planned
+        )
+        binding.tvAnalyticInfoPlaceHolder.isVisible = isVisible
+    }
+
+    private fun getAnalyticInfoPlaceHolderText(type: AnalyticType, planned: Boolean): String {
+        return if (planned) {
+            when (type) {
+                AnalyticType.INCOME -> getString(app.cashadvisor.uikit.R.string.mp_plan_income_analytic_info_zero)
+                AnalyticType.EXPENSE -> getString(app.cashadvisor.uikit.R.string.mp_plan_expense_analytic_info_zero)
+                else -> getString(app.cashadvisor.uikit.R.string.mp_plan_saving_analytic_info_zero)
+            }
+        } else {
+            when (type) {
+                AnalyticType.INCOME -> getString(app.cashadvisor.uikit.R.string.mp_fact_income_analytic_info_zero)
+                AnalyticType.EXPENSE -> getString(app.cashadvisor.uikit.R.string.mp_fact_expense_analytic_info_zero)
+                else -> getString(app.cashadvisor.uikit.R.string.mp_fact_saving_analytic_info_zero)
+            }
         }
     }
 

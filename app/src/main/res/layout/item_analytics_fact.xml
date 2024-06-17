@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/mp_8dp"
     android:orientation="horizontal">
     
     <ImageView
@@ -32,14 +34,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Инвестиции"/>
+            tools:text="Инвестиции"/>
 
         <TextView
             android:id="@+id/tvCategoryCurrency"
             style="@style/Widget.CashAdvisor.Text.AnalyticCategoryNumHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="₽"/>
+            android:text="@string/mp_plus_currency_symbol"/>
 
         <TextView
             android:id="@+id/tvCategoryAmount"
@@ -47,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/mp_4dp"
-            android:text="15 000,00"/>
+            tools:text="15 000,00"/>
     </LinearLayout>
 
     <LinearLayout
@@ -59,17 +61,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginStart="@dimen/mp_8dp"
         android:layout_toEndOf="@id/ivCategory">
-
-        <include
-            layout="@layout/item_analytics_fact_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
-
-        <include
-            layout="@layout/item_analytics_fact_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
     </LinearLayout>
 </RelativeLayout>

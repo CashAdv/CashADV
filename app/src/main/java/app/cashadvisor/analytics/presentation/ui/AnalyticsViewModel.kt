@@ -28,8 +28,8 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
     private val _filterParams = MutableStateFlow(FilterParams.getDefault())
     private val filterParams: StateFlow<FilterParams>
         get() = _filterParams
-    private val _categorySummaryList = MutableStateFlow<List<CategorySummary>>(emptyList())
-    private val categorySummaryList: StateFlow<List<CategorySummary>>
+    private val _categorySummaryList = MutableStateFlow<List<CategorySummary>?>(null)
+    private val categorySummaryList: StateFlow<List<CategorySummary>?>
         get() = _categorySummaryList
 
     init {
@@ -60,7 +60,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
                     params.endDate == state.filterParams.endDate) {
                     _analyticsUiState.value = state.copy(
                         filterParams = params.copy(),
-                        data = _categorySummaryList.value.filter {
+                        data = _categorySummaryList.value?.filter {
                                 categorySummary ->  categorySummary.analyticType == params.analyticType &&
                                 categorySummary.planned == params.planned
                         },
@@ -91,7 +91,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         }
     }
 
-    private fun setContent(list: List<CategorySummary>) {
+    private fun setContent(list: List<CategorySummary>?) {
         if (_analyticsUiState.value is AnalyticsUiState.Default) {
             return
         }
@@ -99,7 +99,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
             user = null,
             account = Account(BigDecimal.ZERO),
             filterParams = filterParams.value.copy(),
-            data = list.filter { categorySummary ->
+            data = list?.filter { categorySummary ->
                 categorySummary.analyticType == filterParams.value.analyticType &&
                         categorySummary.planned == filterParams.value.planned
             },
@@ -134,7 +134,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         }
 
         var sumPlan = BigDecimal.valueOf(0)
-        categorySummaryList.value.let { data ->
+        categorySummaryList.value?.let { data ->
             data
                 .filter { categorySummary -> categorySummary.analyticType == filterParams.value.analyticType }
                 .filter { categorySummary -> categorySummary.planned }
@@ -147,7 +147,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         }
 
         var sumFact = BigDecimal.valueOf(0)
-        categorySummaryList.value.let { data ->
+        categorySummaryList.value?.let { data ->
             data
                 .filter { categorySummary -> categorySummary.analyticType == filterParams.value.analyticType }
                 .filter { categorySummary -> !categorySummary.planned }
