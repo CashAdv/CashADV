@@ -2,8 +2,6 @@ package app.cashadvisor.analytics.presentation.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getColor
@@ -16,6 +14,7 @@ import app.cashadvisor.analytics.presentation.model.CategorySummary
 import app.cashadvisor.analytics.presentation.model.SubcategorySummary
 import app.cashadvisor.categories.presentation.ui.CategoriesIcon
 import app.cashadvisor.databinding.ItemAnalyticsFactBinding
+import app.cashadvisor.databinding.ItemAnalyticsFactRowBinding
 import app.cashadvisor.databinding.ItemAnalyticsPlanBinding
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
@@ -138,13 +137,10 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
         private fun fillSubcategories(list: List<SubcategorySummary>, parent: ViewGroup) {
             list.forEach { subcategorySummary ->
                 val layout = LayoutInflater.from(parent.context)
-                    .inflate(app.cashadvisor.R.layout.item_analytics_fact_row, parent, false)
-                layout.findViewById<TextView>(app.cashadvisor.R.id.tvCategoryItemName).text =
-                    subcategorySummary.name
-                layout.findViewById<TextView>(app.cashadvisor.R.id.tvCategoryItemAmount).text =
-                    subcategorySummary.amount.formatAmount()
-                val lLayout = layout.findViewById<LinearLayout>(app.cashadvisor.R.id.llItemAnalyticsFactRow)
-                parent.addView(lLayout)
+                val binding = ItemAnalyticsFactRowBinding.inflate(layout, parent, false)
+                binding.tvCategoryItemName.text = subcategorySummary.name
+                binding.tvCategoryItemAmount.text = subcategorySummary.amount.formatAmount()
+                parent.addView(binding.root)
             }
         }
 
