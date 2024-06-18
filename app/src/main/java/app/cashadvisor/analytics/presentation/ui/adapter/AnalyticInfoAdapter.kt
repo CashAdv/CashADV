@@ -70,13 +70,15 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
             tvCategoryAmount.text = categorySummary.amount.formatAmount()
             tvCategoryCurrency.text = getCategoryCurrencyText(categorySummary.analyticType)
             val imageDrawableRes = CategoriesIcon.getCategoriesImageResIdFromId(categorySummary.id.toInt())
-            imageDrawableRes?.let {
+            if (imageDrawableRes != null) {
                 Glide.with(itemView)
                     .load(ContextCompat.getDrawable(
                         itemView.context,
                         imageDrawableRes
                     ))
                     .into(ivCategory)
+            } else {
+                ivCategory.setImageDrawable(null)
             }
             piAnalyticProgress.progress = 0
             categorySummary.completePercent?.let { percent ->
@@ -117,13 +119,15 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
             tvCategoryCurrency.text = getCategoryCurrencyText(categorySummary.analyticType)
             tvCategoryCurrency.setTextColor(getColor(itemView.context, getCategoryCurrencyTextColor(categorySummary.analyticType)))
             val imageDrawableRes = CategoriesIcon.getCategoriesImageResIdFromId(categorySummary.id.toInt())
-            imageDrawableRes?.let {
+            if (imageDrawableRes != null) {
                 Glide.with(itemView)
                     .load(ContextCompat.getDrawable(
                         itemView.context,
                         imageDrawableRes
                     ))
                     .into(ivCategory)
+            } else {
+                ivCategory.setImageDrawable(null)
             }
             llCategoryDetails.removeAllViews()
             categorySummary.subcategoryList?.let {
