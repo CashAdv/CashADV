@@ -5,7 +5,7 @@ import app.cashadvisor.analytics.presentation.model.CategorySummary
 
 class CategorySummaryDiffUtilCallback : DiffUtil.ItemCallback<CategorySummary>() {
     override fun areItemsTheSame(oldItem: CategorySummary, newItem: CategorySummary): Boolean =
-        oldItem == newItem
+        oldItem.id == newItem.id
 
     override fun areContentsTheSame(oldItem: CategorySummary, newItem: CategorySummary): Boolean =
         oldItem == newItem
