@@ -89,6 +89,11 @@
         <item name="android:textAlignment">2</item>
         <item name="android:textColor">?attr/subcolour2</item>
     </style>
+    <!-- Register Disclaimer Text Styles -->
+    <style name="Widget.CashAdvisor.Text.RecoveryDisclaimerText" parent="Widget.CashAdvisor.Text.Subtext">
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">?attr/subcolour2</item>
+    </style>
 
     <!-- Register Title Text Styles -->
     <style name="Widget.CashAdvisor.Text.RegisterHeader" parent="Widget.CashAdvisor.Text.Main_Text">
@@ -265,6 +270,8 @@
         <item name="android:hint">@string/enter_password_hint</item>
         <item name="android:inputType">textPassword</item>
     </style>
+
+
 
     <!-- Signup styles-->
     <style name="Widget.CashAdvisor.TextInputEditText" parent="Widget.CashAdvisor.Text.Text_cont">

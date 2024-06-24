@@ -67,6 +67,25 @@
     <string name="close">Закрыть</string>
     <string name="description_sleep_image">Это изображение спящего смайлика</string>
 
+
+    <!--RecoveryPassword screen-->
+    <string name="recoveryPassword">Восстановление пароля</string>
+    <string name="enter_email_acc">Введите email аккаунта</string>
+    <string name="get_the_code">Получить код</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="log_in">Войти в аккаунт</string>
+    <string name="recovery_instructions">На указанную почту мы отправим письмо \nсо ссылкой для сброса пароля</string>
+    <string name="come_up_with_a_password">Придумайте пароль</string>
+    <string name="new_password_instruction">Используйте цифры, буквы A-z и знак «_» </string>
+    <string name="invalid_token_or_missing_Content_Type_header">Произошла ошибка при обработке Вашего запроса. Пожалуйста, проверьте введенные данные и повторите попытку. Если проблема сохраняется, обратитесь в [поддержку]</string>
+    <string name="invalid_confirmation_code">Неправильный код подтверждения. Пожалуйста, введите корректный код</string>
+    <string name="user_is_locked">Количество попыток ввода кода исчерпано. Пожалуйста, повторите позднее и пользователь перенаправляется на стартовую страницу</string>
+    <string name="invalid_or_expired_token">Срок действия кода истек, повторите попытку</string>
+    <string name="failed_to_confirm_email_or_register_user">Внутренняя ошибка сервера - Не удалось подтвердить адрес электронной почты. Повторите попытку позднее. Если проблема сохраняется, обратитесь в [поддержку]</string>
+    <string name="debug_message_success_reset_password">Success reset password %1$s</string>
+    <string name="password_hint">*********</string>
+
+
     <!--  Settings screen string  -->
     <string name="change_profile_pic">Сменить изображение</string>
     <string name="profile_settings_title">Настройка профиля</string>
@@ -88,13 +107,13 @@
     <string name="failed_to_update_profile_pic">Не удалось обновить изображение пользователя</string>
     <string name="no_internet_connection_edit">Вы не сможете редактировать и удалять информацию в приложении, пока не возобновится соединение </string>
 
+
     <!-- Signup screen string-->
     <string name="registration">Регистрация</string>
     <string name="entering_account_data">Ввод данных аккаунта</string>
     <string name="confirm">Подтверждение</string>
     <string name="enter_your_email">Введите свой email</string>
     <string name="example_email">example@gmail.com</string>
-    <string name="come_up_with_a_password">Придумайте пароль</string>
     <string name="example_password">********</string>
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="allowed_characters_for_the_password">Используйте цифры, буквы A-z и знак «_»</string>
