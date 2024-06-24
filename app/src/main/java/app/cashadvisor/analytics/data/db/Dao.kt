@@ -4,10 +4,10 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import app.cashadvisor.analytics.data.db.entities.AmountEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface Dao {
@@ -43,12 +43,24 @@ interface Dao {
     @Query("SELECT * FROM analyticsWithCategory WHERE substr(date,1,length(:dateStart)) BETWEEN :dateStart AND :dateEnd")
     suspend fun getByTwoDate(dateStart: String, dateEnd: String): List<CategoryWithUserAnalyticsEntity>
 
+
+
+
+    //Вернуть записи по двум датам, категоии и планировке
+    @Query("SELECT analyticsWithCategory.amount FROM analyticsWithCategory " +
+            "WHERE substr(date,1,length(:dateStart)) BETWEEN :dateStart AND :dateEnd " +
+            "AND analyticsWithCategory.categoryId LIKE '%' || :category || '%' " +
+            "AND analyticsWithCategory.planned = :planned")
+    suspend fun getByTwoDateFirstCategoryAndPlanned(dateStart: String, dateEnd: String, category: String, planned: Boolean): List<AmountEntity>
+
+
+
+
     @Query("SELECT * FROM analyticsWithCategory WHERE amount BETWEEN :minAmount AND :maxAmount")
     suspend fun getByTwoAmount(minAmount: Int, maxAmount: Int): List<CategoryWithUserAnalyticsEntity>
 
     @Query("SELECT * FROM analyticsWithCategory WHERE amount >= :minAmount")
     suspend fun getMoreThenMinAmount(minAmount: Int): List<CategoryWithUserAnalyticsEntity>
-
 
     @Query("DELETE FROM userAnalyticsTable")
     fun removeAllUserAnalyticsTable()

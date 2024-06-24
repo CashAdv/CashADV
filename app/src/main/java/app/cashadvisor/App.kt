@@ -8,6 +8,7 @@ import app.cashadvisor.analytics.data.db.DbRepository
 import app.cashadvisor.analytics.data.db.MainDb
 import app.cashadvisor.analytics.data.db.asCategoryEntity
 import app.cashadvisor.analytics.data.db.asUserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.AmountEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.test.TestCategoryResponse
 import app.cashadvisor.analytics.data.db.test.TestUserAnalyticsResponse
@@ -37,7 +38,12 @@ class App : Application() {
         var testListGetByTwoAmount: List<CategoryWithUserAnalyticsEntity>
         var testListGetMoreThenMinAmount: List<CategoryWithUserAnalyticsEntity>
 
-
+        var testListMayExpensePlanned: List<AmountEntity>
+        var testListMayIncomePlanned: List<AmountEntity>
+        var testListMayWealthPlanned: List<AmountEntity>
+        var testListMayExpenseUnPlanned: List<AmountEntity>
+        var testListMayIncomeUnPlanned: List<AmountEntity>
+        var testListMayWealthUnPlanned: List<AmountEntity>
 
         runBlocking {
             launch(Dispatchers.IO){
@@ -54,6 +60,18 @@ class App : Application() {
                 testListGetByTwoDate = dbRepository.getByTwoDate("11.11.2010", "12.12.2011")
                 testListGetByTwoAmount = dbRepository.getByTwoAmount(200, 300)
                 testListGetMoreThenMinAmount = dbRepository.getMoreThenMinAmount(150)
+
+                //EXPENSE
+                testListMayExpensePlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "EXPENSE", true)
+                testListMayExpenseUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "EXPENSE", false)
+
+                //INCOME
+                testListMayIncomePlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "INCOME", true)
+                testListMayIncomeUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "INCOME", false)
+
+                //WEALTH
+                testListMayWealthPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "WEALTH", true)
+                testListMayWealthUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "WEALTH", false)
             }
         }
         /////////////////////////////////

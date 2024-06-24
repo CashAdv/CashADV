@@ -2,23 +2,12 @@ package app.cashadvisor.analytics.data.db.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.ForeignKey
 import androidx.room.Index
 
 @Entity(
-    primaryKeys = ["userAnalyticsId", "categoryId"], tableName = "analyticsWithCategory",
-    /*foreignKeys = [
-        ForeignKey(
-            entity = UserAnalyticsEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["userAnalyticsId"]
-        ),
-        ForeignKey(
-            entity = UserAnalyticsEntity::class,
-            parentColumns = ["categoryId"],
-            childColumns = ["categoryId"]
-        )
-    ]*/
+    indices = [Index(value = ["date"])],
+    primaryKeys = ["userAnalyticsId", "categoryId"],
+    tableName = "analyticsWithCategory"
 )
 data class CategoryWithUserAnalyticsEntity(
     @ColumnInfo(name = "userAnalyticsId")

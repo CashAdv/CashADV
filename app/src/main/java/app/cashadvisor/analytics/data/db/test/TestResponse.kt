@@ -17,7 +17,15 @@ data class TestCategoryResponse(
             ExpenseCategoryDto("3", "Slava", "icon_3", true, "1"),
             ExpenseCategoryDto("4", "Ivan", "icon_1", true, "2"),
             ExpenseCategoryDto("5", "Petr", "icon_2", false, "2"),
-            ExpenseCategoryDto("6", "Slava", "icon_3", true, "2")
+            ExpenseCategoryDto("6", "Slava", "icon_3", true, "2"),
+            ExpenseCategoryDto("7", "Кредит", "icon_2", false, "2"),
+            ExpenseCategoryDto("8", "Еда", "icon_2", false, "2"),
+            ExpenseCategoryDto("9", "Развлечения", "icon_2", false, "2"),
+            ExpenseCategoryDto("10", "Транспорт", "icon_2", false, "2"),
+            ExpenseCategoryDto("11", "Кредит", "icon_2", true, "2"),
+            ExpenseCategoryDto("12", "Еда", "icon_2", true, "2"),
+            ExpenseCategoryDto("13", "Развлечения", "icon_2", true, "2"),
+            ExpenseCategoryDto("14", "Транспорт", "icon_2", true, "2")
         ),
         listOf(
             IncomeCategoryDto("1", "icon_1", "Ivan", true, "1"),
@@ -46,7 +54,15 @@ data class TestUserAnalyticsResponse(
             IncomeDto(300, "3", "10.10.2012", "3", false, "1", "1", "Salary", "1"),
             IncomeDto(150, "1", "13.11.2010", "4", true, "2", "2", "Petr", "1"),
             IncomeDto(250, "2", "14.12.2011", "5", false, "2", "2", "Salary", "1"),
-            IncomeDto(350, "3", "15.10.2012", "6", true, "2", "2", "Salary", "1")
+            IncomeDto(350, "3", "15.10.2012", "6", true, "2", "2", "Salary", "1"),
+            IncomeDto(250, "2", "01.05.2024", "7", false, "2", "2", "Зарплата", "1"),
+            IncomeDto(250, "2", "15.05.2024", "8", false, "2", "2", "Репетиторство", "1"),
+            IncomeDto(250, "2", "16.05.2024", "9", false, "2", "2", "Вклад", "1"),
+            IncomeDto(250, "2", "31.05.2024", "10", false, "2", "2", "Подработка", "1"),
+            IncomeDto(250, "2", "01.05.2024", "11", true, "2", "2", "Зарплата", "1"),
+            IncomeDto(250, "2", "15.05.2024", "12", true, "2", "2", "Репетиторство", "1"),
+            IncomeDto(250, "2", "16.05.2024", "13", true, "2", "2", "Вклад", "1"),
+            IncomeDto(250, "2", "31.05.2024", "14", true, "2", "2", "Подработка", "1")
         ),
         listOf(
             ExpenseDto(100, "1", "12.11.2010", "1", true, "1", "2", "Ivan", "1"),
@@ -54,7 +70,15 @@ data class TestUserAnalyticsResponse(
             ExpenseDto(300, "3", "10.10.2012", "3", false, "1", "2", "Ivan", "1"),
             ExpenseDto(150, "1", "13.11.2010", "4", true, "2", "1", "Ivan", "1"),
             ExpenseDto(250, "2", "14.12.2011", "5", false, "2", "1", "Ivan", "1"),
-            ExpenseDto(350, "3", "15.10.2012", "6", true, "2", "1", "Ivan", "1")
+            ExpenseDto(250, "2", "14.12.2011", "6", false, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "01.05.2024", "7", false, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "15.05.2024", "8", false, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "16.05.2024", "9", false, "2", "1", "Ivan", "1"),
+            ExpenseDto(350, "3", "31.05.2024", "10", false, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "01.05.2024", "11", true, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "14.05.2024", "12", true, "2", "1", "Ivan", "1"),
+            ExpenseDto(250, "2", "15.05.2024", "13", true, "2", "1", "Ivan", "1"),
+            ExpenseDto(350, "3", "31.05.2024", "14", true, "2", "1", "Ivan", "1")
         ),
         listOf(
             WealthFundDto(100, "12.11.2010", "1", true, "1", "1", "1", "1"),
@@ -62,7 +86,15 @@ data class TestUserAnalyticsResponse(
             WealthFundDto(300, "10.10.2012", "3", false, "1", "1", "1", "3"),
             WealthFundDto(150, "13.11.2010", "4", true, "2", "2", "1", "4"),
             WealthFundDto(250, "14.12.2011", "5", false, "2", "2", "1", "5"),
-            WealthFundDto(350, "15.10.2012", "6", true, "2", "2", "1", "6")
+            WealthFundDto(350, "15.10.2012", "6", true, "2", "2", "1", "6"),
+            WealthFundDto(250, "01.05.2024", "7", false, "2", "2", "1", "5"),
+            WealthFundDto(250, "16.05.2024", "8", false, "2", "2", "1", "5"),
+            WealthFundDto(250, "15.05.2024", "9", false, "2", "2", "1", "5"),
+            WealthFundDto(250, "31.05.2024", "10", false, "2", "2", "1", "5"),
+            WealthFundDto(250, "01.05.2024", "11", true, "2", "2", "1", "5"),
+            WealthFundDto(250, "15.05.2024", "12", true, "2", "2", "1", "5"),
+            WealthFundDto(250, "16.05.2024", "13", true, "2", "2", "1", "5"),
+            WealthFundDto(250, "31.05.2024", "14", true, "2", "2", "1", "5")
         )
     )
 )
