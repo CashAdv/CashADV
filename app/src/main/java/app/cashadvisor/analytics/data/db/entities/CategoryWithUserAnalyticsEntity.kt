@@ -7,7 +7,7 @@ import androidx.room.Index
 
 @Entity(
     primaryKeys = ["userAnalyticsId", "categoryId"], tableName = "analyticsWithCategory",
-    foreignKeys = [
+    /*foreignKeys = [
         ForeignKey(
             entity = UserAnalyticsEntity::class,
             parentColumns = ["id"],
@@ -18,7 +18,7 @@ import androidx.room.Index
             parentColumns = ["categoryId"],
             childColumns = ["categoryId"]
         )
-    ]
+    ]*/
 )
 data class CategoryWithUserAnalyticsEntity(
     @ColumnInfo(name = "userAnalyticsId")

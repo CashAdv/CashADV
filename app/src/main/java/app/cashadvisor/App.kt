@@ -8,6 +8,7 @@ import app.cashadvisor.analytics.data.db.DbRepository
 import app.cashadvisor.analytics.data.db.MainDb
 import app.cashadvisor.analytics.data.db.asCategoryEntity
 import app.cashadvisor.analytics.data.db.asUserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.test.TestCategoryResponse
 import app.cashadvisor.analytics.data.db.test.TestUserAnalyticsResponse
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -30,6 +31,11 @@ class App : Application() {
         val testUserAnalyticsResponse = TestUserAnalyticsResponse().userAnalyticsDto
         val categoryEntityList = testCategoryResponse.asCategoryEntity()
         val userAnalyticsEntityList = testUserAnalyticsResponse.asUserAnalyticsEntity()
+        var testListGetByCategoryName: List<CategoryWithUserAnalyticsEntity>
+        var testListGetByDate: List<CategoryWithUserAnalyticsEntity>
+        var testListGetByTwoDate: List<CategoryWithUserAnalyticsEntity>
+        var testListGetByTwoAmount: List<CategoryWithUserAnalyticsEntity>
+        var testListGetMoreThenMinAmount: List<CategoryWithUserAnalyticsEntity>
 
 
 
@@ -41,6 +47,13 @@ class App : Application() {
                 val dbRepository = DbRepository(dao)
                 dbRepository.upsertCategory(categoryEntityList)
                 dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
+                val listCvA = dbRepository.getCategoryWithUserAnalyticsEntityList()
+                dbRepository.upsertCategoryWithUserAnalytics(listCvA)
+                testListGetByCategoryName = dbRepository.getByCategoryName("Ivan")
+                testListGetByDate = dbRepository.getByDate("12.11.2010")
+                testListGetByTwoDate = dbRepository.getByTwoDate("11.11.2010", "12.12.2011")
+                testListGetByTwoAmount = dbRepository.getByTwoAmount(200, 300)
+                testListGetMoreThenMinAmount = dbRepository.getMoreThenMinAmount(150)
             }
         }
         /////////////////////////////////

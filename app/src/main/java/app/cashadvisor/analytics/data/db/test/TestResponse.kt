@@ -13,27 +13,27 @@ data class TestCategoryResponse(
     val categorySettingsDto: CategorySettingsDto = CategorySettingsDto(
         listOf(
             ExpenseCategoryDto("1", "Ivan", "icon_1", true, "1"),
-            ExpenseCategoryDto("2", "Ivan", "icon_2", false, "1"),
-            ExpenseCategoryDto("3", "Ivan", "icon_3", true, "1"),
+            ExpenseCategoryDto("2", "Petr", "icon_2", false, "1"),
+            ExpenseCategoryDto("3", "Slava", "icon_3", true, "1"),
             ExpenseCategoryDto("4", "Ivan", "icon_1", true, "2"),
-            ExpenseCategoryDto("5", "Ivan", "icon_2", false, "2"),
-            ExpenseCategoryDto("6", "Ivan", "icon_3", true, "2")
+            ExpenseCategoryDto("5", "Petr", "icon_2", false, "2"),
+            ExpenseCategoryDto("6", "Slava", "icon_3", true, "2")
         ),
         listOf(
             IncomeCategoryDto("1", "icon_1", "Ivan", true, "1"),
-            IncomeCategoryDto("2", "icon_2", "Ivan", false, "1"),
-            IncomeCategoryDto("3", "icon_3", "Ivan", true, "1"),
+            IncomeCategoryDto("2", "icon_2", "Petr", false, "1"),
+            IncomeCategoryDto("3", "icon_3", "Slava", true, "1"),
             IncomeCategoryDto("4", "icon_1", "Ivan", true, "2"),
-            IncomeCategoryDto("5", "icon_2", "Ivan", false, "2"),
-            IncomeCategoryDto("6", "icon_3", "Ivan", true, "2")
+            IncomeCategoryDto("5", "icon_2", "Petr", false, "2"),
+            IncomeCategoryDto("6", "icon_3", "Slava", true, "2")
         ),
         listOf(
             InvestmentCategoryDto("1", "Ivan", "icon_1", true, "1"),
-            InvestmentCategoryDto("2", "Ivan", "icon_2", false, "1"),
-            InvestmentCategoryDto("3", "Ivan", "icon_3", true, "1"),
+            InvestmentCategoryDto("2", "Petr", "icon_2", false, "1"),
+            InvestmentCategoryDto("3", "Slava", "icon_3", true, "1"),
             InvestmentCategoryDto("4", "Ivan", "icon_1", true, "2"),
-            InvestmentCategoryDto("5", "Ivan", "icon_2", false, "2"),
-            InvestmentCategoryDto("6", "Ivan", "icon_3", true, "2")
+            InvestmentCategoryDto("5", "Petr", "icon_2", false, "2"),
+            InvestmentCategoryDto("6", "Slava", "icon_3", true, "2")
         )
     )
 )
