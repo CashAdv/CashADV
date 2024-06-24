@@ -50,6 +50,43 @@ sealed class ErrorEntity(open val message: String) {
             RegisterConfirmationWithCode(message)
     }
 
+    sealed class ConfirmEmailToResetPassword(override val message: String) :
+        ErrorEntity(message) {
+        data class InvalidInput(override val message: String) : ConfirmEmailToResetPassword(message)
+        data class FailedToGenerateTokenOrSendEmail(override val message: String) :
+            ConfirmEmailToResetPassword(message)
+
+    }
+
+    sealed class ConfirmResetPasswordByEmailWithCode(override val message: String) :
+        ErrorEntity(message) {
+        data class InvalidInput(override val message: String) :
+            ConfirmResetPasswordByEmailWithCode(message)
+
+        data class WrongConfirmationCode(
+            override val message: String,
+            val remainingAttempts:Int? = null,
+            val lockDuration:Long? = null
+        ) : ConfirmResetPasswordByEmailWithCode(message)
+
+        data class FailedToConfirmPasswordReset(override val message: String) :
+            ConfirmResetPasswordByEmailWithCode(message)
+    }
+
+    sealed class SaveNewPassword(override val message: String) : ErrorEntity(message) {
+
+        data class InvalidInput(override val message: String) :
+            SaveNewPassword(message)
+
+        data class InvalidToken(override val message: String) :
+            SaveNewPassword(message)
+
+        data class FailedToResetPassword(override val message: String) :
+            SaveNewPassword(message)
+    }
+
+
+
     sealed class Profile(override val message: String) : ErrorEntity(message) {
         data class InvalidContent(override val message: String) : Profile(message)
         data class UserNotAuthorized(override val message: String) : Profile(message)

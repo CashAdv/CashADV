@@ -2,14 +2,19 @@ package app.cashadvisor.authorization.di
 
 import app.cashadvisor.authorization.data.api.LoginRemoteDataSource
 import app.cashadvisor.authorization.data.api.RegisterRemoteDataSource
+import app.cashadvisor.authorization.data.api.ResetPasswordRemoteDataSource
 import app.cashadvisor.authorization.data.impl.LoginRemoteDataSourceImpl
 import app.cashadvisor.authorization.data.impl.LoginRepositoryImpl
 import app.cashadvisor.authorization.data.impl.RegisterRemoteDataSourceImpl
 import app.cashadvisor.authorization.data.impl.RegisterRepositoryImpl
+import app.cashadvisor.authorization.data.impl.ResetPasswordRemoteDataSourceImpl
+import app.cashadvisor.authorization.data.impl.ResetPasswordRepositoryImpl
 import app.cashadvisor.authorization.domain.LoginExceptionToErrorMapper
 import app.cashadvisor.authorization.domain.RegisterExceptionToErrorMapper
+import app.cashadvisor.authorization.domain.ResetPasswordExceptionToErrorMapper
 import app.cashadvisor.authorization.domain.api.LoginRepository
 import app.cashadvisor.authorization.domain.api.RegisterRepository
+import app.cashadvisor.authorization.domain.api.ResetPasswordRepository
 import app.cashadvisor.common.domain.BaseExceptionToErrorMapper
 import dagger.Binds
 import dagger.Module
@@ -25,6 +30,10 @@ annotation class RegisterExceptionMapper
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class LoginExceptionMapper
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ResetPasswordExceptionMapper
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -66,4 +75,25 @@ interface LoginAndRegisterDataModule {
         impl: LoginExceptionToErrorMapper
     ): BaseExceptionToErrorMapper
 
+}
+@Module
+@InstallIn(SingletonComponent::class)
+interface ResetPasswordDataModule{
+    @Singleton
+    @Binds
+    fun bindResetPasswordDataSource(
+        impl: ResetPasswordRemoteDataSourceImpl
+    ):ResetPasswordRemoteDataSource
+
+    @Singleton
+    @Binds
+    fun bindResetPasswordRepository(
+        impl:ResetPasswordRepositoryImpl
+    ):ResetPasswordRepository
+
+    @ResetPasswordExceptionMapper
+    @Binds
+    fun bindResetPasswordExceptionToErrorMapper(
+        impl:ResetPasswordExceptionToErrorMapper
+    ):BaseExceptionToErrorMapper
 }

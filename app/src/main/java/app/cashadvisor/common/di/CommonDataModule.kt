@@ -144,8 +144,8 @@ class NetworkModule {
     }
 
     companion object {
-        const val ENDPOINT_URL_PROD = "https://212.233.78.3:8080/v1/"
-        const val ENDPOINT_URL_STAGE = "https://212.233.78.3:8080/v1/"
+        const val ENDPOINT_URL_PROD = "https://212.233.99.233:8080/v1/"
+        const val ENDPOINT_URL_STAGE = "https://212.233.99.233:8080/v1/"
         const val PROD = "prod"
     }
 
