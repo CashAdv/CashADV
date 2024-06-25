@@ -1,7 +1,6 @@
 package app.cashadvisor.analytics.presentation.model
 
-import app.cashadvisor.analytics.presentation.getFirstDayOfMonth
-import app.cashadvisor.analytics.presentation.getLastDayOfMonth
+import java.util.Calendar
 import java.util.Date
 
 data class FilterParams(
@@ -14,8 +13,8 @@ data class FilterParams(
     companion object {
         fun getDefault(): FilterParams {
             return FilterParams(
-                beginDate = Date().getFirstDayOfMonth(),
-                endDate = Date().getLastDayOfMonth(),
+                beginDate = Calendar.getInstance().time,
+                endDate = Calendar.getInstance().time,
                 analyticType = AnalyticType.INCOME,
                 planned = false)
         }

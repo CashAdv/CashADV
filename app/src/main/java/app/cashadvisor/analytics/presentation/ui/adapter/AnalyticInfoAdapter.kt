@@ -12,6 +12,7 @@ import app.cashadvisor.analytics.presentation.formatAmount
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.CategorySummary
 import app.cashadvisor.analytics.presentation.model.SubcategorySummary
+import app.cashadvisor.analytics.presentation.model.getCategoryCurrencyTextColor
 import app.cashadvisor.categories.presentation.ui.CategoriesIcon
 import app.cashadvisor.databinding.ItemAnalyticsFactBinding
 import app.cashadvisor.databinding.ItemAnalyticsFactRowBinding
@@ -116,8 +117,14 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
             tvCategoryName.text = categorySummary.name
             tvCategoryAmount.text = categorySummary.amount.formatAmount()
             tvCategoryCurrency.text = getCategoryCurrencyText(categorySummary.analyticType)
-            tvCategoryCurrency.setTextColor(getColor(itemView.context, getCategoryCurrencyTextColor(categorySummary.analyticType)))
-            val imageDrawableRes = CategoriesIcon.getCategoriesImageResIdFromId(categorySummary.id.toInt())
+            tvCategoryCurrency.setTextColor(
+                getColor(
+                    itemView.context,
+                    categorySummary.analyticType.getCategoryCurrencyTextColor()
+                )
+            )
+            val imageDrawableRes =
+                CategoriesIcon.getCategoriesImageResIdFromId(categorySummary.id.toInt())
             if (imageDrawableRes != null) {
                 Glide.with(itemView)
                     .load(ContextCompat.getDrawable(
@@ -149,15 +156,6 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
                 AnalyticType.INCOME -> getString(itemView.context, R.string.mp_plus_currency_symbol)
                 AnalyticType.EXPENSE -> getString(itemView.context,R.string.mp_minus_currency_symbol)
                 else -> getString(itemView.context,R.string.mp_currency_symbol)
-            }
-        }
-
-        @ColorRes
-        private fun getCategoryCurrencyTextColor(type: AnalyticType): Int {
-            return when (type) {
-                AnalyticType.INCOME -> R.color.m1
-                AnalyticType.EXPENSE -> R.color.m2
-                else -> R.color.m3
             }
         }
     }

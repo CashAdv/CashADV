@@ -2,8 +2,6 @@ package app.cashadvisor.analytics.presentation.ui
 
 import androidx.lifecycle.viewModelScope
 import app.cashadvisor.analytics.presentation.MockData
-import app.cashadvisor.analytics.presentation.getFirstDayOfMonth
-import app.cashadvisor.analytics.presentation.getLastDayOfMonth
 import app.cashadvisor.analytics.presentation.model.Account
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.CategorySummary
@@ -17,6 +15,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
+import java.util.Calendar
 import java.util.Date
 import javax.inject.Inject
 
@@ -33,7 +32,7 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         get() = _categorySummaryList
 
     init {
-        setPeriod(Date().getFirstDayOfMonth(), Date().getLastDayOfMonth())
+        setPeriod(getFirstDayOfMonth(), getLastDayOfMonth())
         observeFilterParams()
         observeCategorySummaryList()
     }
@@ -162,5 +161,20 @@ class AnalyticsViewModel @Inject constructor() : BaseViewModel() {
         }
 
         return progress
+    }
+
+    private fun getLastDayOfMonth() : Date {
+        val current = Calendar.getInstance()
+        val lastDay = Calendar.getInstance()
+        lastDay.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH),
+            current.getActualMaximum(Calendar.DATE))
+        return lastDay.time
+    }
+
+    private fun getFirstDayOfMonth() : Date {
+        val current = Calendar.getInstance()
+        val firstDay = Calendar.getInstance()
+        firstDay.set(current.get(Calendar.YEAR), current.get(Calendar.MONTH), 1)
+        return firstDay.time
     }
 }
