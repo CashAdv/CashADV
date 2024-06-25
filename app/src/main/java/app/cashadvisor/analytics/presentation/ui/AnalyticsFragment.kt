@@ -13,22 +13,28 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import app.cashadvisor.R
-import app.cashadvisor.analytics.presentation.formatAmount
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.FilterParams
 import app.cashadvisor.analytics.presentation.ui.adapter.AnalyticInfoAdapter
 import app.cashadvisor.analytics.presentation.ui.state.AnalyticsUiState
 import app.cashadvisor.common.ui.BaseFragment
+import app.cashadvisor.common.utils.MoneyFormatter
 import app.cashadvisor.databinding.FragmentAnalyticsBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.math.BigDecimal
 import java.util.Date
+import javax.inject.Inject
 
+
+@AndroidEntryPoint
 class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewModel>(FragmentAnalyticsBinding::inflate) {
 
     override val viewModel: AnalyticsViewModel by viewModels()
-    private val analyticInfoAdapter by lazy { AnalyticInfoAdapter() }
+    private val analyticInfoAdapter by lazy { AnalyticInfoAdapter(formatter) }
+    @Inject
+    lateinit var formatter: MoneyFormatter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -144,8 +150,8 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
                     getProgressDrawable(defaultDrawable)
                 )
                 piAnalyticProgress.progress = percent.toInt()
-                tvProgressPercent.text = String.format("%s %%", percent.formatAmount())
-                tvProgressInfoAmount.text = state.remainAmount.formatAmount()
+                tvProgressPercent.text = String.format("%s %%", formatter.format(percent))
+                tvProgressInfoAmount.text = formatter.format(state.remainAmount)
                 grProgress.isVisible = true
             }
 
@@ -170,7 +176,7 @@ class AnalyticsFragment : BaseFragment<FragmentAnalyticsBinding, AnalyticsViewMo
     }
 
     private fun setTotalAnalyticAmount(amount: BigDecimal) {
-        binding.tvAnalyticAmount.text = amount.formatAmount()
+        binding.tvAnalyticAmount.text = formatter.format(amount)
     }
 
     private fun tuneNavigationForState(params: FilterParams) {

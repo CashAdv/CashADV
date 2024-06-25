@@ -8,19 +8,19 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getString
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import app.cashadvisor.analytics.presentation.formatAmount
 import app.cashadvisor.analytics.presentation.model.AnalyticType
 import app.cashadvisor.analytics.presentation.model.CategorySummary
 import app.cashadvisor.analytics.presentation.model.SubcategorySummary
 import app.cashadvisor.analytics.presentation.model.getCategoryCurrencyTextColor
 import app.cashadvisor.categories.presentation.ui.CategoriesIcon
+import app.cashadvisor.common.utils.MoneyFormatter
 import app.cashadvisor.databinding.ItemAnalyticsFactBinding
 import app.cashadvisor.databinding.ItemAnalyticsFactRowBinding
 import app.cashadvisor.databinding.ItemAnalyticsPlanBinding
 import app.cashadvisor.uikit.R
 import com.bumptech.glide.Glide
 
-class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder>(
+class AnalyticInfoAdapter(private val moneyFormatter: MoneyFormatter) : ListAdapter<CategorySummary, RecyclerView.ViewHolder>(
     CategorySummaryDiffUtilCallback()
 ) {
     override fun onCreateViewHolder(
@@ -32,17 +32,17 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
             PLAN_VIEW_TYPE -> {
                 val binding =
                     ItemAnalyticsPlanBinding.inflate(layout, parent, false)
-                SimpleCategorySummaryViewHolder(binding)
+                SimpleCategorySummaryViewHolder(binding, moneyFormatter)
             }
             FACT_VIEW_TYPE -> {
                 val binding =
                     ItemAnalyticsFactBinding.inflate(layout, parent, false)
-                CategorySummaryViewHolder(binding)
+                CategorySummaryViewHolder(binding, moneyFormatter)
             }
             else -> {
                 val binding =
                     ItemAnalyticsFactBinding.inflate(layout, parent, false)
-                CategorySummaryViewHolder(binding)
+                CategorySummaryViewHolder(binding, moneyFormatter)
             }
         }
     }
@@ -63,11 +63,12 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
     }
 
     inner class SimpleCategorySummaryViewHolder(
-        private val binding: ItemAnalyticsPlanBinding
+        private val binding: ItemAnalyticsPlanBinding,
+        private val moneyFormatter: MoneyFormatter
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(categorySummary: CategorySummary) = with(binding) {
             tvCategoryName.text = categorySummary.name
-            tvCategoryAmount.text = categorySummary.amount.formatAmount()
+            tvCategoryAmount.text = moneyFormatter.format(categorySummary.amount)
             tvCategoryCurrency.text = getCategoryCurrencyText(categorySummary.analyticType)
             val imageDrawableRes = CategoriesIcon.getCategoriesImageResIdFromId(categorySummary.id.toInt())
             if (imageDrawableRes != null) {
@@ -111,11 +112,12 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
     }
 
     inner class CategorySummaryViewHolder(
-        private val binding: ItemAnalyticsFactBinding
+        private val binding: ItemAnalyticsFactBinding,
+        private val moneyFormatter: MoneyFormatter
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(categorySummary: CategorySummary) = with(binding) {
             tvCategoryName.text = categorySummary.name
-            tvCategoryAmount.text = categorySummary.amount.formatAmount()
+            tvCategoryAmount.text = moneyFormatter.format(categorySummary.amount)
             tvCategoryCurrency.text = getCategoryCurrencyText(categorySummary.analyticType)
             tvCategoryCurrency.setTextColor(
                 getColor(
@@ -146,7 +148,7 @@ class AnalyticInfoAdapter : ListAdapter<CategorySummary, RecyclerView.ViewHolder
                 val layout = LayoutInflater.from(parent.context)
                 val binding = ItemAnalyticsFactRowBinding.inflate(layout, parent, false)
                 binding.tvCategoryItemName.text = subcategorySummary.name
-                binding.tvCategoryItemAmount.text = subcategorySummary.amount.formatAmount()
+                binding.tvCategoryItemAmount.text = moneyFormatter.format(subcategorySummary.amount)
                 parent.addView(binding.root)
             }
         }
