@@ -1,7 +1,7 @@
 package app.cashadvisor.analytics.data.db.models.income
 
-import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.AmountEntity
 
 data class FactIncomeDbAnalytics(
-    val listAnalytics: List<CategoryWithUserAnalyticsEntity>
+    val listAnalytics: List<AmountEntity>
 )

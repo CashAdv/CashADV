@@ -10,6 +10,17 @@ import app.cashadvisor.analytics.data.db.asCategoryEntity
 import app.cashadvisor.analytics.data.db.asUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.AmountEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.models.MainPageDBAnalytics
+import app.cashadvisor.analytics.data.db.models.SumByCategory
+import app.cashadvisor.analytics.data.db.models.expence.ExpenseDbAnalytics
+import app.cashadvisor.analytics.data.db.models.expence.FactExpenseDbAnalytics
+import app.cashadvisor.analytics.data.db.models.expence.PlannedExpenseDbAnalytics
+import app.cashadvisor.analytics.data.db.models.income.FactIncomeDbAnalytics
+import app.cashadvisor.analytics.data.db.models.income.IncomeDbAnalytics
+import app.cashadvisor.analytics.data.db.models.income.PlannedIncomeDbAnalytics
+import app.cashadvisor.analytics.data.db.models.wealth.FactWealthDbAnalytics
+import app.cashadvisor.analytics.data.db.models.wealth.PlannedWealthDbAnalytics
+import app.cashadvisor.analytics.data.db.models.wealth.WealthDbAnalytics
 import app.cashadvisor.analytics.data.db.test.TestCategoryResponse
 import app.cashadvisor.analytics.data.db.test.TestUserAnalyticsResponse
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -45,6 +56,23 @@ class App : Application() {
         var testListMayIncomeUnPlanned: List<AmountEntity>
         var testListMayWealthUnPlanned: List<AmountEntity>
 
+        var testFactExpenseDbAnalytics: FactExpenseDbAnalytics
+        var testPlannedExpenseDbAnalytics: PlannedExpenseDbAnalytics
+
+        var testFactIncomeDbAnalytics: FactIncomeDbAnalytics
+        var testPlannedIncomeDbAnalytics: PlannedIncomeDbAnalytics
+
+        var testFactWealthDbAnalytics: FactWealthDbAnalytics
+        var testPlannedWealthDbAnalytics: PlannedWealthDbAnalytics
+
+        var testExpenseDbAnalytics: ExpenseDbAnalytics
+        var testIncomeDbAnalytics: IncomeDbAnalytics
+        var testWealthDbAnalytics: WealthDbAnalytics
+
+        var testMainPageDBAnalytics: MainPageDBAnalytics
+
+        var newList: List<SumByCategory>
+
         runBlocking {
             launch(Dispatchers.IO){
                 val db = MainDb.getDb(this@App)
@@ -64,14 +92,27 @@ class App : Application() {
                 //EXPENSE
                 testListMayExpensePlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "EXPENSE", true)
                 testListMayExpenseUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "EXPENSE", false)
+                testFactExpenseDbAnalytics = FactExpenseDbAnalytics(testListMayExpenseUnPlanned)
+                testPlannedExpenseDbAnalytics = PlannedExpenseDbAnalytics(testListMayExpensePlanned)
+                testExpenseDbAnalytics = ExpenseDbAnalytics(testFactExpenseDbAnalytics, testPlannedExpenseDbAnalytics)
 
                 //INCOME
                 testListMayIncomePlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "INCOME", true)
                 testListMayIncomeUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "INCOME", false)
+                testFactIncomeDbAnalytics = FactIncomeDbAnalytics(testListMayIncomeUnPlanned)
+                testPlannedIncomeDbAnalytics = PlannedIncomeDbAnalytics(testListMayIncomePlanned)
+                testIncomeDbAnalytics = IncomeDbAnalytics(testFactIncomeDbAnalytics, testPlannedIncomeDbAnalytics)
 
                 //WEALTH
                 testListMayWealthPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "WEALTH", true)
                 testListMayWealthUnPlanned = dbRepository.getByTwoDateFirstCategoryAndPlanned("01.05.2024", "31.05.2024", "WEALTH", false)
+                testFactWealthDbAnalytics = FactWealthDbAnalytics(testListMayWealthUnPlanned)
+                testPlannedWealthDbAnalytics = PlannedWealthDbAnalytics(testListMayWealthPlanned)
+                testWealthDbAnalytics = WealthDbAnalytics(testFactWealthDbAnalytics, testPlannedWealthDbAnalytics)
+
+                //MainPageAnalytic
+                testMainPageDBAnalytics = MainPageDBAnalytics(testIncomeDbAnalytics, testExpenseDbAnalytics, testWealthDbAnalytics)
+                newList = dbRepository.getSumAmountByCategory("Развлечения", "01.05.2024", "31.05.2024", true)
             }
         }
         /////////////////////////////////

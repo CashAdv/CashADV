@@ -29,38 +29,41 @@ fun List<WealthFundDto>.asWealthEntityList(): List<UserAnalyticsEntity> =
 
 fun IncomeDto.asIncomeEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     id = this.id,
+    type = Category.INCOME,
     amount = this.amount,
-    categoryId = this.categoryId.plus(Category.INCOME.name),
+    categoryId = this.categoryId,
     date = this.date,
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
     currency = this.currency,
-    comment = this.sender
+    title = this.sender
 )
 
 fun ExpenseDto.asExpenseEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     id = this.id,
+    type = Category.EXPENSE,
     amount = this.amount,
-    categoryId = this.categoryId.plus(Category.EXPENSE.name),
+    categoryId = this.categoryId,
     date = this.date,
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
     currency = this.currency,
-    comment = this.sentTo
+    title = this.sentTo
 )
 
 fun WealthFundDto.asWealthEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     id = this.id,
+    type = Category.WEALTH,
     amount = this.amount,
-    categoryId = this.categoryId.plus(Category.WEALTH.name),
+    categoryId = this.categoryId,
     date = this.date,
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
     currency = this.currency,
-    comment = " "
+    title = " "
 )
 
 fun CategorySettingsDto.asCategoryEntity(): List<CategoryEntity> =
@@ -78,7 +81,7 @@ fun List<InvestmentCategoryDto>.asInvestmentCategoryList(): List<CategoryEntity>
     this.map { it.asInvestmentCategoryEntity() }
 
 fun ExpenseCategoryDto.asExpenseCategoryEntity(): CategoryEntity = CategoryEntity(
-    id = this.id.plus(Category.EXPENSE.name),
+    id = this.id,
     name = this.name,
     icon = this.icon,
     isConstant = this.isConstant,
@@ -86,7 +89,7 @@ fun ExpenseCategoryDto.asExpenseCategoryEntity(): CategoryEntity = CategoryEntit
 )
 
 fun IncomeCategoryDto.asIncomeCategoryEntity(): CategoryEntity = CategoryEntity(
-    id = this.id.plus(Category.INCOME.name),
+    id = this.id,
     name = this.name,
     icon = this.icon,
     isConstant = this.isConstant,
@@ -94,7 +97,7 @@ fun IncomeCategoryDto.asIncomeCategoryEntity(): CategoryEntity = CategoryEntity(
 )
 
 fun InvestmentCategoryDto.asInvestmentCategoryEntity(): CategoryEntity = CategoryEntity(
-    id = this.id.plus(Category.WEALTH.name),
+    id = this.id,
     name = this.name,
     icon = this.icon,
     isConstant = this.isConstant,

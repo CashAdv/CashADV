@@ -12,7 +12,7 @@ import app.cashadvisor.profile.data.dto.response.WealthFundDto
 data class TestCategoryResponse(
     val categorySettingsDto: CategorySettingsDto = CategorySettingsDto(
         listOf(
-            ExpenseCategoryDto("1", "Ivan", "icon_1", true, "1"),
+            ExpenseCategoryDto("1", "Еда", "icon_1", true, "1"),
             ExpenseCategoryDto("2", "Petr", "icon_2", false, "1"),
             ExpenseCategoryDto("3", "Slava", "icon_3", true, "1"),
             ExpenseCategoryDto("4", "Ivan", "icon_1", true, "2"),
@@ -65,10 +65,10 @@ data class TestUserAnalyticsResponse(
             IncomeDto(250, "2", "31.05.2024", "14", true, "2", "2", "Подработка", "1")
         ),
         listOf(
-            ExpenseDto(100, "1", "12.11.2010", "1", true, "1", "2", "Ivan", "1"),
-            ExpenseDto(200, "2", "11.12.2011", "2", true, "1", "2", "Ivan", "1"),
-            ExpenseDto(300, "3", "10.10.2012", "3", false, "1", "2", "Ivan", "1"),
-            ExpenseDto(150, "1", "13.11.2010", "4", true, "2", "1", "Ivan", "1"),
+            ExpenseDto(100, "1", "12.11.2010", "1", true, "1", "2", "Ресторан", "1"),
+            ExpenseDto(200, "2", "11.12.2011", "2", true, "1", "2", "Ресторан", "1"),
+            ExpenseDto(300, "3", "10.10.2012", "3", false, "1", "2", "Продукты", "1"),
+            ExpenseDto(150, "1", "13.11.2010", "4", true, "2", "1", "Продукты", "1"),
             ExpenseDto(250, "2", "14.12.2011", "5", false, "2", "1", "Ivan", "1"),
             ExpenseDto(250, "2", "14.12.2011", "6", false, "2", "1", "Ivan", "1"),
             ExpenseDto(250, "2", "01.05.2024", "7", false, "2", "1", "Ivan", "1"),
@@ -76,9 +76,9 @@ data class TestUserAnalyticsResponse(
             ExpenseDto(250, "2", "16.05.2024", "9", false, "2", "1", "Ivan", "1"),
             ExpenseDto(350, "3", "31.05.2024", "10", false, "2", "1", "Ivan", "1"),
             ExpenseDto(250, "2", "01.05.2024", "11", true, "2", "1", "Ivan", "1"),
-            ExpenseDto(250, "2", "14.05.2024", "12", true, "2", "1", "Ivan", "1"),
-            ExpenseDto(250, "2", "15.05.2024", "13", true, "2", "1", "Ivan", "1"),
-            ExpenseDto(350, "3", "31.05.2024", "14", true, "2", "1", "Ivan", "1")
+            ExpenseDto(250, "1", "14.05.2024", "12", true, "2", "1", "Фастфуд", "1"),
+            ExpenseDto(250, "1", "15.05.2024", "13", true, "2", "1", "Магазин", "1"),
+            ExpenseDto(350, "1", "31.05.2024", "14", true, "2", "1", "Ресторан", "1")
         ),
         listOf(
             WealthFundDto(100, "12.11.2010", "1", true, "1", "1", "1", "1"),

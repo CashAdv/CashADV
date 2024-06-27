@@ -4,7 +4,9 @@ import app.cashadvisor.analytics.data.db.entities.AmountEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.models.SumByCategory
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class DbRepository(private val dao: Dao) {
@@ -61,6 +63,10 @@ class DbRepository(private val dao: Dao) {
 
     suspend fun getByTwoDateFirstCategoryAndPlanned(dateStart: String, dateEnd: String, category: String, planned: Boolean): List<AmountEntity>{
         return dao.getByTwoDateFirstCategoryAndPlanned(dateStart, dateEnd, category, planned)
+    }
+
+    suspend fun getSumAmountByCategory(type: String, dateStart: String, dateEnd: String, isPlanned: Boolean): List<SumByCategory>{
+        return dao.getSumAmountByCategory(type, dateStart, dateEnd, isPlanned)
     }
 
 }
