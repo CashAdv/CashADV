@@ -44,6 +44,12 @@
     <dimen name="login_screen_pin_code_border_width">2dp</dimen>
     <dimen name="login_screen_progress_bar_size">24dp</dimen>
     <dimen name="login_screen_send_again_margin_top">85dp</dimen>
+    <dimen name="symbol_view_text_size">16sp</dimen>
+
+    <!--Recovery screen-->
+    <dimen name="tv_send_again_forms_top_margin">30dp</dimen>
+
+
 
     <!-- Signup screen-->
     <dimen name="signup_screen_basic_horizontal_margin">38dp</dimen>
@@ -65,7 +71,7 @@
     <dimen name="signup_padding_text_view_14">14dp</dimen>
     <dimen name="signup_margin_text_view">20dp</dimen>
 
-    <dimen name="symbol_view_text_size">16sp</dimen>
+
 
     <!--  Profile settings  -->
     <dimen name="root_layout_horizontal_padding">36dp</dimen>
