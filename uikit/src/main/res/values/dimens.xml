@@ -39,7 +39,11 @@
     <dimen name="login_screen_btn_send_again_top_margin">52dp</dimen>
     <dimen name="login_screen_edit_text_stroke_width">1dp</dimen>
     <dimen name="login_screen_login_btn_top_margin">80dp</dimen>
+    <dimen name="login_screen_pin_code_symbol_height">40dp</dimen>
+    <dimen name="login_screen_pin_code_symbol_width">75dp</dimen>
+    <dimen name="login_screen_pin_code_border_width">2dp</dimen>
     <dimen name="login_screen_progress_bar_size">24dp</dimen>
+    <dimen name="login_screen_send_again_margin_top">85dp</dimen>
     <dimen name="symbol_view_text_size">16sp</dimen>
 
     <!--Recovery screen-->

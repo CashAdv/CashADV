@@ -320,12 +320,12 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun confirmLoginUsingCode(context: Context, confirmationCode: Editable?) {
+    fun confirmLoginUsingCode(context: Context, confirmationCode: String) {
         viewModelScope.launch(Dispatchers.IO) {
 
             val result = loginInteractor.confirmLoginByEmailWithCode(
                 Email(emailInput),
-                ConfirmCode(confirmationCode.toString())
+                ConfirmCode(confirmationCode)
             )
 
             when (result) {
@@ -387,15 +387,6 @@ class LoginViewModel @Inject constructor(
                                     result.error.lockDuration
 
                                 if (result.error.lockDuration > 0) {
-                                    /*_messageEvent.emit(
-                                        LoginScreenMessageContent.ConfirmationCodeMessage(
-                                            context.getString(
-                                                R.string.wrong_code_number_lock_duration,
-                                                getRightEndingMinutes(minutesLeft.toInt())
-                                            )
-                                        )
-                                    )*/
-
                                     _sideEffects.emit(LoginScreenSideEffects.FailedToConfirmLogin(getRightEndingMinutes(minutesLeft.toInt())))
 
                                 } else {
