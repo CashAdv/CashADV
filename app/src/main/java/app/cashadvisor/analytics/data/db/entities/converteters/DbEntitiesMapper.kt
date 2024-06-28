@@ -1,5 +1,6 @@
-package app.cashadvisor.analytics.data.db
+package app.cashadvisor.analytics.data.db.entities.converteters
 
+import android.annotation.SuppressLint
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.models.Category
@@ -11,6 +12,8 @@ import app.cashadvisor.profile.data.dto.response.IncomeDto
 import app.cashadvisor.profile.data.dto.response.InvestmentCategoryDto
 import app.cashadvisor.profile.data.dto.response.UserAnalyticsDto
 import app.cashadvisor.profile.data.dto.response.WealthFundDto
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 fun UserAnalyticsDto.asUserAnalyticsEntity(): List<UserAnalyticsEntity> =
@@ -32,7 +35,7 @@ fun IncomeDto.asIncomeEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     type = Category.INCOME,
     amount = this.amount,
     categoryId = this.categoryId,
-    date = this.date,
+    date = this.date.convertToLong(),
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
@@ -45,7 +48,7 @@ fun ExpenseDto.asExpenseEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     type = Category.EXPENSE,
     amount = this.amount,
     categoryId = this.categoryId,
-    date = this.date,
+    date = this.date.convertToLong(),
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
@@ -58,7 +61,7 @@ fun WealthFundDto.asWealthEntity(): UserAnalyticsEntity = UserAnalyticsEntity(
     type = Category.WEALTH,
     amount = this.amount,
     categoryId = this.categoryId,
-    date = this.date,
+    date = this.date.convertToLong(),
     planned = this.planned,
     userId = this.userId,
     bankAccount = this.bankAccount,
@@ -103,3 +106,8 @@ fun InvestmentCategoryDto.asInvestmentCategoryEntity(): CategoryEntity = Categor
     isConstant = this.isConstant,
     userId = this.userId
 )
+
+@SuppressLint("SimpleDateFormat")
+val df = SimpleDateFormat("dd.MM.yyyy")
+fun Long.convertToDate(): Date = Date(this)
+fun String.convertToLong(): Long = df.parse(this)?.time ?: 0

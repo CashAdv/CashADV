@@ -8,6 +8,7 @@ import androidx.room.TypeConverters
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
 import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
+import app.cashadvisor.analytics.data.db.entities.converteters.EnumConverter
 
 @Database(
     entities = [

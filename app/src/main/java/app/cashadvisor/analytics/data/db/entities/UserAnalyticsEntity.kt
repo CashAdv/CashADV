@@ -26,7 +26,7 @@ data class UserAnalyticsEntity(
     @ColumnInfo(name = "categoryId")
     val categoryId: String,
     @ColumnInfo(name = "date")
-    val date: String,
+    val date: Long,
     @ColumnInfo(name = "planned")
     val planned: Boolean,
     @ColumnInfo(name = "userId")

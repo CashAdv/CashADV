@@ -1,4 +1,4 @@
-package app.cashadvisor.analytics.data.db
+package app.cashadvisor.analytics.data.db.entities.converteters
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
