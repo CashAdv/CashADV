@@ -15,6 +15,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
@@ -32,27 +33,26 @@ class App : Application() {
         val testUserAnalyticsResponse = TestUserAnalyticsResponse().userAnalyticsDto
         val categoryEntityList = testCategoryResponse.asCategoryEntity()
         val userAnalyticsEntityList = testUserAnalyticsResponse.asUserAnalyticsEntity()
-        var testListSumByCategory: List<SumByCategory>
+        var testListSumByCategory = mutableListOf<SumByCategory>()
+
+        val db = MainDb.getDb(this@App)
+        val dao = db.getDao()
+        val dbRepository = DbRepository(dao)
 
         runBlocking {
             launch(Dispatchers.IO) {
-                val db = MainDb.getDb(this@App)
-                val dao = db.getDao()
-                val dbRepository = DbRepository(dao)
-
                 dbRepository.upsertCategory(categoryEntityList)
                 dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
-
                 dbRepository.getSumAmountByCategory("EXPENSE", "01.05.2024", "31.05.2024", true)
                     .catch { e ->
                         e.message
                     }
                     .collect {
-
+                        testListSumByCategory.addAll(it)
                     }
-
             }
         }
+
         /////////////////////////////////
     }
 

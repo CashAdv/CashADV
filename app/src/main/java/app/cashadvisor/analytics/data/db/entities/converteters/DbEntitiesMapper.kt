@@ -109,5 +109,4 @@ fun InvestmentCategoryDto.asInvestmentCategoryEntity(): CategoryEntity = Categor
 
 @SuppressLint("SimpleDateFormat")
 val df = SimpleDateFormat("dd.MM.yyyy")
-fun Long.convertToDate(): Date = Date(this)
 fun String.convertToLong(): Long = df.parse(this)?.time ?: 0

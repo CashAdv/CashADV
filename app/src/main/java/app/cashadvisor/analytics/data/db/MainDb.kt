@@ -6,15 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.converteters.EnumConverter
 
 @Database(
     entities = [
         UserAnalyticsEntity::class,
-        CategoryEntity::class,
-        CategoryWithUserAnalyticsEntity::class],
+        CategoryEntity::class],
     version = 1
 )
 @TypeConverters(EnumConverter::class)

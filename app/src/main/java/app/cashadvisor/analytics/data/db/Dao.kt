@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import app.cashadvisor.analytics.data.db.entities.CategoryEntity
-import app.cashadvisor.analytics.data.db.entities.CategoryWithUserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.entities.UserAnalyticsEntity
 import app.cashadvisor.analytics.data.db.models.SumByCategory
 import kotlinx.coroutines.flow.Flow
@@ -18,10 +17,6 @@ interface Dao {
     @Upsert
     suspend fun upsertCategoryEntity(categoryEntity: CategoryEntity)
 
-    @Upsert
-    suspend fun upsertCategoryWithAnalyticsEntity(categoryEntity: CategoryWithUserAnalyticsEntity)
-
-    //Вернуть сумму по категории
     @Query("SELECT categoryId, title, SUM(amount) as sum, categoryTable.name as categoryName, categoryTable.icon as categoryIcon " +
             "FROM categoryTable, userAnalyticsTable " +
             "WHERE type = :type " +

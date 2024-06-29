@@ -20,8 +20,18 @@ class DbRepository(private val dao: Dao) {
         }
     }
 
-    suspend fun getSumAmountByCategory(type: String, dateStart: String, dateEnd: String, isPlanned: Boolean): Flow<List<SumByCategory>>{
-        return dao.getSumAmountByCategory(type, dateStart.convertToLong(), dateEnd.convertToLong(), isPlanned)
+    fun getSumAmountByCategory(
+        type: String,
+        dateStart: String,
+        dateEnd: String,
+        isPlanned: Boolean
+    ): Flow<List<SumByCategory>>{
+        return dao.getSumAmountByCategory(
+            type,
+            dateStart.convertToLong(),
+            dateEnd.convertToLong(),
+            isPlanned
+        )
     }
 
 }
