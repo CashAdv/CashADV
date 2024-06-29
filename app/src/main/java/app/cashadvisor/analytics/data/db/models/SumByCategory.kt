@@ -1,7 +1,7 @@
 package app.cashadvisor.analytics.data.db.models
 
 data class SumByCategory(
-    val categoryId: String,
+    val categoryId: Int,
     val title: String,
     val sum: Int,
     val categoryName: String,

@@ -24,7 +24,7 @@ interface Dao {
             "AND planned = :isPlanned " +
             "GROUP BY categoryId, title " +
             "ORDER BY SUM(amount)")
-    fun getSumAmountByCategory(type: String, dateStart: Long, dateEnd: Long, isPlanned: Boolean): Flow<List<SumByCategory>>
+    fun getSumAmountByCategory(type: Int, dateStart: Long, dateEnd: Long, isPlanned: Boolean): Flow<List<SumByCategory>>
 
     @Query("DELETE FROM userAnalyticsTable")
     fun removeAllUserAnalyticsTable()

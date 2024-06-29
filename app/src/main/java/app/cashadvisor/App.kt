@@ -14,6 +14,7 @@ import app.cashadvisor.analytics.data.db.test.TestUserAnalyticsResponse
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
@@ -39,20 +40,14 @@ class App : Application() {
         val dao = db.getDao()
         val dbRepository = DbRepository(dao)
 
-        runBlocking {
-            launch(Dispatchers.IO) {
-                dbRepository.upsertCategory(categoryEntityList)
-                dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
-                dbRepository.getSumAmountByCategory("EXPENSE", "01.05.2024", "31.05.2024", true)
-                    .catch { e ->
-                        e.message
-                    }
-                    .collect {
-                        testListSumByCategory.addAll(it)
-                    }
-            }
+        GlobalScope.launch(Dispatchers.IO){
+            dbRepository.upsertCategory(categoryEntityList)
+            dbRepository.upsertUserAnalytics(userAnalyticsEntityList)
+            dbRepository.getSumAmountByCategory(1, "01.05.2024", "31.05.2024", true)
+                .collect {
+                    testListSumByCategory.addAll(it)
+                }
         }
-
         /////////////////////////////////
     }
 

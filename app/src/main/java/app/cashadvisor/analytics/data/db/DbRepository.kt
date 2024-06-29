@@ -21,7 +21,7 @@ class DbRepository(private val dao: Dao) {
     }
 
     fun getSumAmountByCategory(
-        type: String,
+        type: Int,
         dateStart: String,
         dateEnd: String,
         isPlanned: Boolean
