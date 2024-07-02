@@ -9,6 +9,7 @@ import app.cashadvisor.authorization.data.models.response.SaveNewPasswordRespons
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 interface ResetPasswordApiService {
 
@@ -21,7 +22,7 @@ interface ResetPasswordApiService {
     suspend fun resetPasswordConfirm(@Body resetPasswordRequest: ResetPasswordWithCodeRequest):ConfirmResetPasswordResponse
 
     @Headers("Content-Type: application/json")
-    @POST("auth/login/reset/password")
+    @PUT("auth/login/reset/password/put")
     suspend fun saveNewPassword(@Body saveNewPasswordRequest: SaveNewPasswordRequest):SaveNewPasswordResponse
 
 }
