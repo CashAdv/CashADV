@@ -11,8 +11,13 @@ import app.cashadvisor.profile.data.api.ProfileInfoStorage
 import app.cashadvisor.profile.data.dto.UserInfoDto
 import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDataMapper
+import app.cashadvisor.profile.data.mapper.ProfileAnalyticsDomainMapper
 import app.cashadvisor.profile.data.mapper.ProfileInfoMapper
+import app.cashadvisor.profile.data.mapper.UserInfoMoreDomainMapper
 import app.cashadvisor.profile.domain.api.ProfileInfoRepository
+import app.cashadvisor.profile.domain.model.ProfileAnalytics
+import app.cashadvisor.profile.domain.model.UserInfoMore
 import app.cashadvisor.profile.domain.model.UserProfileInfo
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -26,8 +31,15 @@ class ProfileInfoRepositoryImpl @Inject constructor(
     private val remoteDataSource: ProfileInfoRemoteDataSource,
     private val credentialsRepository: CredentialsRepository,
     private val mapper: ProfileInfoMapper,
+    private val analyticsDataMapper: ProfileAnalyticsDataMapper,
+    private val userInfoMoreMapper: UserInfoMoreDomainMapper,
+    private val profileAnalyticsDomainMapper: ProfileAnalyticsDomainMapper,
     private val profileExceptionToErrorMapper: BaseExceptionToErrorMapper
 ) : ProfileInfoRepository {
+
+
+    private var userAnalytics: ProfileAnalytics? = null
+    private var userInfoMore: UserInfoMore? = null
 
     private suspend fun getAccessToken(): String {
         return credentialsRepository.getCredentials()?.accessToken ?: ""
@@ -99,6 +111,41 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUserInfoMore(): Resource<UserInfoMore> {
+
+
+        return try {
+            val response = userInfoMoreMapper.toUserInfoMore(
+                remoteDataSource.getUserInfoMore(getAccessToken()).userInfoMoreDto
+            )
+            writeUserInfoMoreInStorage(response)
+            Resource.Success(response)
+        } catch (exception: Exception) {
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
+        }
+    }
+
+    override suspend fun getUserAnalytics(): Resource<ProfileAnalytics> {
+
+
+        return try {
+            val response = profileAnalyticsDomainMapper.toProfileAnalytics(
+                analyticsDataMapper.toProfileAnalyticsDto(
+                    remoteDataSource.getUserAnalytics(getAccessToken())
+                )
+            )
+            writeUserAnalyticsInStorage(response)
+            Resource.Success(response)
+
+        } catch (exception: Exception) {
+            Resource.Error(
+                profileExceptionToErrorMapper.handleException(exception)
+            )
+        }
+    }
+
 
     private fun createTemporaryFile(inputStream: InputStream?): File {
         val file = File.createTempFile("temp_image", null, context.cacheDir)
@@ -111,6 +158,14 @@ class ProfileInfoRepositoryImpl @Inject constructor(
         }
 
         return file
+    }
+
+    private fun writeUserInfoMoreInStorage(userInfoMore: UserInfoMore) {
+        this.userInfoMore = userInfoMore
+    }
+
+    private fun writeUserAnalyticsInStorage(userAnalytics: ProfileAnalytics) {
+        this.userAnalytics = userAnalytics
     }
 
     companion object {

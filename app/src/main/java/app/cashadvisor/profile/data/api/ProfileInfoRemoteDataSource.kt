@@ -4,6 +4,8 @@ import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdateNameResponse
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdatePicResponse
+import app.cashadvisor.profile.data.dto.response.ProfileAnalyticsResponse
+import app.cashadvisor.profile.data.dto.response.ProfileInfoMoreResponse
 import app.cashadvisor.profile.data.dto.response.ProfileInfoResponse
 
 interface ProfileInfoRemoteDataSource {
@@ -19,5 +21,8 @@ interface ProfileInfoRemoteDataSource {
         dto: UpdateProfilePicRequest,
         accessToken: String
     ): ConfirmUpdatePicResponse
+    suspend fun getUserInfoMore(accessToken: String):ProfileInfoMoreResponse
+
+    suspend fun getUserAnalytics(accessToken: String):ProfileAnalyticsResponse
 
 }

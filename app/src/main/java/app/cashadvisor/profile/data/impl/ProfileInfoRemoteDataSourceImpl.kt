@@ -7,6 +7,8 @@ import app.cashadvisor.profile.data.dto.request.UpdateProfilePicRequest
 import app.cashadvisor.profile.data.dto.request.UpdateUserNameRequest
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdateNameResponse
 import app.cashadvisor.profile.data.dto.response.ConfirmUpdatePicResponse
+import app.cashadvisor.profile.data.dto.response.ProfileAnalyticsResponse
+import app.cashadvisor.profile.data.dto.response.ProfileInfoMoreResponse
 import app.cashadvisor.profile.data.dto.response.ProfileInfoResponse
 import app.cashadvisor.profile.data.mapper.NetworkToProfileExceptionMapper
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -53,6 +55,24 @@ class ProfileInfoRemoteDataSourceImpl @Inject constructor(
             profileInfoApiService.updateProfilePic(accessToken, part)
         } catch (exception: NetworkException) {
             throw networkToProfileExceptionMapper.handleExceptionUpdatingProfile(exception)
+        }
+    }
+
+    override suspend fun getUserInfoMore(accessToken: String): ProfileInfoMoreResponse {
+        return try {
+            val response = profileInfoApiService.getUserInfoMore(accessToken = accessToken)
+            response
+        } catch (exception: NetworkException) {
+            throw networkToProfileExceptionMapper.handleExceptionGetMoreProfile(exception)
+        }
+    }
+
+    override suspend fun getUserAnalytics(accessToken: String): ProfileAnalyticsResponse {
+        return try {
+            val response = profileInfoApiService.getUserAnalytics(accessToken)
+            response
+        } catch (exception: NetworkException) {
+            throw networkToProfileExceptionMapper.handleExceptionAnalyticsProfile(exception)
         }
     }
 

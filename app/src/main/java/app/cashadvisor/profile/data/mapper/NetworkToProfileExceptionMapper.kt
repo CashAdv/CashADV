@@ -66,6 +66,52 @@ class NetworkToProfileExceptionMapper @Inject constructor(
         }
     }
 
+    fun handleExceptionGetMoreProfile(exception: NetworkException): UserProfileException {
+        return when (exception) {
+            is NetworkException.Unauthorized -> {
+                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
+                UserProfileException.Profile.UnauthorizedUserNotAuthenticated(
+                    message = errorResponse.message,
+                    statusCode = errorResponse.statusCode
+                )
+            }
+
+            is NetworkException.InternalServerError -> {
+                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
+                UserProfileException.Profile.InternalServerErrorFailedToRetrieve(
+                    message = errorResponse.message,
+                    statusCode = errorResponse.statusCode
+                )
+            }
+
+            else -> handleCommonException(exception)
+        }
+    }
+
+    fun handleExceptionAnalyticsProfile(exception: NetworkException): UserProfileException {
+        return when (exception) {
+            is NetworkException.Unauthorized -> {
+                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
+                UserProfileException.Profile.UnauthorizedUserNotAuthenticated(
+                    message = errorResponse.message,
+                    statusCode = errorResponse.statusCode
+                )
+            }
+
+            is NetworkException.InternalServerError -> {
+                val errorResponse = handleErrorResponse<ErrorResponse>(exception.errorBody)
+                UserProfileException.Profile.InternalServerErrorFailedToRetrieve(
+                    message = errorResponse.message,
+                    statusCode = errorResponse.statusCode
+                )
+            }
+
+            else -> {
+                handleCommonException(exception)
+            }
+        }
+    }
+
     private fun handleCommonException(exception: NetworkException): UserProfileException {
         return when (exception) {
             is NetworkException.NoInternetConnection -> {

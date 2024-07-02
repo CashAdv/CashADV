@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         Timber.tag("MainActivity").w("Warning log")
         Timber.tag("MainActivity").e("Error log")
 
+        viewModel.getUserInfoMore()
+        viewModel.getUserAnalytics()
+
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
         setStatusBarColor()
         val navHostFragment =
